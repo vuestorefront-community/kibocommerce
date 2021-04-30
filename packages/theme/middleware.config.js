@@ -1,7 +1,7 @@
 module.exports = {
   integrations: {
-    <% INTEGRATION %>: {
-      location: '@vue-storefront/<% INTEGRATION %>-api/server',
+    kibo: {
+      location: '@vue-storefront/kibo-api/server',
       configuration: {}
     }
   }

@@ -1,12 +1,5 @@
-import {
-  CartGetters,
-  AgnosticPrice,
-  AgnosticTotals,
-  AgnosticCoupon,
-  AgnosticDiscount,
-  AgnosticAttribute
-} from '@vue-storefront/core';
-import type { Cart, CartItem } from '@vue-storefront/<% INTEGRATION %>-api';
+import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
+import { Cart, LineItem } from '@vue-storefront/kibo-api/src/types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getItems (cart: Cart): CartItem[] {

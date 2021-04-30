@@ -2,86 +2,92 @@ import {
   AgnosticMediaGalleryItem,
   AgnosticAttribute,
   AgnosticPrice,
-  ProductGetters
+  ProductGetters,
+  AgnosticBreadcrumb
 } from '@vue-storefront/core';
-import type { Product, ProductFilter } from '@vue-storefront/<% INTEGRATION %>-api';
+import { ProductVariant, ProductCategory } from '@vue-storefront/kibo-api/src/types';
+
+type ProductVariantFilters = any
+
+// TODO: Add interfaces for some of the methods in core
+// Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getName(product: Product): string {
-  return 'Name';
-}
+export const getProductName = (product: ProductVariant): string => product?.content?.productName || 'Product\'s name';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getSlug(product: Product): string {
-  return 'slug';
-}
+export const getProductSlug = (product: ProductVariant): string => product?.content?.seoFriendlyUrl;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getPrice(product: Product): AgnosticPrice {
   return {
-    regular: 0,
-    special: 0
+    regular: product?.price?.price || 0,
+    special: product?.price?.salePrice || 0
   };
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getGallery(product: Product): AgnosticMediaGalleryItem[] {
-  return [
-    {
-      small: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-      normal: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg',
-      big: 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
+export const getProductGallery = (product: ProductVariant): AgnosticMediaGalleryItem[] => {
+  return product?.content?.productImages.map(pi => ({
+    small: pi.imageUrl,
+    normal: pi.imageUrl,
+    big: pi.imageUrl
+  })) || [];
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductCoverImage = (product: ProductVariant): string => product?.content?.productImages?.[0].imageUrl;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
+  if (!products) return [];
+  else return products;
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+  const isSingleProduct = !Array.isArray(products);
+  const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
+
+  if (!products || productList.length === 0) {
+    return {} as any;
+  }
+
+  const formatAttributes = (product: ProductVariant): AgnosticAttribute[] => {
+    const attributes = [];
+    product.properties.filter(p => p.isHidden !== true && (filterByAttributeName ? filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()) : p)).forEach(p =>
+      attributes.push(...p.values.map(val => ({
+        name: p.attributeDetail?.name,
+        value: (val.value.toString() as string),
+        label: val.stringValue ?? (val.value.toString() as string)
+      }))));
+
+    return attributes;
+  };
+
+  const reduceToUniques = (prev, curr) => {
+    const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
+
+    if (!isAttributeExist) {
+      return [...prev, curr];
     }
-  ];
-}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCoverImage(product: Product): string {
-  return 'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg';
-}
+    return prev;
+  };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFiltered(products: Product[], filters: ProductFilter): Product[] {
-  return [
-    {
-      _id: 1,
-      _description: 'Some description',
-      _categoriesRef: [
-        '1',
-        '2'
-      ],
-      name: 'Black jacket',
-      sku: 'black-jacket',
-      images: [
-        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
-      ],
-      price: {
-        original: 12.34,
-        current: 10.00
-      }
-    }
-  ];
-}
+  return productList
+    .map((product) => formatAttributes(product))
+    .reduce((prev, curr) => [...prev, ...curr], [])
+    .reduce(reduceToUniques, []);
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAttributes(products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> {
-  return {};
-}
+export const getProductDescription = (product: ProductVariant): any => product?.content?.productFullDescription || '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getDescription(product: Product): string {
-  return '';
-}
+export const getProductCategoryIds = (product: ProductVariant): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCategoryIds(product: Product): string[] {
-  return [];
-}
+export const getProductId = (product: ProductVariant): string => product?.productCode || '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getId(product: Product): string {
-  return '1';
-}
+export const getFormattedPrice = (price: number): string => String(price);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFormattedPrice(price: number): string {
@@ -93,23 +99,45 @@ function getTotalReviews(product: Product): number {
   return 0;
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAverageRating(product: Product): number {
-  return 0;
-}
+export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcrumb[] => {
+  const breadcrumbs: AgnosticBreadcrumb[] = [];
+  const categories: ProductCategory[] = [];
+  let tlc = product.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
+  if (tlc !== undefined) {
+    let count = 0;
+    while (tlc !== undefined && tlc !== null) {
+      categories[count] = tlc;
+      count++;
+      tlc = tlc.parentCategory;
+    }
+    count--;
+    const total = count;
+    while (count >= 0) {
+      const c = categories[count];
+      breadcrumbs[total - count] = {
+        text: c.content.name,
+        link: `/c/${c.content.slug}`
+      };
+      count--;
+    }
+    return breadcrumbs;
+  }
+  return [];
+};
 
-export const productGetters: ProductGetters<Product, ProductFilter> = {
-  getName,
-  getSlug,
-  getPrice,
-  getGallery,
-  getCoverImage,
-  getFiltered,
-  getAttributes,
-  getDescription,
-  getCategoryIds,
-  getId,
-  getFormattedPrice,
-  getTotalReviews,
-  getAverageRating
+const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
+  getName: getProductName,
+  getSlug: getProductSlug,
+  getPrice: getProductPrice,
+  getGallery: getProductGallery,
+  getCoverImage: getProductCoverImage,
+  getFiltered: getProductFiltered,
+  getAttributes: getProductAttributes,
+  getDescription: getProductDescription,
+  getCategoryIds: getProductCategoryIds,
+  getId: getProductId,
+  getFormattedPrice: getFormattedPrice,
+  getTotalReviews: getProductTotalReviews,
+  getAverageRating: getProductAverageRating,
+  getBreadcrumbs: getProductBreadcrumbs
 };

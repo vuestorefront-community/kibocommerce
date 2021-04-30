@@ -13,26 +13,7 @@ const params: UseCategoryFactoryParams<Category, SearchParams> = {
   categorySearch: async (context: Context, { customQuery, ...params }) => {
     console.log('Mocked: useCategory.categorySearch');
 
-    return [
-      {
-        id: 1,
-        name: 'Women',
-        slug: 'women',
-        items: []
-      },
-      {
-        id: 2,
-        name: 'Men',
-        slug: 'men',
-        items: []
-      },
-      {
-        id: 3,
-        name: 'Kids',
-        slug: 'kids',
-        items: []
-      }
-    ];
+    return await context.$kibo.api.getCategory(searchParams, customQuery);
   }
 };
 

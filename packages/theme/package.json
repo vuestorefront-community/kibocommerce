@@ -1,5 +1,5 @@
 {
-  "name": "@vue-storefront/<% INTEGRATION %>-theme",
+  "name": "@vue-storefront/kibo-theme",
   "version": "2.4.1",
   "private": true,
   "scripts": {
@@ -29,6 +29,7 @@
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.16.1",
     "nuxt": "^2.15.7",
+    "@vue-storefront/kibo": "^2.3.0-rc.3",
     "nuxt-i18n": "^6.5.0",
     "vee-validate": "^3.4.11",
     "vue-lazy-hydration": "~2.0.0-beta.4",
