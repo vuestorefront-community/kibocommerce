@@ -3,9 +3,10 @@
   "version": "2.4.1",
   "private": true,
   "scripts": {
+    "dev": "nuxt",
+    "debug": "NODE_OPTIONS='--inspect' nuxt",
     "build": "nuxt build -m",
     "build:analyze": "nuxt build -a -m",
-    "dev": "nuxt",
     "generate": "nuxt generate",
     "lint": "eslint . --ext .ts,.vue",
     "lint:fix": "eslint . --ext .ts,.vue --fix",

@@ -45,40 +45,67 @@ export const getProductFiltered = (products: ProductVariant[], filters: ProductV
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
-  const isSingleProduct = !Array.isArray(products);
-  const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
+export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> | any[] => {
+  try {
+    const isSingleProduct = !Array.isArray(products);
+    const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
 
-  if (!products || productList.length === 0) {
-    return {} as any;
-  }
-
-  const formatAttributes = (product: ProductVariant): AgnosticAttribute[] => {
-    const attributes = [];
-    product.properties.filter(p => p.isHidden !== true && (filterByAttributeName ? filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()) : p)).forEach(p =>
-      attributes.push(...p.values.map(val => ({
-        name: p.attributeDetail?.name,
-        value: (val.value.toString() as string),
-        label: val.stringValue ?? (val.value.toString() as string)
-      }))));
-
-    return attributes;
-  };
-
-  const reduceToUniques = (prev, curr) => {
-    const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
-
-    if (!isAttributeExist) {
-      return [...prev, curr];
+    if (!products || productList.length === 0) {
+      return {} as any;
     }
 
-    return prev;
-  };
+    const formatAttributes = (product: ProductVariant): AgnosticAttribute[] => {
+      const attributes = [];
+      product.properties.filter(p => p.isHidden !== true && (filterByAttributeName ? filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()) : p)).forEach(p => {
+        attributes.push(...p.values.map(val => {
+          if (val.value !== null)
+            return {
+              name: p.attributeDetail?.name,
+              value: (val.value.toString() as string),
+              label: val.stringValue ?? (val.value.toString() as string)
+            };
+        }));
+      });
+      return attributes;
+    };
 
-  return productList
-    .map((product) => formatAttributes(product))
-    .reduce((prev, curr) => [...prev, ...curr], [])
-    .reduce(reduceToUniques, []);
+    const reduceToUniques = (prev, curr) => {
+      try {
+        const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
+        if (!isAttributeExist) {
+          prev.push(curr);
+        }
+      } catch (ex) {
+        console.log(ex, prev, curr);
+      }
+
+      return prev;
+    };
+
+    const reduceByAttributeName = (prev, curr) => ({
+      ...prev,
+      [curr.name]: isSingleProduct ? curr.value : [
+        ...(prev[curr.name] || []),
+        {
+          value: curr.value,
+          label: curr.label
+        }
+      ]
+    });
+
+    const list = productList.map(formatAttributes)
+      .reduce((prev, curr) => {
+        prev.push(...curr);
+        return prev;
+      }, [])
+      .reduce(reduceToUniques, []);
+    console.log(list);
+
+    return list.reduce(reduceByAttributeName, {});
+  } catch (ex) {
+    console.log(ex);
+    return {} as any;
+  }
 };
 
 export const getProductDescription = (product: ProductVariant): any => product?.content?.productFullDescription || '';
@@ -102,7 +129,7 @@ function getTotalReviews(product: Product): number {
 export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcrumb[] => {
   const breadcrumbs: AgnosticBreadcrumb[] = [];
   const categories: ProductCategory[] = [];
-  let tlc = product.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
+  let tlc = product?.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
   if (tlc !== undefined) {
     let count = 0;
     while (tlc !== undefined && tlc !== null) {

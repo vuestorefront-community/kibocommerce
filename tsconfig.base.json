@@ -14,7 +14,10 @@
     "baseUrl": "./",
     "lib": ["es6", "es7", "ES2017", "ES2018", "ES2019", "dom"],
     "strict": false,
-    "preserveSymlinks": true
+    "preserveSymlinks": true,
+    "paths": {
+      "tslib": ["C:/Users/Cole McMannus/AppData/Roaming/npm/node_modules/tslib/tslib.d.ts"]
+    }
   },
   "exclude": ["node_modules", "**/*.spec.ts"]
 }

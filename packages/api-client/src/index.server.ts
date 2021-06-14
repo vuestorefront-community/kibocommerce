@@ -1,56 +1,69 @@
 import { CreateApolloClient } from 'kibo.apollo.typescript.client'
 import { apiClientFactory } from '@vue-storefront/core';
+import { UserAuthTicket } from 'kibo.apollo.typescript.client/src/lib/AuthClient';
+import cfg from './mozuConfig';
+import { ApiClientExtension } from '@vue-storefront/core';
 
 import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import registerUser from './api/registerUser';
 import logInUser from './api/logInUser';
 
-const config = {
-  "accessTokenUrl": process.env.AUTH_URL || "https://home.mozu.com/api/platform/applications/authtickets/oauth",
-  "clientId":  process.env.CLIENT_ID || "d4e9bb5.sleepy_hollow.1.0.0.Release",
-  "sharedSecret": process.env.SHARED_SECRET || "a84414e1fcdd425bbd4c4ac68428b61c",
-  "apiHost":  process.env.API_HOST || "https://t30294-s50525.sandbox.mozu.com",
-}
+const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
-const onCreate = (settings) => {
-  
-  let authorization//getAuthTicketFromRequest(req)
+const onCreate = (settings) => ({
+  config: {
+    ...settings
+  },
+  client: CreateApolloClient({
+    api: cfg.api,
+    clientAuthHooks: settings.clientAuthHooks
+  })
+});
 
-  const clientAuthHooks = {
-    onTicketChange: (authTicket: any) => {
-      if(authorization) {
-        console.log(`has authorization`)
-      }
-      if(authTicket) {
-        console.log(`has authTicket`)
-      }
-      if(authorization && authTicket && authorization.accessToken !== authTicket.accessToken){
-        console.log(`Access tokens diff`)
-      }
-      if (!authorization || authorization.accessToken !== authTicket.accessToken) {
-        authorization = authTicket;
-        console.log(`on ticket change`)
-      }
-    },
-    onTicketRead: () => {
-      console.log(`read ticket`)
-      return authorization as any;
-    },
-    onTicketRemove: () => {
-      console.log(`on ticket remove`)
-      authorization = undefined;
-    }
+const tryParse = (str: string) => {
+  try {
+    return JSON.parse(str);
+  } catch (ex) {
+    return null;
   }
-  const apolloClient = CreateApolloClient({
-    api: config,
-    clientAuthHooks
-  });
+};
 
-  console.log('on create BOOP')
-  return {
-    config,
-    client: apolloClient
+const ticketExtension: ApiClientExtension = {
+  name: 'ticketExtension',
+  hooks: (req, res) => {
+    const rawCurrentTicket = req.cookies[AUTH_COOKIE_NAME];
+    const currentTicket: UserAuthTicket = tryParse(rawCurrentTicket);
+
+    const setCookie: (res, authTicket: UserAuthTicket) => void = (res, authTicket) => {
+      res.cookie(
+        AUTH_COOKIE_NAME,
+        JSON.stringify(authTicket),
+        authTicket?.accessTokenExpiration ? { expires: new Date(authTicket.accessTokenExpiration) } : {}
+      );
+    };
+
+    return {
+      beforeCreate: ({ configuration }) => ({
+        ...configuration,
+        clientAuthHooks: {
+          onTicketChange: (authTicket: UserAuthTicket) => {
+            if (!currentTicket || currentTicket.accessToken !== authTicket.accessToken) {
+              setCookie(res, authTicket);
+            }
+          },
+
+          onTicketRead: () => {
+            setCookie(res, currentTicket);
+            return currentTicket;
+          },
+
+          onTicketRemove: () => {
+            delete req.cookies[AUTH_COOKIE_NAME];
+          }
+        }
+      })
+    };
   }
 };
 
@@ -61,7 +74,10 @@ const { createApiClient } = apiClientFactory<any, any>({
     getCategory,
     registerUser,
     logInUser
-  }
+  },
+  extensions: [
+    ticketExtension
+  ]
 });
 
 export {

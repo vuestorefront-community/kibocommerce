@@ -16,8 +16,9 @@
     "update:update": "ncu -u"
   },
   "dependencies": {
+    "@vue-storefront/core": "^2.3.0",
     "@vue-storefront/kibo-api": "^2.3.0",
-    "@vue-storefront/core": "^2.3.0"
+    "tslib": "^2.2.0"
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",

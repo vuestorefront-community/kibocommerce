@@ -100,20 +100,20 @@
                 {{ $t('Product description') }}
               </div>
               <SfProperty
-                v-for="(property, i) in properties"
+                v-for="(p, i) in properties"
                 :key="i"
-                :name="property.name"
-                :value="property.value"
+                :name="p"
+                :value="properties[p]"
                 class="product__property"
               >
-                <template v-if="property.name === 'Category'" #value>
+                <template v-if="p === 'Category'" #value>
                   <SfButton class="product__property__button sf-button--text">
-                    {{ property.value }}
+                    {{ properties[p] }}
                   </SfButton>
                 </template>
               </SfProperty>
             </SfTab>
-            <SfTab title="Read reviews" data-cy="product-tab_reviews">
+            <!-- <SfTab title="Read reviews" data-cy="product-tab_reviews">
               <SfReview
                 v-for="review in reviews"
                 :key="reviewGetters.getReviewId(review)"
@@ -147,7 +147,7 @@
                 </p>
                 <p>{{ careInstructions }}</p>
               </div>
-            </SfTab>
+            </SfTab> -->
           </SfTabs>
         </LazyHydrate>
       </div>
@@ -279,6 +279,8 @@ export default {
         }
       });
     };
+
+    console.log(properties.value);
 
     return {
       updateFilter,
