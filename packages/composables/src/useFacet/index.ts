@@ -9,9 +9,12 @@ import type {
 
 const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  search: async (context: Context, params: FacetSearchResult<SearchParams>) => {
-    console.log('Mocked: useFacet.search');
-    return {};
+  search: async (context: Context, params: FacetSearchResult<any>) => {
+    const categoryResponse = await context.$kibo.api.getCategory({categoryCode: params.input.categoryCode, params});
+    const categories = categoryResponse.data?.categories?.items;
+    return {
+      categories
+    };
   }
 };
 

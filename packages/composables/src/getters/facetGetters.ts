@@ -8,7 +8,8 @@ import {
   AgnosticBreadcrumb,
   AgnosticFacet
 } from '@vue-storefront/core';
-import type { Facet, FacetSearchCriteria } from '@vue-storefront/<% INTEGRATION %>-api';
+import buildCategoryTree from './categoryGetters';
+import {buildBreadcrumbs} from '../useFacet/_utils';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getAll(params: FacetSearchResult<Facet>, criteria?: FacetSearchCriteria): AgnosticFacet[] {
@@ -29,15 +30,12 @@ function getSortOptions(params: FacetSearchResult<Facet>): AgnosticSort {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCategoryTree(params: FacetSearchResult<Facet>): AgnosticCategoryTree {
-  return {
-    label: '',
-    slug: '',
-    items: null,
-    isCurrent: false,
-    count: 0
-  };
-}
+const getCategoryTree = (searchData): AgnosticCategoryTree => {
+  if (!searchData.data) {
+    return {} as AgnosticCategoryTree;
+  }
+  return buildCategoryTree.getTree(searchData.data.categories[0]);
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getProducts(params: FacetSearchResult<Facet>): any {
@@ -74,9 +72,16 @@ function getPagination(params: FacetSearchResult<Facet>): AgnosticPagination {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getBreadcrumbs(params: FacetSearchResult<Facet>): AgnosticBreadcrumb[] {
-  return [];
-}
+const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => {
+  if (!searchData.data) {
+    return [];
+  }
+  const bcs = [
+    { text: 'Home', link: '/'},
+    ...buildBreadcrumbs(searchData.data.categories[0]).map(b => ({...b, link: `c/${b.link}` }))
+  ];
+  return bcs;
+};
 
 export const facetGetters: FacetsGetters<Facet, FacetSearchCriteria> = {
   getSortOptions,
