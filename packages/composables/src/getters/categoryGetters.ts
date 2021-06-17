@@ -1,7 +1,6 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
 import { Category } from '@vue-storefront/kibo-api/src/types';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCategoryTree = (category: any): AgnosticCategoryTree => {
 
   const getRoot = (category: any): Category => (category.parentCategory ? getRoot(category.parentCategory) : category);
