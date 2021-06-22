@@ -5,7 +5,8 @@ import {
   ProductGetters,
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
-import { ProductVariant, ProductCategory } from '@vue-storefront/kibo-api/src/types';
+import { ProductVariant } from '@vue-storefront/kibo-api/src/types';
+import { Category } from '@vue-storefront/kibo-api/src/types/GraphQL';
 
 type ProductVariantFilters = any
 
@@ -13,7 +14,7 @@ type ProductVariantFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: ProductVariant): string => product?.content?.productName || 'Product\'s name';
+export const getProductName = (product: ProductVariant): string => product?.content?.productName;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductSlug = (product: ProductVariant): string => product?.content?.seoFriendlyUrl;
@@ -40,12 +41,13 @@ export const getProductCoverImage = (product: ProductVariant): string => product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: ProductVariant[], filters: ProductVariantFilters | any = {}): ProductVariant[] => {
+
   if (!products) return [];
-  else return products;
+  return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> | any[] => {
+export const getProductAttributes = (products: ProductVariant[] | ProductVariant): Record<string, AgnosticAttribute | string> => {
   try {
     const isSingleProduct = !Array.isArray(products);
     const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
@@ -56,7 +58,7 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
 
     const formatAttributes = (product: ProductVariant): AgnosticAttribute[] => {
       const attributes = [];
-      product.properties.filter(p => p.isHidden !== true && (filterByAttributeName ? filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()) : p)).forEach(p => {
+      product.properties.filter(p => p.isHidden !== true).forEach(p => {
         attributes.push(...p.values.map(val => {
           if (val.value !== null)
             return {
@@ -84,12 +86,9 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
 
     const reduceByAttributeName = (prev, curr) => ({
       ...prev,
-      [curr.name]: isSingleProduct ? curr.value : [
+      [curr.name]: [
         ...(prev[curr.name] || []),
-        {
-          value: curr.value,
-          label: curr.label
-        }
+        curr.value
       ]
     });
 
@@ -99,9 +98,68 @@ export const getProductAttributes = (products: ProductVariant[] | ProductVariant
         return prev;
       }, [])
       .reduce(reduceToUniques, []);
-    console.log(list);
 
     return list.reduce(reduceByAttributeName, {});
+  } catch (ex) {
+    console.log(ex);
+    return {} as any;
+  }
+};
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getProductOptions = (products: ProductVariant[] | ProductVariant, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+  try {
+    const isSingleProduct = !Array.isArray(products);
+    const productList = (isSingleProduct ? [products] : products) as ProductVariant[];
+
+    if (!products || productList.length === 0) {
+      return {} as any;
+    }
+
+    const formatAttributes = (product: ProductVariant): AgnosticAttribute[] => {
+      const attributes = [];
+      product.options?.filter(p => filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase())).forEach(p => {
+        attributes.push(...p.values.map(val => {
+          if (val.value !== null)
+            return {
+              name: p.attributeDetail?.name,
+              value: (val.value.toString() as string),
+              label: val.value ?? (val.value.toString() as string)
+            };
+        }));
+      });
+      return attributes;
+    };
+
+    const reduceToUniques = (prev, curr) => {
+      try {
+        const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
+        if (!isAttributeExist) {
+          prev.push(curr);
+        }
+      } catch (ex) {
+        console.log(ex, prev, curr);
+      }
+
+      return prev;
+    };
+
+    const reduceByAttributeName = (prev, curr) => ({
+      ...prev,
+      [curr.name.toLowerCase()]: [
+        ...(prev[curr.name.toLowerCase()] || []),
+        curr.value
+      ]
+    });
+
+    const list = productList.map(formatAttributes)
+      .reduce((prev, curr) => {
+        prev.push(...curr);
+        return prev;
+      }, [])
+      .reduce(reduceToUniques, [])
+      .reduce(reduceByAttributeName, {});
+    return list;
   } catch (ex) {
     console.log(ex);
     return {} as any;
@@ -112,7 +170,7 @@ export const getProductDescription = (product: ProductVariant): any => product?.
 
 export const getProductCategoryIds = (product: ProductVariant): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
 
-export const getProductId = (product: ProductVariant): string => product?.productCode || '';
+export const getProductId = (product: ProductVariant): string => product?.variationProductCode || product?.productCode || '';
 
 export const getFormattedPrice = (price: number): string => String(price);
 
@@ -128,7 +186,7 @@ function getTotalReviews(product: Product): number {
 
 export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcrumb[] => {
   const breadcrumbs: AgnosticBreadcrumb[] = [];
-  const categories: ProductCategory[] = [];
+  const categories: Category[] = [];
   let tlc = product?.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
   if (tlc !== undefined) {
     let count = 0;
@@ -152,6 +210,23 @@ export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcru
   return [];
 };
 
+export const getIsPurchasable = (product: ProductVariant): boolean => {
+  return product?.purchasableState?.isPurchasable || false;
+};
+
+export const getProductConfiguration = (product: ProductVariant): any => {
+  const ret = {};
+  product.options.filter(o => ['tenant~size', 'tenant~color'].indexOf(o.attributeFQN) > -1).forEach(o => {
+    ret[o.attributeFQN.replace(/^tenant~/, '')] = o.values?.filter(v => v.isSelected)?.[0]?.value;
+  });
+  return ret;
+};
+
+export const getProductInventory = (product: ProductVariant): number => {
+  if (product.inventoryInfo?.manageStock) return product.inventoryInfo.onlineStockAvailable;
+  return 100;
+};
+
 const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
@@ -160,11 +235,15 @@ const productGetters: ProductGetters<ProductVariant, ProductVariantFilters> = {
   getCoverImage: getProductCoverImage,
   getFiltered: getProductFiltered,
   getAttributes: getProductAttributes,
+  getOptions: getProductOptions,
   getDescription: getProductDescription,
   getCategoryIds: getProductCategoryIds,
   getId: getProductId,
   getFormattedPrice: getFormattedPrice,
   getTotalReviews: getProductTotalReviews,
   getAverageRating: getProductAverageRating,
-  getBreadcrumbs: getProductBreadcrumbs
+  getBreadcrumbs: getProductBreadcrumbs,
+  getPurchasable: getIsPurchasable,
+  getConfiguration: getProductConfiguration,
+  getInventory: getProductInventory
 };

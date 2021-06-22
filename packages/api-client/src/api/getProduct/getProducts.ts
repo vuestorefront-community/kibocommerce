@@ -1,8 +1,8 @@
 import gql from 'graphql-tag';
-import product from '../fragments/product';
+import { productInfo } from '../fragments/product';
 
 export default gql`
-  ${product}
+  ${productInfo}
 
   query products(
     $filter: String
@@ -13,7 +13,7 @@ export default gql`
       pageSize: $pageSize
     ) {
       items {
-        ...ProductFields
+        ...productInfo
       }
     }
   }

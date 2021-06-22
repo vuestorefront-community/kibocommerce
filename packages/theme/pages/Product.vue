@@ -62,10 +62,10 @@
           >
             <SfSelectOption
               v-for="size in options.size"
-              :key="size.value"
-              :value="size.value"
+              :key="size"
+              :value="size"
             >
-              {{ size.label }}
+              {{ size }}
             </SfSelectOption>
           </SfSelect>
           <div
@@ -77,7 +77,7 @@
               data-cy="product-color_update"
               v-for="(color, i) in options.color"
               :key="i"
-              :color="color.value"
+              :color="color"
               class="product__color"
               @click="updateFilter({ color })"
             />
@@ -86,7 +86,7 @@
             data-cy="product-cart_add"
             :stock="stock"
             v-model="qty"
-            :disabled="loading"
+            :disabled="loading || !isPurchasable"
             :canAddToCart="stock > 0"
             class="product__add-to-cart"
             @click="addItem({ product, quantity: parseInt(qty) })"
@@ -102,13 +102,13 @@
               <SfProperty
                 v-for="(p, i) in properties"
                 :key="i"
-                :name="p"
-                :value="properties[p]"
+                :name="i"
+                :value="p.join(', ')"
                 class="product__property"
               >
-                <template v-if="p === 'Category'" #value>
+                <template v-if="i === 'Category'" #value>
                   <SfButton class="product__property__button sf-button--text">
-                    {{ properties[p] }}
+                    {{ p }}
                   </SfButton>
                 </template>
               </SfProperty>
@@ -222,18 +222,13 @@ export default {
       'productReviews'
     );
 
-    const product = computed(
-      () =>
-        productGetters.getFiltered(products.value, {
-          master: true,
-          attributes: context.root.$route.query
-        })[0]
-    );
+    const product = computed(() => products.value[0]);
+
     const options = computed(() =>
-      productGetters.getAttributes(products.value, ['color', 'size'])
+      productGetters.getOptions(product.value, ['color', 'size'])
     );
     const configuration = computed(() =>
-      productGetters.getAttributes(product.value, ['color', 'size'])
+      productGetters.getConfiguration(product.value)
     );
     const categories = computed(() =>
       productGetters.getCategoryIds(product.value)
@@ -261,7 +256,7 @@ export default {
     );
 
     onSSR(async () => {
-      await search({ id });
+      await search({ id, attributes: context.root.$route.query });
       await searchRelatedProducts({
         catId: [categories.value[0]],
         limit: 8,
@@ -279,8 +274,6 @@ export default {
         }
       });
     };
-
-    console.log(properties.value);
 
     return {
       updateFilter,
@@ -306,7 +299,13 @@ export default {
       productGallery,
       description,
       properties,
-      breadcrumbs
+      breadcrumbs,
+      isPurchasable: computed(() =>
+        productGetters.getPurchasable(product.value)
+      ),
+      stock: computed(() =>
+        productGetters.getInventory(product.value)
+      )
     };
   },
   components: {
@@ -332,15 +331,7 @@ export default {
     MobileStoreBanner,
     LazyHydrate
   },
-  data() {
-    return {
-      stock: 5,
-      detailsIsActive: false,
-      brand:
-        'Brand name is the perfect pairing of quality and design. This label creates major everyday vibes with its collection of modern brooches, silver and gold jewellery, or clips it back with hair accessories in geo styles.',
-      careInstructions: 'Do not wash!'
-    };
-  }
+  data() {}
 };
 </script>
 

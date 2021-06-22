@@ -1,3 +1,5 @@
+import { Product } from './types/GraphQL';
+
 export type Cart = Record<string, unknown>;
 export type Wishlist = Record<string, unknown>;
 export type ProductCategory = {
@@ -25,33 +27,7 @@ export type ProductCategory = {
   updateDate: string;
   shouldSlice: boolean;
 }
-export type ProductVariant = {
-  categories?: [ProductCategory];
-  productCode?: string;
-  price?: {
-    price?: number;
-    salePrice?: number;
-  };
-  content?: {
-    productName?: string;
-    productFullDescription?: string;
-    productImages: [{
-      imageUrl?: string,
-      sequence?: number
-    }];
-    seoFriendlyUrl?: string;
-  };
-  properties?: [{
-    attributeDetail: {
-      name: string;
-    };
-    isHidden: boolean;
-    values: [{
-      stringValue?: string;
-      value: any;
-    }]
-  }]
-};
+export type ProductVariant = Product;
 export type Category = {
   id: number;
   name: string;
@@ -61,3 +37,10 @@ export type Category = {
 export type CategoryFilter = Record<string, unknown>;
 export type ShippingMethod = Record<string, unknown>;
 export type LineItem = Record<string, unknown>;
+export interface ConfigureProductParams {
+  productCode: string;
+  attributes: [{
+    attributeFQN: string;
+    value: string;
+  }]
+}
