@@ -2,7 +2,7 @@ import { CustomQuery, ProductsSearchParams, Context } from '@vue-storefront/core
 import { KiboApolloClient } from 'kibo.apollo.typescript.client/';
 import getProductsQuery from './getProductsQuery';
 import getProductQuery from './getProductQuery';
-import configureProductQuery from './configureProductQuery';
+import configureProductMutation from './configureProductMutation';
 import gql from 'graphql-tag';
 import { ConfiguredProduct, Product } from '../../types/GraphQL';
 
@@ -106,7 +106,7 @@ function mergeProducts(product: Product, configuredProduct: ConfiguredProduct): 
       productImages: configuredProduct.productImages
     }
   };
-  delete (returnedProduct as any).productImages;
+  delete (returnedProduct as ConfiguredProduct).productImages;
   return returnedProduct as Product;
 }
 
@@ -120,7 +120,7 @@ async function configureProduct(client: KiboApolloClient, productCode: string, a
         },
         includeOptionDetails: true
       },
-      mutation: configureProductQuery
+      mutation: configureProductMutation
     };
 
     try {
