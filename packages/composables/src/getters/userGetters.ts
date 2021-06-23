@@ -1,29 +1,19 @@
 import { UserGetters } from '@vue-storefront/core';
-import type { User } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { User } from '@vue-storefront/kibo-api';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFirstName(user: User): string {
-  return '';
-}
+// import { User } from '../types/GraphQL';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getLastName(user: User): string {
-  return '';
-}
+export const getUserFirstName = (user: any): string => user?.firstName || '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFullName(user: User): string {
-  return '';
-}
+export const getUserLastName = (user: any): string => user?.lastName || '';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getEmailAddress(user: User): string {
-  return '';
-}
+export const getUserFullName = (user: any): string => user ? `${user.firstName} ${user.lastName}` : '';
 
-export const userGetters: UserGetters<User> = {
-  getFirstName,
-  getLastName,
-  getFullName,
-  getEmailAddress
+export const getUserEmailAddress = (user: any): string => user?.email || '';
+
+const userGetters: UserGetters<any> = {
+  getFirstName: getUserFirstName,
+  getLastName: getUserLastName,
+  getFullName: getUserFullName,
+  getEmailAddress: getUserEmailAddress
 };

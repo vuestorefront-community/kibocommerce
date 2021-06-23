@@ -3,7 +3,7 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import type { User } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { User } from '@vue-storefront/kibo-api';
 import type {
   UseUserUpdateParams as UpdateParams,
   UseUserRegisterParams as RegisterParams
@@ -12,31 +12,42 @@ import type {
 const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    console.log('Mocked: useUser.load');
+    console.log('Mocked: loadUserBB');
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logOut: async (context: Context) => {
-    console.log('Mocked: useUser.logOut');
+    console.log('logOut');
+    //await context.$kibo.api.logOutUser();
+    //await context.$ct.config?.auth?.onTokenRemove();
+    //context.setCart(null);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
-    console.log('Mocked: useUser.updateUser');
+    console.log('Mocked: updateUser');
+    
     return {};
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register: async (context: Context, { email, password, firstName, lastName }) => {
-    console.log('Mocked: useUser.register');
-    return {};
+    const account = { emailAddress: email, firstName, lastName }
+    const registerResponse = await context.$kibo.api.registerUser({ account, password });
+    const customerAccount = registerResponse.data?.account?.customerAccount;
+    //const cart = await context.$kibo.api.getCart()
+    //context.setCart(cart);
+    return customerAccount
   },
-
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
-    console.log('Mocked: useUser.logIn');
-    return {};
+    console.log('logIn');
+    const loginResponse = await context.$kibo.api.logInUser({ username, password });
+    const customerAccount = loginResponse.data?.account?.customerAccount;
+    //const cart = await context.$kibo.api.getCart()
+    //context.setCart(cart);
+    return customerAccount;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

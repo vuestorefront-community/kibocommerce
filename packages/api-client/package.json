@@ -17,7 +17,10 @@
     "update:update": "ncu -u"
   },
   "dependencies": {
-    "@vue-storefront/core": "~2.4.1"
+    "@vue-storefront/core": "~2.4.1",
+    "graphql-tag": "^2.12.4",
+    "kibo.apollo.typescript.client": "file:../../../Kibo.Apollo.Clients/Typescript",
+    "mozu-node-sdk": "^2.15.6"
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",
