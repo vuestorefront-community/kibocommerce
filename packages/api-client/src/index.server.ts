@@ -8,6 +8,7 @@ import getProduct from './api/getProduct';
 import getCategory from './api/getCategory';
 import registerUser from './api/registerUser';
 import logInUser from './api/logInUser';
+import logOutUser from './api/logOutUser';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -72,8 +73,9 @@ const { createApiClient } = apiClientFactory<any, any>({
   api: {
     getProduct,
     getCategory,
+    logInUser,
     registerUser,
-    logInUser
+    logOutUser
   },
   extensions: [
     ticketExtension
