@@ -1,8 +1,10 @@
 import { CustomQuery, ProductsSearchParams, Context } from '@vue-storefront/core';
 import { KiboApolloClient } from 'kibo.apollo.typescript.client/';
-import getProductsQuery from './getProducts';
-import getProductQuery from './getProduct';
+import getProductsQuery from './getProductsQuery';
+import getProductQuery from './getProductQuery';
+import configureProductQuery from './configureProductQuery';
 import gql from 'graphql-tag';
+import { ConfiguredProduct, Product } from '../../types/GraphQL';
 
 const copyProps = (source: any, target: any): void => {
   for (const p in source) {
@@ -53,54 +55,59 @@ export default async function getProduct(context: Context, params: ProductsSearc
         fetchPolicy: 'no-cache'
       });
 
-      const ret = key === 'products' ? request.data.products.items : [request.data.product];
+      const productsList = key === 'products' ? request.data.products.items : [request.data.product];
 
       if (key === 'product' && Object.keys(params.attributes).length > 0) {
         const attributes = Object.keys(params.attributes).map(a => ({
           attributeFQN: `tenant~${a}`,
           value: params.attributes[a]
         }));
-        const cv = await configureProduct(client, params.id, attributes);
-        // Merge properties from existing options into returned options before merging objects
-        // have to do it this way because it's an array of objects, not string keyed
-        // for each of the options returned from the configure call
-        cv.options.forEach(opt => {
-          // find an associated record in the record returned from getProduct
-          const existing = ret[0].options.find(o => o.attributeFQN === ret[0].options[i].attributeFQN);
-          // if we found it
-          if (!existing) return;
-          // copy over any properties from the full product option that don't exist on the configured
-          copyProps(existing, opt);
-          // loop through the values in the configured option
-          opt.values.forEach(cvv => {
-            // find the associated value from the full product
-            const ev = existing.values.find(v => cvv.value === v.value);
-            if (!ev) return;
-            // copy over any properties from the full product option value that don't exist on the configured
-            copyProps(ev, cvv);
-          });
-        });
-        // replace our return product with a copy using replacements that were returned from the configureProduct call
-        // productImages comes in as a top-level node from configure, but is returned under content from all other calls,
-        // so we need to transpose it to the proper location, then delete it from the final returned object
-        ret[0] = {
-          ...ret[0],
-          ...cv,
-          content: {
-            ...ret[0].content,
-            productImages: cv.productImages
-          }
-        };
-        delete ret[0].productImages;
+        const configuredProduct = await configureProduct(client, params.id, attributes);
+        productsList[0] = mergeProducts(productsList[0], configuredProduct);
       }
 
-      return ret;
+      return productsList;
     } catch (error) {
       throw error.graphQLErrors?.[0] || error.networkError?.result || error;
     }
   } catch (ex) {
     return ex;
   }
+}
+
+function mergeProducts(product: Product, configuredProduct: ConfiguredProduct): Product {
+  // Merge properties from existing options into returned options before merging objects
+  // have to do it this way because it's an array of objects, not string keyed
+  // for each of the options returned from the configure call
+  configuredProduct.options.forEach(opt => {
+    // find an associated record in the record returned from getProduct
+    const existingOpt = product.options.find(o => o.attributeFQN === opt.attributeFQN);
+    // if we found it
+    if (!existingOpt) return;
+    // copy over any properties from the full product option that don't exist on the configured
+    copyProps(existingOpt, opt);
+    // loop through the values in the configured option
+    opt.values.forEach(configuredOptionValue => {
+      // find the associated value from the full product
+      const existingOptionValue = existingOpt.values.find(v => configuredOptionValue.value === v.value);
+      if (!existingOptionValue) return;
+      // copy over any properties from the full product option value that don't exist on the configured
+      copyProps(existingOptionValue, configuredOptionValue);
+    });
+  });
+  // replace our return product with a copy using replacements that were returned from the configureProduct call
+  // productImages comes in as a top-level node from configure, but is returned under content from all other calls,
+  // so we need to transpose it to the proper location, then delete it from the final returned object
+  const returnedProduct = {
+    ...product,
+    ...configuredProduct,
+    content: {
+      ...product.content,
+      productImages: configuredProduct.productImages
+    }
+  };
+  delete (returnedProduct as any).productImages;
+  return returnedProduct as Product;
 }
 
 async function configureProduct(client: KiboApolloClient, productCode: string, attributes: { attributeFQN: string; value: string; }[]): Promise<any> {
