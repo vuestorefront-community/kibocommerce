@@ -1,4 +1,5 @@
-import { Product } from './types/GraphQL';
+/* eslint-disable */
+import { Pr_Product } from './types/GraphQL';
 
 export type Cart = Record<string, unknown>;
 export type Wishlist = Record<string, unknown>;
@@ -27,7 +28,7 @@ export type ProductCategory = {
   updateDate: string;
   shouldSlice: boolean;
 }
-export type ProductVariant = Product;
+export type ProductVariant = Pr_Product;
 export type Category = {
   id: number;
   name: string;

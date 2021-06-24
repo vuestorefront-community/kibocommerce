@@ -6,7 +6,7 @@ import {
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
 import { ProductVariant } from '@vue-storefront/kibo-api/src/types';
-import { Category } from '@vue-storefront/kibo-api/src/types/GraphQL';
+import { Pr_Category } from '@vue-storefront/kibo-api/src/types/GraphQL';
 
 type ProductVariantFilters = any
 
@@ -186,7 +186,7 @@ function getTotalReviews(product: Product): number {
 
 export const getProductBreadcrumbs = (product: ProductVariant): AgnosticBreadcrumb[] => {
   const breadcrumbs: AgnosticBreadcrumb[] = [];
-  const categories: Category[] = [];
+  const categories: Pr_Category[] = [];
   let tlc = product?.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
   if (tlc !== undefined) {
     let count = 0;
