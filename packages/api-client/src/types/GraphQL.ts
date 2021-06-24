@@ -24,27 +24,293 @@ export type Scalars = {
   TenantService_Input: any;
 };
 
-export type AbstractFilter = {
-  __typename?: 'AbstractFilter';
-  _get?: Maybe<Scalars['AnyScalar']>;
-  _root?: Maybe<AbstractFilter>;
-  booleanOperator?: Maybe<BooleanOperatorEnum>;
-  created: Scalars['DateTime'];
-  creatorUsername: Scalars['String'];
-  customAttributeName: Scalars['String'];
-  dotDelimitedPropertyName: Scalars['String'];
-  environmentID: Scalars['Int'];
-  filterID: Scalars['Int'];
-  filterUnit?: Maybe<UnitOfobject>;
-  name: Scalars['String'];
-  pathString: Scalars['String'];
-  persisted: Scalars['Boolean'];
-  siteID: Scalars['Int'];
-  tenantID: Scalars['Int'];
-  updated: Scalars['DateTime'];
-  updaterUsername: Scalars['String'];
-  userContext?: Maybe<UserContextInformation>;
-};
+export type Query = {
+  __typename?: "Query"
+  customerAccountAttributeDefinitions?: Maybe<Customer_AttributeCollection>
+  customerAccountAttributeVocabularyValues?: Maybe<
+    Array<Maybe<Customer_AttributeVocabularyValue>>
+  >
+  customerAccountAttributeDefinition?: Maybe<Customer_Attribute>
+  b2bAccountAttributes?: Maybe<CustomerAttributeCollection>
+  b2bAccountAttributeVocabularyValues?: Maybe<CustomerAttribute>
+  b2bAccounts?: Maybe<B2BAccountCollection>
+  b2bAccount?: Maybe<B2BAccount>
+  b2bAccountUsers?: Maybe<B2BUserCollection>
+  b2bAccountUserRoles?: Maybe<UserRoleCollection>
+  b2bAccountUserBehaviors?: Maybe<Array<Maybe<Scalars["Int"]>>>
+  customerCreditAuditTrail?: Maybe<CreditAuditEntryCollection>
+  customerCredits?: Maybe<CreditCollection>
+  customerCredit?: Maybe<Credit>
+  customerCreditTransactions?: Maybe<CreditTransactionCollection>
+  customerAccountAttributes?: Maybe<CustomerAttributeCollection>
+  customerAccountAttribute?: Maybe<CustomerAttribute>
+  customerAccountCards?: Maybe<CardCollection>
+  customerAccountCard?: Maybe<Card>
+  customerAccountContacts?: Maybe<CustomerContactCollection>
+  customerAccountContact?: Maybe<CustomerContact>
+  customerAccounts?: Maybe<CustomerAccountCollection>
+  customerAccount?: Maybe<CustomerAccount>
+  customerAccountTransactions?: Maybe<Array<Maybe<Transaction>>>
+  customerAccountNotes?: Maybe<CustomerNoteCollection>
+  customerAccountNote?: Maybe<CustomerNote>
+  customerAccountSegments?: Maybe<CustomerSegmentCollection>
+  customerAccountAuditLog?: Maybe<CustomerAuditEntryCollection>
+  customerPurchaseOrderAccount?: Maybe<CustomerPurchaseOrderAccount>
+  customerPurchaseOrderAccountTransaction?: Maybe<
+    PurchaseOrderTransactionCollection
+  >
+  customerAccountLoginState?: Maybe<LoginState>
+  customerAttributes?: Maybe<Customer_AttributeCollection>
+  customerAttributeVocabularyValues?: Maybe<
+    Array<Maybe<Customer_AttributeVocabularyValue>>
+  >
+  customerAttribute?: Maybe<Customer_Attribute>
+  customerContacts?: Maybe<CustomerContactCollection>
+  customerSegments?: Maybe<CustomerSegmentCollection>
+  customerSegment?: Maybe<CustomerSegment>
+  customerSets?: Maybe<CustomerSetCollection>
+  customerSet?: Maybe<CustomerSet>
+  customerVisits?: Maybe<VisitCollection>
+  customerVisit?: Maybe<Visit>
+  inStockNotifications?: Maybe<InStockNotificationSubscriptionCollection>
+  inStockNotification?: Maybe<InStockNotificationSubscription>
+  authTicket?: Maybe<CustomerAuthTicket>
+  exchangeRates?: Maybe<Array<Maybe<CurrencyExchangeRate>>>
+  resolvedPriceList?: Maybe<ResolvedPriceList>
+  priceLists?: Maybe<Array<Maybe<PriceList>>>
+  categoriesTree?: Maybe<CategoryCollection>
+  categories?: Maybe<CategoryPagedCollection>
+  category?: Maybe<PrCategory>
+  categoryOutOfSync?: Maybe<ProductCollection>
+  products?: Maybe<ProductCollection>
+  productLocationInventory?: Maybe<LocationInventoryCollection>
+  product?: Maybe<PrProduct>
+  productVersion?: Maybe<ProductForIndexing>
+  productSummary?: Maybe<ProductSummary>
+  suggestionSearch?: Maybe<SearchSuggestionResult>
+  productSearchRandomAccessCursor?: Maybe<ProductSearchRandomAccessCursor>
+  productSearch?: Maybe<ProductSearchResult>
+  debugProductSearch?: Maybe<Scalars["Boolean"]>
+  productSearchTuningRules?: Maybe<Array<Maybe<SearchTuningRuleSolr>>>
+  priceList?: Maybe<PriceList>
+  cartsSummary?: Maybe<CartSummary>
+  userCartSummary?: Maybe<CartSummary>
+  cartSummary?: Maybe<CartSummary>
+  userCart?: Maybe<Cart>
+  currentCart?: Maybe<Cart>
+  cart?: Maybe<Cart>
+  currentCartExtendedProperties?: Maybe<Array<Maybe<ExtendedProperty>>>
+  currentCartItems?: Maybe<CartItemCollection>
+  cartItems?: Maybe<CartItemCollection>
+  currentCartItem?: Maybe<CartItem>
+  cartItem?: Maybe<CartItem>
+  currentCartMessages?: Maybe<CartChangeMessageCollection>
+  channels?: Maybe<ChannelCollection>
+  channel?: Maybe<Channel>
+  channelGroups?: Maybe<ChannelGroupCollection>
+  channelGroup?: Maybe<ChannelGroup>
+  checkoutAttributes?: Maybe<Array<Maybe<OrderAttribute>>>
+  checkout?: Maybe<Checkout>
+  checkouts?: Maybe<CheckoutCollection>
+  checkoutShippingMethods?: Maybe<Array<Maybe<CheckoutGroupRates>>>
+  checkoutActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  checkoutDestination?: Maybe<Destination>
+  checkoutDestinations?: Maybe<Array<Maybe<Destination>>>
+  fulfillmentShipments?: Maybe<
+    KiboFulfillmentContractsModelPagedResourcesOfResourceOfShipment
+  >
+  fulfillmentShipment?: Maybe<KiboFulfillmentContractsModelResourceOfShipment>
+  pickWave?: Maybe<KiboFulfillmentContractsModelResourceOfPickWave>
+  pickWaveShipments?: Maybe<KiboFulfillmentContractsModelResourcesOfShipment>
+  openLocationPickWaves?: Maybe<
+    KiboFulfillmentContractsModelResourcesOfPickWave
+  >
+  fulfillmentProcessDefinitions?: Maybe<
+    KiboFulfillmentContractsModelResourcesOfResourceOfWorkflowProcess
+  >
+  orderPickup?: Maybe<Pickup>
+  orderPickupActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderReturnableItems?: Maybe<OrderReturnableItemCollection>
+  orderShipment?: Maybe<Shipment>
+  orderShipmentMethods?: Maybe<Array<Maybe<ShippingRate>>>
+  orderShopperNotes?: Maybe<ShopperNotes>
+  orderValidationResults?: Maybe<Array<Maybe<OrderValidationResult>>>
+  orderAttributes?: Maybe<Array<Maybe<OrderAttribute>>>
+  orderBillingInfo?: Maybe<BillingInfo>
+  orderCancelReasons?: Maybe<CancelReasonCollection>
+  orderChangeMessages?: Maybe<ChangeMessageCollection>
+  orderChangeMessage?: Maybe<ChangeMessage>
+  orders?: Maybe<OrderCollection>
+  order?: Maybe<Order>
+  orderActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderTaxableOrders?: Maybe<
+    Array<Maybe<MozuPricingRuntimeContractsTaxableOrder>>
+  >
+  orderData?: Maybe<Scalars["Object"]>
+  orderItemData?: Maybe<Scalars["Object"]>
+  orderDigitalPackage?: Maybe<DigitalPackage>
+  orderDigitalPackageActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderExtendedProperties?: Maybe<Array<Maybe<ExtendedProperty>>>
+  orderFulfillmentInfo?: Maybe<FulfillmentInfo>
+  orderItems?: Maybe<OrderItemCollection>
+  orderNotes?: Maybe<Array<Maybe<OrderNote>>>
+  orderNote?: Maybe<OrderNote>
+  orderPackage?: Maybe<PackageObj>
+  orderPackageLabel?: Maybe<Scalars["Boolean"]>
+  orderPackageActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderPaymentActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderPayment?: Maybe<Payment>
+  orderPayments?: Maybe<PaymentCollection>
+  orderAttributeDefinitions?: Maybe<CrAttributeCollection>
+  orderAttributeVocabularyValues?: Maybe<
+    Array<Maybe<CrAttributeVocabularyValue>>
+  >
+  orderAttribute?: Maybe<CrAttribute>
+  indexableOrders?: Maybe<IndexableOrderCollection>
+  deepIndexableOrders?: Maybe<IndexableOrderCollection>
+  quote?: Maybe<Quote>
+  quotes?: Maybe<QuoteCollection>
+  customerAccountQuote?: Maybe<Quote>
+  quoteItems?: Maybe<Array<Maybe<CrOrderItem>>>
+  customerAccountQuoteItems?: Maybe<Array<Maybe<CrOrderItem>>>
+  quoteItem?: Maybe<CrOrderItem>
+  returns?: Maybe<ReturnCollection>
+  returnReasons?: Maybe<ReasonCollection>
+  returnReason?: Maybe<ReturnObj>
+  returnActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  returnPayments?: Maybe<PaymentCollection>
+  returnPayment?: Maybe<Payment>
+  returnPaymentActions?: Maybe<Array<Maybe<Scalars["String"]>>>
+  returnShippingLabel?: Maybe<KiboCarsContractsModelGenerateLabelResponse>
+  returnItems?: Maybe<ReturnItemCollection>
+  returnItem?: Maybe<ReturnItem>
+  returnNotes?: Maybe<Array<Maybe<OrderNote>>>
+  returnNote?: Maybe<OrderNote>
+  returnPackage?: Maybe<PackageObj>
+  returnPackageLabel?: Maybe<Scalars["Boolean"]>
+  returnShipment?: Maybe<Shipment>
+  wishlists?: Maybe<WishlistCollection>
+  wishlist?: Maybe<Wishlist>
+  customerWishlist?: Maybe<Wishlist>
+  wishlistItems?: Maybe<WishlistItemCollection>
+  customerWishlistItems?: Maybe<WishlistItemCollection>
+  wishlistItem?: Maybe<WishlistItem>
+  orderItem?: Maybe<CrOrderItem>
+  documentListsDocumentContent?: Maybe<Scalars["Boolean"]>
+  documentListDocumentContent?: Maybe<Scalars["Boolean"]>
+  documentListDocumentTransform?: Maybe<Scalars["Boolean"]>
+  documentListsDocumentTreeDocumentContent?: Maybe<Scalars["Boolean"]>
+  documentListTreeDocumentContent?: Maybe<Scalars["Boolean"]>
+  documentListTreeDocumentTransform?: Maybe<Scalars["Boolean"]>
+  documentListsDocuments?: Maybe<MozuContentContractsR4DocumentCollection>
+  documentListDocuments?: Maybe<DocumentCollection>
+  documentListsDocument?: Maybe<MozuContentContractsR4Document>
+  documentListDocument?: Maybe<Document>
+  documentListsDocumentTreeDocument?: Maybe<MozuContentContractsR4Document>
+  documentListTreeDocument?: Maybe<Document>
+  documentLists?: Maybe<DocumentListCollection>
+  documentList?: Maybe<DocumentList>
+  documentListViewDocuments?: Maybe<DocumentCollection>
+  documentListPropertyFacets?: Maybe<Array<Maybe<Content_Facet>>>
+  documentListFolders?: Maybe<FolderCollection>
+  documentListFolder?: Maybe<Folder>
+  documentListFolderTree?: Maybe<FolderTree>
+  documentListTypes?: Maybe<DocumentListTypeCollection>
+  documentListType?: Maybe<DocumentListType>
+  documentDrafts?: Maybe<DocumentDraftSummaryPagedCollection>
+  publishSetItems?: Maybe<DocumentDraftSummaryPagedCollection>
+  publishSets?: Maybe<PublishSetSummaryPagedCollection>
+  documentTypes?: Maybe<DocumentTypeCollection>
+  documentType?: Maybe<DocumentType>
+  propertyTypes?: Maybe<PropertyTypeCollection>
+  propertyType?: Maybe<PropertyType>
+  adminLocations?: Maybe<LocationCollection>
+  adminLocation?: Maybe<Location>
+  adminLocationAttributes?: Maybe<Location_AttributeCollection>
+  adminLocationAttributeVocabularyValues?: Maybe<
+    Array<Maybe<Location_AttributeVocabularyValue>>
+  >
+  adminLocationAttribute?: Maybe<Location_Attribute>
+  adminLocationGroups?: Maybe<LocationGroupCollection>
+  dslLocation?: Maybe<Location>
+  spLocations?: Maybe<LocationCollection>
+  spLocation?: Maybe<Location>
+  usageTypeLocations?: Maybe<LocationCollection>
+  usageTypeLocation?: Maybe<Location>
+  location?: Maybe<Location>
+  locationUsages?: Maybe<LocationUsageCollection>
+  locationUsage?: Maybe<LocationUsage>
+  adminLocationTypes?: Maybe<Array<Maybe<LocationType>>>
+  adminLocationType?: Maybe<LocationType>
+  locationGroupConfig?: Maybe<LocationGroupConfiguration>
+  locationGroup?: Maybe<Location_LocationGroup>
+  appdata?: Maybe<DbEntryCollection>
+  appdataEntry?: Maybe<Scalars["String"]>
+  entityListEntity?: Maybe<Scalars["String"]>
+  entityListEntities?: Maybe<EntityCollection>
+  entityListEntityContainer?: Maybe<EntityContainer>
+  entityListEntityContainers?: Maybe<EntityContainerCollection>
+  entityList?: Maybe<EntityList>
+  entityLists?: Maybe<EntityListCollection>
+  entityListViews?: Maybe<ListViewCollection>
+  entityListView?: Maybe<ListView>
+  entityListViewEntityContainers?: Maybe<EntityContainerCollection>
+  entityListViewEntities?: Maybe<EntityCollection>
+  entityListViewEntityContainer?: Maybe<EntityContainer>
+  entityListViewEntity?: Maybe<Scalars["String"]>
+  secureAppdata?: Maybe<DbEntry2Collection>
+  secureAppdataEntry?: Maybe<Scalars["String"]>
+  sitedata?: Maybe<DbEntryCollection>
+  sitedataEntry?: Maybe<Scalars["String"]>
+  tenantdata?: Maybe<DbEntryCollection>
+  tenantdataEntry?: Maybe<Scalars["String"]>
+  userdata?: Maybe<DbEntryCollection>
+  userdataEntry?: Maybe<Scalars["String"]>
+  shippingCarriers?: Maybe<CarrierConfigurationCollection>
+  shippingCarrier?: Maybe<CarrierConfiguration>
+  carrierLocaleServiceTypes?: Maybe<Array<Maybe<ServiceType>>>
+  localeServiceTypes?: Maybe<Array<Maybe<ServiceType>>>
+  shippingCarrierCredential?: Maybe<CarrierCredential>
+  shippingCarrierCredentials?: Maybe<CarrierCredentialCollection>
+  shippingCarrierCredentialsPrivateCarrier?: Maybe<CarrierCredential>
+  locationShippingCarrierCredntials?: Maybe<CarrierCredential>
+  shippingCarrierCredentialSet?: Maybe<CarrierCredentialSet>
+  shippingCarrierCredentialSets?: Maybe<CarrierCredentialSetCollection>
+  shippingProfileOrderHandlingFees?: Maybe<HandlingFeeRuleCollection>
+  shippingProfileOrderHandlingFee?: Maybe<HandlingFeeRule>
+  shippingProfileProductHandlingFees?: Maybe<HandlingFeeRuleCollection>
+  shippingProfileProductHandlingFee?: Maybe<HandlingFeeRule>
+  shippingProfileInclusionRules?: Maybe<ShippingInclusionRuleCollection>
+  shippingProfileInclusionRule?: Maybe<ShippingInclusionRule>
+  shippingProfiles?: Maybe<ShippingProfileCollection>
+  shippingProfile?: Maybe<ShippingProfile>
+  shippingProfileStates?: Maybe<Array<Maybe<ShippingStates>>>
+  targetRules?: Maybe<TargetRuleCollection>
+  targetRule?: Maybe<TargetRule>
+  orderRoutingTestAction?: Maybe<GroupAfterAction>
+  orderRoutingAction?: Maybe<GroupAfterAction>
+  orderRoutingTestAuth?: Maybe<Scalars["String"]>
+  orderRoutingTestAssociateAuth?: Maybe<Scalars["String"]>
+  orderRoutingTestFiltersAuth?: Maybe<Scalars["Boolean"]>
+  orderRoutingTestManagerAuth?: Maybe<Scalars["String"]>
+  orderRoutingTestUserBehaviorAuth?: Maybe<Array<Maybe<Scalars["String"]>>>
+  orderRoutingTestUserPrincipalAuth?: Maybe<Principal>
+  orderRoutingTestUsernameAuth?: Maybe<Scalars["String"]>
+  orderRoutingDataList?: Maybe<CustomDataListResponse>
+  orderRoutingExportEnvironment?: Maybe<EnvironmentExportModel>
+  orderRoutingFilterTestCriteria?: Maybe<AbstractFilter>
+  orderRoutingFilterTestSet?: Maybe<AbstractFilter>
+  orderRoutingFilter?: Maybe<AbstractFilter>
+  orderRoutingTestGroup?: Maybe<Or_LocationGroup>
+  orderRoutingGroup?: Maybe<Or_LocationGroup>
+  orderRoutingSampleRoutingRequest?: Maybe<SuggestionRequest>
+  orderRoutingRoutingSuggestionLog?: Maybe<Array<Maybe<JsonNode>>>
+  orderRoutingSettings?: Maybe<OrderRoutingSettings>
+  orderRoutingFilterAttributes?: Maybe<Array<Maybe<FilterAttribute>>>
+  orderRoutingFilterAttribute?: Maybe<FilterAttribute>
+  orderRoutingTestSort?: Maybe<LocationSort>
+  orderRoutingSort?: Maybe<LocationSort>
+}
 
 
 export type AbstractFilter_GetArgs = {
@@ -9623,6 +9889,13 @@ export type MutationClosePickWaveShipmentArgs = {
   kiboFulfillmentContractsModelClosePickWave_Input: KiboFulfillmentContractsModelClosePickWave_Input;
 };
 
+export type CategoryCollection = {
+  __typename?: "CategoryCollection"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CategoryCollection>
+  totalCount: Scalars["Int"]
+  items?: Maybe<Array<Maybe<PrCategory>>>
+}
 
 export type MutationReceiveShipmentTransferArgs = {
   shipmentNumber: Scalars['Int'];
@@ -9652,6 +9925,17 @@ export type MutationDeleteOrderPickupArgs = {
   pickupId: Scalars['String'];
 };
 
+export type ProductCollection = {
+  __typename?: "ProductCollection"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<ProductCollection>
+  nextCursorMark?: Maybe<Scalars["String"]>
+  startIndex: Scalars["Int"]
+  pageSize: Scalars["Int"]
+  pageCount: Scalars["Int"]
+  totalCount: Scalars["Int"]
+  items?: Maybe<Array<Maybe<PrProduct>>>
+}
 
 export type MutationUpdateOrderPickupArgs = {
   orderId: Scalars['String'];
