@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 
 const categoryFields = gql`
-fragment CategoryFields on Category {
+fragment CategoryFields on PrCategory {
   categoryId
   categoryCode
   content {
@@ -30,7 +30,7 @@ fragment CategoryFields on Category {
 export default gql`
   ${categoryFields}
 
-  fragment Category on Category {
+  fragment Category on PrCategory {
     ...CategoryFields
     parentCategory {
       ...CategoryFields

@@ -5,21 +5,21 @@ import {
   ProductGetters,
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
-import { Pr_Category, Pr_Product } from '@vue-storefront/kibo-api/src/types/GraphQL';
+import { PrCategory, Product } from '@vue-storefront/kibo-api/src/types/GraphQL';
 
-type Pr_ProductFilters = any
+type ProductFilters = any
 
 // TODO: Add interfaces for some of the methods in core
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: Pr_Product): string => product?.content?.productName;
+export const getProductName = (product: Product): string => product?.content?.productName;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: Pr_Product): string => product?.content?.seoFriendlyUrl;
+export const getProductSlug = (product: Product): string => product?.content?.seoFriendlyUrl;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductPrice = (product: Pr_Product): AgnosticPrice => {
+export const getProductPrice = (product: Product): AgnosticPrice => {
   return {
     regular: product?.price?.price || 0,
     special: product?.price?.salePrice || 0
@@ -27,7 +27,7 @@ export const getProductPrice = (product: Pr_Product): AgnosticPrice => {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: Pr_Product): AgnosticMediaGalleryItem[] => {
+export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {
   return product?.content?.productImages.map(pi => ({
     small: pi.imageUrl,
     normal: pi.imageUrl,
@@ -36,26 +36,26 @@ export const getProductGallery = (product: Pr_Product): AgnosticMediaGalleryItem
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: Pr_Product): string => product?.content?.productImages?.[0].imageUrl;
+export const getProductCoverImage = (product: Product): string => product?.content?.productImages?.[0].imageUrl;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: Pr_Product[], filters: Pr_ProductFilters | any = {}): Pr_Product[] => {
+export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
 
   if (!products) return [];
   return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: Pr_Product[] | Pr_Product): Record<string, AgnosticAttribute | string> => {
+export const getProductAttributes = (products: Product[] | Product): Record<string, AgnosticAttribute | string> => {
   try {
     const isSingleProduct = !Array.isArray(products);
-    const productList = (isSingleProduct ? [products] : products) as Pr_Product[];
+    const productList = (isSingleProduct ? [products] : products) as Product[];
 
     if (!products || productList.length === 0) {
       return {} as any;
     }
 
-    const formatAttributes = (product: Pr_Product): AgnosticAttribute[] => {
+    const formatAttributes = (product: Product): AgnosticAttribute[] => {
       const attributes = [];
       product.properties.filter(p => p.isHidden !== true).forEach(p => {
         attributes.push(...p.values.map(val => {
@@ -106,16 +106,16 @@ export const getProductAttributes = (products: Pr_Product[] | Pr_Product): Recor
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductOptions = (products: Pr_Product[] | Pr_Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+export const getProductOptions = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
   try {
     const isSingleProduct = !Array.isArray(products);
-    const productList = (isSingleProduct ? [products] : products) as Pr_Product[];
+    const productList = (isSingleProduct ? [products] : products) as Product[];
 
     if (!products || productList.length === 0) {
       return {} as any;
     }
 
-    const formatAttributes = (product: Pr_Product): AgnosticAttribute[] => {
+    const formatAttributes = (product: Product): AgnosticAttribute[] => {
       const attributes = [];
       product.options?.filter(p => filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase())).forEach(p => {
         attributes.push(...p.values.map(val => {
@@ -165,23 +165,23 @@ export const getProductOptions = (products: Pr_Product[] | Pr_Product, filterByA
   }
 };
 
-export const getProductDescription = (product: Pr_Product): any => product?.content?.productFullDescription || '';
+export const getProductDescription = (product: Product): any => product?.content?.productFullDescription || '';
 
-export const getProductCategoryIds = (product: Pr_Product): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
+export const getProductCategoryIds = (product: Product): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
 
-export const getProductId = (product: Pr_Product): string => product?.variationProductCode || product?.productCode || '';
+export const getProductId = (product: Product): string => product?.variationProductCode || product?.productCode || '';
 
 export const getFormattedPrice = (price: number): string => String(price);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductTotalReviews = (product: Pr_Product): number => 0;
+export const getProductTotalReviews = (product: Product): number => 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAverageRating = (product: Pr_Product): number => 0;
+export const getProductAverageRating = (product: Product): number => 0;
 
-export const getProductBreadcrumbs = (product: Pr_Product): AgnosticBreadcrumb[] => {
+export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
   const breadcrumbs: AgnosticBreadcrumb[] = [];
-  const categories: Pr_Category[] = [];
+  const categories: PrCategory[] = [];
   let tlc = product?.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
   if (tlc !== undefined) {
     let count = 0;
@@ -205,11 +205,11 @@ export const getProductBreadcrumbs = (product: Pr_Product): AgnosticBreadcrumb[]
   return [];
 };
 
-export const getIsPurchasable = (product: Pr_Product): boolean => {
+export const getIsPurchasable = (product: Product): boolean => {
   return product?.purchasableState?.isPurchasable || false;
 };
 
-export const getProductConfiguration = (product: Pr_Product): any => {
+export const getProductConfiguration = (product: Product): any => {
   const ret = {};
   product.options.filter(o => ['tenant~size', 'tenant~color'].indexOf(o.attributeFQN) > -1).forEach(o => {
     ret[o.attributeFQN.replace(/^tenant~/, '')] = o.values?.filter(v => v.isSelected)?.[0]?.value;
@@ -217,12 +217,12 @@ export const getProductConfiguration = (product: Pr_Product): any => {
   return ret;
 };
 
-export const getProductInventory = (product: Pr_Product): number => {
+export const getProductInventory = (product: Product): number => {
   if (product.inventoryInfo?.manageStock) return product.inventoryInfo.onlineStockAvailable;
   return 100;
 };
 
-const productGetters: ProductGetters<Pr_Product, Pr_ProductFilters> = {
+const productGetters: ProductGetters<Product, ProductFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

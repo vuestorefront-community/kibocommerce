@@ -1,5 +1,5 @@
 export const CategoryInfo = `
-fragment categoryInfo on Category {
+fragment categoryInfo on PrCategory {
     categoryId
     categoryCode
     content {

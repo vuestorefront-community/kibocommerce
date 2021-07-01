@@ -4,7 +4,7 @@ import getProductsQuery from './getProductsQuery';
 import getProductQuery from './getProductQuery';
 import configureProductMutation from './configureProductMutation';
 import gql from 'graphql-tag';
-import { ConfiguredProduct, Pr_Product } from '../../types/GraphQL';
+import { ConfiguredProduct, Product } from '../../types/GraphQL';
 
 const copyProps = (source: any, target: any): void => {
   for (const p in source) {
@@ -75,7 +75,7 @@ export default async function getProduct(context: Context, params: ProductsSearc
   }
 }
 
-function mergeProducts(product: Pr_Product, configuredProduct: ConfiguredProduct): Pr_Product {
+function mergeProducts(product: Product, configuredProduct: ConfiguredProduct): Product {
   // Merge properties from existing options into returned options before merging objects
   // have to do it this way because it's an array of objects, not string keyed
   // for each of the options returned from the configure call
@@ -107,7 +107,7 @@ function mergeProducts(product: Pr_Product, configuredProduct: ConfiguredProduct
     }
   };
   delete (returnedProduct as ConfiguredProduct).productImages;
-  return returnedProduct as Pr_Product;
+  return returnedProduct as Product;
 }
 
 async function configureProduct(client: KiboApolloClient, productCode: string, attributes: { attributeFQN: string; value: string; }[]): Promise<any> {
