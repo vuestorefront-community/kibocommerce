@@ -1,5 +1,5 @@
 export const productPrices = `
-fragment productPrices on pr_Product {
+fragment productPrices on Product {
       price {
         price
         salePrice
@@ -11,7 +11,7 @@ fragment productPrices on pr_Product {
     }
 `;
 export const productAttributes = `
-fragment productAttributes on pr_Product {
+fragment productAttributes on Product {
   properties {
     attributeFQN
     attributeDetail {
@@ -26,7 +26,7 @@ fragment productAttributes on pr_Product {
 }
 `;
 export const productContent = `
-fragment productContent on pr_Product {
+fragment productContent on Product {
   content {
     productFullDescription
     productShortDescription
@@ -41,7 +41,7 @@ fragment productContent on pr_Product {
 }
 `;
 export const productOptions = `
-fragment productOptions on pr_Product {
+fragment productOptions on Product {
   options {
     attributeFQN
     attributeDetail {
@@ -60,7 +60,7 @@ fragment productOptions on pr_Product {
 }
 `;
 export const productInfo = `
-fragment productInfo on pr_Product {
+fragment productInfo on Product {
         productCode
         productUsage
         isPackagedStandAlone
