@@ -2,6 +2,8 @@ import { CustomQuery, ProductsSearchParams, Context } from '@vue-storefront/core
 import { KiboApolloClient } from 'kibo.apollo.typescript.client/';
 import getProductsQuery from './getProductsQuery';
 import getProductQuery from './getProductQuery';
+import { buildProductSearchVars } from './_util';
+import productSearchQuery from './productSearchQuery';
 import configureProductMutation from './configureProductMutation';
 import gql from 'graphql-tag';
 import { ConfiguredProduct, Product } from '../../types/GraphQL';
@@ -18,6 +20,21 @@ const copyProps = (source: any, target: any): void => {
 export default async function getProduct(context: Context, params: ProductsSearchParams, customQuery?: CustomQuery): Promise<any> {
   try {
     const client = context.client as KiboApolloClient;
+
+    // if no product code / productId, perform search
+    if(!params.id) {
+        const searchVars = buildProductSearchVars(params);
+        const { productSearch } = context.extendQuery(customQuery,
+          { productSearch: { query: productSearchQuery, variables: searchVars } }
+        );
+        const searchResponse = await client.query({
+          query: gql`${productSearch.query}`,
+          variables: productSearch.variables,
+          fetchPolicy: 'no-cache'
+        });
+        return searchResponse;
+    }
+
     let extendable = {};
     let key = '';
     if (typeof params.catId !== 'undefined') {
@@ -41,8 +58,6 @@ export default async function getProduct(context: Context, params: ProductsSearc
           query: getProductQuery
         }
       };
-    } else {
-      console.log(params);
     }
     const newQueryObj = context.extendQuery(
       customQuery, extendable

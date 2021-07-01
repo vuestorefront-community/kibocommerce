@@ -1,8 +1,26 @@
 import { getCurrentInstance } from '@vue/composition-api';
 
+const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
+
 const getInstance = () => {
   const vm = getCurrentInstance();
   return vm.$root as any;
+};
+
+const reduceFilters = (query) => (prev, curr) => {
+  const makeArray = Array.isArray(query[curr]) || nonFilters.includes(curr);
+
+  return {
+    ...prev,
+    [curr]: makeArray ? query[curr] : [query[curr]]
+  };
+};
+
+const getFiltersDataFromUrl = (context, onlyFilters) => {
+  const { query } = context.$router.history.current;
+  return Object.keys(query)
+    .filter(f => onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f))
+    .reduce(reduceFilters(query), {});
 };
 
 const useUiHelpers = () => {
@@ -10,56 +28,61 @@ const useUiHelpers = () => {
 
   const getFacetsFromURL = () => {
     // eslint-disable-next-line
-        const { query, params } = instance.$router.history.current;
+    const { query, params } = instance.$router.history.current;
     const categoryCode = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
-
+    const filters = getFiltersDataFromUrl(instance, true)
+    
     return {
       categoryCode,
-      page: 1
+      page: parseInt(query.page, 10) || 1,
+      itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
+      phrase: query.phrase,
+      filters,
+      sort: query.sort
     } as any;
   };
 
-  // eslint-disable-next-line
-    const getCatLink = (category): string => {
-    // console.warn('[VSF] please implement useUiHelpers.getCatLink.');
+    // eslint-disable-next-line
+  const getCatLink = (category): string => {
     return `/c/${category.slug}/${category.id}`;
   };
 
-  // eslint-disable-next-line
-    const changeSorting = (sort) => {
-    console.warn('[VSF] please implement useUiHelpers.changeSorting.');
-
-    return 'latest';
+  const changeSorting = (sort: string) => {
+    const { query } = instance.$router.history.current;
+    instance.$router.push({ query: { ...query, sort } });
   };
 
-  // eslint-disable-next-line
-    const changeFilters = (filters) => {
-    console.warn('[VSF] please implement useUiHelpers.changeFilters.');
+  const changeFilters = (filters: any) => {
+    instance.$router.push({
+      query: {
+        ...getFiltersDataFromUrl(instance, false),
+        ...filters
+      }
+    });
   };
 
-  // eslint-disable-next-line
-    const changeItemsPerPage = (itemsPerPage) => {
-    console.warn('[VSF] please implement useUiHelpers.changeItemsPerPage.');
+  const changeItemsPerPage = (itemsPerPage: number) => {
+    instance.$router.push({
+      query: {
+        ...getFiltersDataFromUrl(instance, false),
+        itemsPerPage
+      }
+    });
   };
 
-  // eslint-disable-next-line
-    const setTermForUrl = (term: string) => {
-    console.warn('[VSF] please implement useUiHelpers.changeSearchTerm.');
+  const setTermForUrl = (term: string) => {
+    instance.$router.push({
+      query: {
+        ...getFiltersDataFromUrl(instance, false),
+        phrase: term || undefined
+      }
+    });
   };
 
+  const isFacetColor = (facet): boolean => facet.field && facet.field.includes('color')
+  
   // eslint-disable-next-line
-    const isFacetColor = (facet): boolean => {
-    console.warn('[VSF] please implement useUiHelpers.isFacetColor.');
-
-    return false;
-  };
-
-  // eslint-disable-next-line
-    const isFacetCheckbox = (facet): boolean => {
-    console.warn('[VSF] please implement useUiHelpers.isFacetCheckbox.');
-
-    return false;
-  };
+  const isFacetCheckbox = (facet): boolean => false;
 
   const getSearchTermFromUrl = () => {
     console.warn('[VSF] please implement useUiHelpers.getSearchTermFromUrl.');

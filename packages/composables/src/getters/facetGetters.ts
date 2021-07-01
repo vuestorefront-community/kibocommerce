@@ -11,25 +11,59 @@ import {
 import buildCategoryTree from './categoryGetters';
 import {buildBreadcrumbs} from '../useFacet/_utils';
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getAll(params: FacetSearchResult<Facet>, criteria?: FacetSearchCriteria): AgnosticFacet[] {
-  return [];
-}
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getGrouped(params: FacetSearchResult<Facet>, criteria?: FacetSearchCriteria): AgnosticGroupedFacet[] {
-  return [];
-}
+const normalizeFacet = (facet) => {
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getSortOptions(params: FacetSearchResult<Facet>): AgnosticSort {
   return {
-    options: [],
-    selected: ''
-  };
+    type: 'attribute',
+    id: facet.value,
+    value: facet.filterValue,
+    attrName: facet.label,
+    selected: facet.isApplied,
+    count: facet.count
+  }
 }
+const normalizeFacetGroup = (facets =[]) => {
+  return facets.map(facetGroup => {
+    return {
+      id: facetGroup.label,
+      label: facetGroup.label,
+      options: facetGroup.values.map(normalizeFacet),
+      count: null
+    }
+  })
+}
+const getAll = (searchData, criteria?: string[]): AgnosticFacet[] => {
+  const facets = searchData.data?.facets || [];
+  const includedFacets = facets.filter(facet => criteria.includes(facet.field.toLowerCase()))
+  return includedFacets.reduce((accum, facetGroup) => {
+    return [
+      ...accum,
+      ...normalizeFacetGroup(facetGroup)
+    ]
+  }, [])
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const getGrouped = (searchData, criteria?: string[]): AgnosticGroupedFacet[] =>{
+  const facets = searchData.data?.facets || [];
+  const includedFacets = facets.filter(facet => criteria.includes(facet.field.toLowerCase()))
+  return normalizeFacetGroup(includedFacets)
+};
+
+const getSortOptions = (searchData): AgnosticSort => { 
+    const options = [
+      { type:'sort', value: "Default", id: "", count: null},
+      { type:'sort', value: "Price: Low to High", id: "price asc" , count: null},
+      { type:'sort', value: "Price: High to Low", id: "price desc" , count: null},
+      { type:'sort', value: "Latest", id: "createDate desc" , count: null},
+      { type:'sort', value: "Oldest", id: "createDate asc" , count: null}
+    ].map(option => ({...option, selected: option.id === searchData.input.sort }))
+
+    const selected = options.find(option => option.selected)?.id || ""
+
+    return { options, selected };
+};
+
 const getCategoryTree = (searchData): AgnosticCategoryTree => {
   if (!searchData.data) {
     return {} as AgnosticCategoryTree;
@@ -37,41 +71,30 @@ const getCategoryTree = (searchData): AgnosticCategoryTree => {
   return buildCategoryTree.getTree(searchData.data.categories[0]);
 };
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getProducts(params: FacetSearchResult<Facet>): any {
-  return [
-    {
-      _id: 1,
-      _description: 'Some description',
-      _categoriesRef: [
-        '1',
-        '2'
-      ],
-      name: 'Black jacket',
-      sku: 'black-jacket',
-      images: [
-        'https://s3-eu-west-1.amazonaws.com/commercetools-maximilian/products/081223_1_large.jpg'
-      ],
-      price: {
-        original: 12.34,
-        current: 10.00
-      }
-    }
-  ];
-}
+const getProducts = (searchData): any => {
+  return searchData.data?.products;
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getPagination(params: FacetSearchResult<Facet>): AgnosticPagination {
+const getPagination = (searchData): AgnosticPagination => {
+  if(!searchData) {
+     return { 
+      currentPage: 1,
+      totalPages: 1,
+      totalItems: 0,
+      itemsPerPage: 10,
+      pageOptions: []
+     }
+  }
+
   return {
-    currentPage: 1,
-    totalPages: 1,
-    totalItems: 1,
-    itemsPerPage: 10,
-    pageOptions: []
+    currentPage: searchData.input?.page || 1,
+    totalPages: Math.ceil(searchData.data?.total / searchData.data?.itemsPerPage) || 1,
+    totalItems: searchData.data?.total || 0,
+    itemsPerPage: searchData.input?.itemsPerPage || 10,
+    pageOptions: searchData.data?.perPageOptions
   };
-}
+};
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => {
   if (!searchData.data) {
     return [];
