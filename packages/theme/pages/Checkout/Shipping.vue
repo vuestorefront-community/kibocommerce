@@ -321,7 +321,6 @@ export default {
       const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.address?.countryCode);
 
       return selectedCountry && selectedCountry.states;
-
     });
 
     const handleAddressSubmit = (reset) => async () => {
