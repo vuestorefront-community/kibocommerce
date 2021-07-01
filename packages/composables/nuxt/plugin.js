@@ -19,6 +19,28 @@ export default integrationPlugin(({ app, integration }) => {
       onTicketRemove: () => {
         app.$cookies.remove(AUTH_COOKIE_NAME);
       }
-    }
+    },
+    countries: [
+      {
+        name: 'US',
+        label: 'United States',
+        states: [
+          'California',
+          'Nevada'
+        ]
+      },
+      {
+        name: 'AT',
+        label: 'Austria'
+      },
+      {
+        name: 'DE',
+        label: 'Germany'
+      },
+      {
+        name: 'NL',
+        label: 'Netherlands'
+      }
+    ]
   });
 });
