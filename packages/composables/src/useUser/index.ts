@@ -15,23 +15,18 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
     console.log('Mocked: loadUserBB');
     return {};
   },
-
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logOut: async (context: Context) => {
-    console.log('logOut');
-    //await context.$kibo.api.logOutUser();
-    //await context.$ct.config?.auth?.onTokenRemove();
-    //context.setCart(null);
+    await context.$kibo.api.logOutUser();
+    context.setCart(null);
+    return;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
     console.log('Mocked: updateUser');
-    
     return {};
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   register: async (context: Context, { email, password, firstName, lastName }) => {
     const account = { emailAddress: email, firstName, lastName }
     const registerResponse = await context.$kibo.api.registerUser({ account, password });
@@ -40,9 +35,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
     //context.setCart(cart);
     return customerAccount
   },
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   logIn: async (context: Context, { username, password }) => {
-    console.log('logIn');
     const loginResponse = await context.$kibo.api.logInUser({ username, password });
     const customerAccount = loginResponse.data?.account?.customerAccount;
     //const cart = await context.$kibo.api.getCart()

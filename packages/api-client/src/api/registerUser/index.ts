@@ -1,5 +1,6 @@
 
 import { Context } from '@vue-storefront/core'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { CustomerAccountAndAuthInfo_Input, CustomerAccount, CustomerAuthTicket } from '../../types/GraphQL';
 import { createAccountLoginMutation, createAccountMutation } from './defaultMutation';
 
