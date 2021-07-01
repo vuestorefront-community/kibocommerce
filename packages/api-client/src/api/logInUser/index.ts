@@ -9,11 +9,12 @@ const loginUser = async (context:Context, params: any ): Promise<any> => {
     const variables = {
         loginInput: params
     };
+    //CustomerAuthTicket
     const loginResponse = await context.client.mutate({
         mutation,
         variables,
         fetchPolicy: 'no-cache'
-    }) as any;//CustomerAuthTicket
+    }) as any;
     
     return loginResponse
 }

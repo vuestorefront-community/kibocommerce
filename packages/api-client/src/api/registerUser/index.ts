@@ -37,19 +37,20 @@ function getCreateAccountLoginVars(id, password, account){
 
 const registerUser = async (context:Context, params: CustomerAccountAndAuthInfo_Input ): Promise<any> => {
 
+  //CustomerAccount
   const customerAccountResponse = await context.client.mutate({
     mutation: createAccountMutation,
     variables: getCreateAccountVars(params.account),
     fetchPolicy: 'no-cache'
-  }) as any;//CustomerAccount
+  }) as any;
 
   const id = customerAccountResponse.data?.account?.id;
-
+  //CustomerAuthTicket
   const customerAccountLoginResponse = await context.client.mutate({
       mutation: createAccountLoginMutation,
       variables: getCreateAccountLoginVars(id, params.password, params.account),
       fetchPolicy: 'no-cache'
-  }) as any; //CustomerAuthTicket
+  }) as any; 
 
   return customerAccountLoginResponse;
 };
