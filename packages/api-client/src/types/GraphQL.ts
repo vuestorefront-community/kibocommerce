@@ -9901,6 +9901,21 @@ export type MutationReceiveShipmentTransferArgs = {
   shipmentNumber: Scalars['Int'];
 };
 
+export type PrCategory = {
+  __typename?: "PrCategory"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrCategory>
+  categoryId: Scalars["Int"]
+  parentCategory?: Maybe<PrCategory>
+  categoryCode?: Maybe<Scalars["String"]>
+  content?: Maybe<CategoryContent>
+  childrenCategories?: Maybe<Array<Maybe<PrCategory>>>
+  sequence?: Maybe<Scalars["Int"]>
+  isDisplayed: Scalars["Boolean"]
+  count?: Maybe<Scalars["Int"]>
+  updateDate: Scalars["DateTime"]
+  shouldSlice: Scalars["Boolean"]
+}
 
 export type MutationSetShipmentPickupArgs = {
   shipmentNumber: Scalars['Int'];
@@ -9943,12 +9958,77 @@ export type MutationUpdateOrderPickupArgs = {
   pickup_Input: Pickup_Input;
 };
 
+export type PrProduct = {
+  __typename?: "PrProduct"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrProduct>
+  productCode?: Maybe<Scalars["String"]>
+  purchaseLocation?: Maybe<Scalars["String"]>
+  productSequence?: Maybe<Scalars["Int"]>
+  productUsage?: Maybe<Scalars["String"]>
+  fulfillmentTypesSupported?: Maybe<Array<Scalars["String"]>>
+  goodsType?: Maybe<Scalars["String"]>
+  bundledProducts?: Maybe<Array<Maybe<PrBundledProduct>>>
+  content?: Maybe<ProductContent>
+  purchasableState?: Maybe<ProductPurchasableState>
+  isActive?: Maybe<Scalars["Boolean"]>
+  publishState?: Maybe<Scalars["String"]>
+  price?: Maybe<PrProductPrice>
+  priceRange?: Maybe<ProductPriceRange>
+  volumePriceBands?: Maybe<Array<Maybe<ProductVolumePrice>>>
+  volumePriceRange?: Maybe<ProductPriceRange>
+  availableShippingDiscounts?: Maybe<Array<Maybe<PrDiscount>>>
+  productType?: Maybe<Scalars["String"]>
+  productTypeId?: Maybe<Scalars["Int"]>
+  isTaxable: Scalars["Boolean"]
+  isRecurring: Scalars["Boolean"]
+  pricingBehavior?: Maybe<ProductPricingBehaviorInfo>
+  inventoryInfo?: Maybe<ProductInventoryInfo>
+  createDate: Scalars["DateTime"]
+  updateDate: Scalars["DateTime"]
+  dateFirstAvailableInCatalog?: Maybe<Scalars["DateTime"]>
+  catalogStartDate?: Maybe<Scalars["DateTime"]>
+  catalogEndDate?: Maybe<Scalars["DateTime"]>
+  daysAvailableInCatalog?: Maybe<Scalars["Int"]>
+  upc?: Maybe<Scalars["String"]>
+  upCs?: Maybe<Array<Scalars["String"]>>
+  mfgPartNumber?: Maybe<Scalars["String"]>
+  mfgPartNumbers?: Maybe<Array<Scalars["String"]>>
+  variationProductCode?: Maybe<Scalars["String"]>
+  categories?: Maybe<Array<Maybe<PrCategory>>>
+  measurements?: Maybe<PrPackageMeasurements>
+  isPackagedStandAlone?: Maybe<Scalars["Boolean"]>
+  properties?: Maybe<Array<Maybe<PrProductProperty>>>
+  options?: Maybe<Array<Maybe<PrProductOption>>>
+  variations?: Maybe<Array<Maybe<VariationSummary>>>
+  validPriceLists?: Maybe<Array<Scalars["String"]>>
+  locationsInStock?: Maybe<Array<Scalars["String"]>>
+  slicingAttributeFQN?: Maybe<Scalars["String"]>
+  productImageGroups?: Maybe<Array<Maybe<ProductImageGroup>>>
+  sliceValue?: Maybe<Scalars["String"]>
+}
 
 export type MutationCreateOrderRefundArgs = {
   orderId: Scalars['String'];
   refund_Input: Refund_Input;
 };
 
+export type PrBundledProduct = {
+  __typename?: "PrBundledProduct"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrBundledProduct>
+  content?: Maybe<ProductContent>
+  productCode?: Maybe<Scalars["String"]>
+  goodsType?: Maybe<Scalars["String"]>
+  quantity: Scalars["Int"]
+  measurements?: Maybe<PrPackageMeasurements>
+  isPackagedStandAlone?: Maybe<Scalars["Boolean"]>
+  inventoryInfo?: Maybe<ProductInventoryInfo>
+  optionAttributeFQN?: Maybe<Scalars["String"]>
+  optionValue?: Maybe<Scalars["Object"]>
+  creditValue?: Maybe<Scalars["Float"]>
+  productType?: Maybe<Scalars["String"]>
+}
 
 export type MutationUpdateOrderRefundArgs = {
   orderId: Scalars['String'];
@@ -9967,6 +10047,15 @@ export type MutationDeleteOrderShipmentArgs = {
   shipmentId: Scalars['String'];
 };
 
+export type PrPackageMeasurements = {
+  __typename?: "PrPackageMeasurements"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrPackageMeasurements>
+  packageHeight?: Maybe<PrMeasurement>
+  packageWidth?: Maybe<PrMeasurement>
+  packageLength?: Maybe<PrMeasurement>
+  packageWeight?: Maybe<PrMeasurement>
+}
 
 export type MutationRepriceOrderShipmentArgs = {
   shipmentNumber: Scalars['Int'];
@@ -9974,6 +10063,13 @@ export type MutationRepriceOrderShipmentArgs = {
   repriceShipmentObject_Input: RepriceShipmentObject_Input;
 };
 
+export type PrMeasurement = {
+  __typename?: "PrMeasurement"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrMeasurement>
+  unit?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["Float"]>
+}
 
 export type MutationCreateOrderShipmentAdjustmentArgs = {
   orderId: Scalars['String'];
@@ -10002,12 +10098,38 @@ export type MutationUpdateOrderShopperNotesArgs = {
   shopperNotes_Input: ShopperNotes_Input;
 };
 
+export type PrProductPrice = {
+  __typename?: "PrProductPrice"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrProductPrice>
+  msrp?: Maybe<Scalars["Float"]>
+  price?: Maybe<Scalars["Float"]>
+  priceType?: Maybe<Scalars["String"]>
+  salePrice?: Maybe<Scalars["Float"]>
+  salePriceType?: Maybe<Scalars["String"]>
+  catalogSalePrice?: Maybe<Scalars["Float"]>
+  catalogListPrice?: Maybe<Scalars["Float"]>
+  discount?: Maybe<PrAppliedDiscount>
+  creditValue?: Maybe<Scalars["Float"]>
+  effectivePricelistCode?: Maybe<Scalars["String"]>
+  priceListEntryCode?: Maybe<Scalars["String"]>
+  priceListEntryMode?: Maybe<Scalars["String"]>
+}
 
 export type MutationUpdateOrderValidationResultsArgs = {
   orderId: Scalars['String'];
   orderValidationResult_Input: OrderValidationResult_Input;
 };
 
+export type PrAppliedDiscount = {
+  __typename?: "PrAppliedDiscount"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrAppliedDiscount>
+  couponCode?: Maybe<Scalars["String"]>
+  discount?: Maybe<PrDiscount>
+  discounts?: Maybe<Array<Maybe<PrDiscount>>>
+  impact: Scalars["Float"]
+}
 
 export type MutationUpdateOrderAdjustmentArgs = {
   orderId: Scalars['String'];
@@ -10016,6 +10138,16 @@ export type MutationUpdateOrderAdjustmentArgs = {
   adjustment_Input: Adjustment_Input;
 };
 
+export type PrDiscount = {
+  __typename?: "PrDiscount"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrDiscount>
+  discountId: Scalars["Int"]
+  expirationDate?: Maybe<Scalars["DateTime"]>
+  name?: Maybe<Scalars["String"]>
+  friendlyDescription?: Maybe<Scalars["String"]>
+  impact: Scalars["Float"]
+}
 
 export type MutationDeleteOrderAdjustmentArgs = {
   orderId: Scalars['String'];
@@ -10046,6 +10178,16 @@ export type MutationUpdateOrderHandlingAdjustmentArgs = {
   adjustment_Input: Adjustment_Input;
 };
 
+export type PrProductProperty = {
+  __typename?: "PrProductProperty"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrProductProperty>
+  attributeFQN?: Maybe<Scalars["String"]>
+  isHidden?: Maybe<Scalars["Boolean"]>
+  isMultiValue?: Maybe<Scalars["Boolean"]>
+  attributeDetail?: Maybe<AttributeDetail>
+  values?: Maybe<Array<Maybe<PrProductPropertyValue>>>
+}
 
 export type MutationDeleteOrderAdjustmentHandlingArgs = {
   orderId: Scalars['String'];
@@ -10059,6 +10201,18 @@ export type MutationCreateOrderAttributeArgs = {
   orderAttribute_Input: OrderAttribute_Input;
 };
 
+export type PrAttributeValidation = {
+  __typename?: "PrAttributeValidation"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrAttributeValidation>
+  regularExpression?: Maybe<Scalars["String"]>
+  minStringLength?: Maybe<Scalars["Int"]>
+  maxStringLength?: Maybe<Scalars["Int"]>
+  minNumericValue?: Maybe<Scalars["Float"]>
+  maxNumericValue?: Maybe<Scalars["Float"]>
+  minDateValue?: Maybe<Scalars["DateTime"]>
+  maxDateValue?: Maybe<Scalars["DateTime"]>
+}
 
 export type MutationUpdateOrderAttributesArgs = {
   orderId: Scalars['String'];
@@ -10066,6 +10220,14 @@ export type MutationUpdateOrderAttributesArgs = {
   orderAttribute_Input: OrderAttribute_Input;
 };
 
+export type PrProductPropertyValue = {
+  __typename?: "PrProductPropertyValue"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrProductPropertyValue>
+  value?: Maybe<Scalars["Object"]>
+  stringValue?: Maybe<Scalars["String"]>
+  displayInfo?: Maybe<AttributeVocabularyValueDisplayInfo>
+}
 
 export type MutationUpdateOrderBillingInfoArgs = {
   orderId: Scalars['String'];
@@ -10080,6 +10242,17 @@ export type MutationCancelOrderArgs = {
   canceledReason_Input: CanceledReason_Input;
 };
 
+export type PrProductOption = {
+  __typename?: "PrProductOption"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrProductOption>
+  attributeFQN?: Maybe<Scalars["String"]>
+  isRequired?: Maybe<Scalars["Boolean"]>
+  isMultiValue?: Maybe<Scalars["Boolean"]>
+  values?: Maybe<Array<Maybe<ProductOptionValue>>>
+  attributeDetail?: Maybe<AttributeDetail>
+  isProductImageGroupSelector: Scalars["Boolean"]
+}
 
 export type MutationDeleteOrderChangeMessageArgs = {
   orderId: Scalars['String'];
@@ -10239,12 +10412,15 @@ export type MutationUpdateOrderExtendedPropertiesArgs = {
 };
 
 
-export type MutationDeleteOrderExtendedPropertiesArgs = {
-  orderId: Scalars['String'];
-  updateMode?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-  graphQLString: Scalars['String'];
-};
+export type PrFacet = {
+  __typename?: "PrFacet"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<PrFacet>
+  label?: Maybe<Scalars["String"]>
+  facetType?: Maybe<Scalars["String"]>
+  field?: Maybe<Scalars["String"]>
+  values?: Maybe<Array<Maybe<FacetValue>>>
+}
 
 
 export type MutationUpdateOrderExtendedPropertyArgs = {
@@ -10311,60 +10487,121 @@ export type MutationUpdateOrderItemPriceArgs = {
 };
 
 
-export type MutationUpdateOrderItemQuantityArgs = {
-  orderId: Scalars['String'];
-  orderItemId: Scalars['String'];
-  quantity: Scalars['Int'];
-  updateMode?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-};
+export type CrProduct = {
+  __typename?: "CrProduct"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrProduct>
+  mfgPartNumber?: Maybe<Scalars["String"]>
+  upc?: Maybe<Scalars["String"]>
+  sku?: Maybe<Scalars["String"]>
+  fulfillmentTypesSupported?: Maybe<Array<Scalars["String"]>>
+  imageAlternateText?: Maybe<Scalars["String"]>
+  imageUrl?: Maybe<Scalars["String"]>
+  variationProductCode?: Maybe<Scalars["String"]>
+  options?: Maybe<Array<Maybe<CrProductOption>>>
+  properties?: Maybe<Array<Maybe<CrProductProperty>>>
+  categories?: Maybe<Array<Maybe<CrCategory>>>
+  price?: Maybe<CrProductPrice>
+  discountsRestricted?: Maybe<Scalars["Boolean"]>
+  discountsRestrictedStartDate?: Maybe<Scalars["DateTime"]>
+  discountsRestrictedEndDate?: Maybe<Scalars["DateTime"]>
+  isRecurring?: Maybe<Scalars["Boolean"]>
+  isTaxable?: Maybe<Scalars["Boolean"]>
+  productType?: Maybe<Scalars["String"]>
+  productUsage?: Maybe<Scalars["String"]>
+  bundledProducts?: Maybe<Array<Maybe<CrBundledProduct>>>
+  productCode?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+  description?: Maybe<Scalars["String"]>
+  goodsType?: Maybe<Scalars["String"]>
+  isPackagedStandAlone: Scalars["Boolean"]
+  stock?: Maybe<ProductStock>
+  productReservationId?: Maybe<Scalars["Int"]>
+  allocationId?: Maybe<Scalars["Int"]>
+  allocationExpiration?: Maybe<Scalars["DateTime"]>
+  measurements?: Maybe<CrPackageMeasurements>
+  fulfillmentStatus?: Maybe<Scalars["String"]>
+}
 
 
-export type MutationUpdateOrderItemDutyAmountArgs = {
-  orderId: Scalars['String'];
-  orderItemId: Scalars['String'];
-  dutyAmount: Scalars['Float'];
-  updateMode?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-};
+export type CrProductOption = {
+  __typename?: "CrProductOption"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrProductOption>
+  name?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["Object"]>
+  shopperEnteredValue?: Maybe<Scalars["Object"]>
+  attributeFQN?: Maybe<Scalars["String"]>
+  dataType?: Maybe<Scalars["String"]>
+  stringValue?: Maybe<Scalars["String"]>
+}
 
 
-export type MutationUpdateOrderItemFulfillmentArgs = {
-  orderId: Scalars['String'];
-  orderItemId: Scalars['String'];
-  updateMode?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-  orderItem_Input: CrOrderItem_Input;
-};
+export type CrProductProperty = {
+  __typename?: "CrProductProperty"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrProductProperty>
+  attributeFQN?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+  dataType?: Maybe<Scalars["String"]>
+  isMultiValue: Scalars["Boolean"]
+  values?: Maybe<Array<Maybe<CrProductPropertyValue>>>
+}
 
 
-export type MutationUpdateOrderItemDiscountArgs = {
-  orderId: Scalars['String'];
-  orderItemId: Scalars['String'];
-  discountId: Scalars['Int'];
-  updateMode?: Maybe<Scalars['String']>;
-  version?: Maybe<Scalars['String']>;
-  appliedDiscount_Input: CrAppliedDiscount_Input;
-};
+export type CrProductPropertyValue = {
+  __typename?: "CrProductPropertyValue"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrProductPropertyValue>
+  stringValue?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["Object"]>
+}
 
 
-export type MutationCreateOrderNoteArgs = {
-  orderId: Scalars['String'];
-  orderNote_Input: OrderNote_Input;
-};
+export type CrCategory = {
+  __typename?: "CrCategory"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrCategory>
+  id?: Maybe<Scalars["Int"]>
+  parent?: Maybe<CrCategory>
+}
 
 
-export type MutationUpdateOrderNotesArgs = {
-  orderId: Scalars['String'];
-  noteId: Scalars['String'];
-  orderNote_Input: OrderNote_Input;
-};
+export type CrProductPrice = {
+  __typename?: "CrProductPrice"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrProductPrice>
+  price?: Maybe<Scalars["Float"]>
+  salePrice?: Maybe<Scalars["Float"]>
+  tenantOverridePrice?: Maybe<Scalars["Float"]>
+  msrp?: Maybe<Scalars["Float"]>
+  creditValue?: Maybe<Scalars["Float"]>
+  priceListCode?: Maybe<Scalars["String"]>
+  priceListEntryMode?: Maybe<Scalars["String"]>
+}
 
 
-export type MutationDeleteOrderNoteArgs = {
-  orderId: Scalars['String'];
-  noteId: Scalars['String'];
-};
+export type CrBundledProduct = {
+  __typename?: "CrBundledProduct"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrBundledProduct>
+  quantity: Scalars["Int"]
+  optionAttributeFQN?: Maybe<Scalars["String"]>
+  optionValue?: Maybe<Scalars["Object"]>
+  creditValue?: Maybe<Scalars["Float"]>
+  deltaPrice?: Maybe<Scalars["Float"]>
+  productCode?: Maybe<Scalars["String"]>
+  name?: Maybe<Scalars["String"]>
+  description?: Maybe<Scalars["String"]>
+  goodsType?: Maybe<Scalars["String"]>
+  isPackagedStandAlone: Scalars["Boolean"]
+  stock?: Maybe<ProductStock>
+  productReservationId?: Maybe<Scalars["Int"]>
+  allocationId?: Maybe<Scalars["Int"]>
+  allocationExpiration?: Maybe<Scalars["DateTime"]>
+  measurements?: Maybe<CrPackageMeasurements>
+  fulfillmentStatus?: Maybe<Scalars["String"]>
+}
 
 
 export type MutationCreateOrderPackageArgs = {
@@ -10373,17 +10610,24 @@ export type MutationCreateOrderPackageArgs = {
 };
 
 
-export type MutationUpdateOrderPackageArgs = {
-  orderId: Scalars['String'];
-  packageId: Scalars['String'];
-  packageObj_Input: PackageObj_Input;
-};
+export type CrPackageMeasurements = {
+  __typename?: "CrPackageMeasurements"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrPackageMeasurements>
+  height?: Maybe<CrMeasurement>
+  width?: Maybe<CrMeasurement>
+  length?: Maybe<CrMeasurement>
+  weight?: Maybe<CrMeasurement>
+}
 
 
-export type MutationDeleteOrderPackageArgs = {
-  orderId: Scalars['String'];
-  packageId: Scalars['String'];
-};
+export type CrMeasurement = {
+  __typename?: "CrMeasurement"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrMeasurement>
+  unit?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["Float"]>
+}
 
 
 export type MutationCreateOrderPaymentActionArgs = {
@@ -10399,10 +10643,16 @@ export type MutationCreateOrderPaymentPaymentActionArgs = {
 };
 
 
-export type MutationCreateOrderAutoCaptureArgs = {
-  orderId: Scalars['String'];
-  forceCapture?: Maybe<Scalars['Boolean']>;
-};
+export type CrDiscount = {
+  __typename?: "CrDiscount"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrDiscount>
+  id: Scalars["Int"]
+  name?: Maybe<Scalars["String"]>
+  itemIds?: Maybe<Array<Scalars["String"]>>
+  expirationDate?: Maybe<Scalars["DateTime"]>
+  hasMultipleTargetProducts: Scalars["Boolean"]
+}
 
 
 export type MutationCreateOrderPickupArgs = {
@@ -10411,15 +10661,26 @@ export type MutationCreateOrderPickupArgs = {
 };
 
 
-export type MutationCreateOrderAttributeDefinitionArgs = {
-  attribute_Input: CrAttribute_Input;
-};
+export type CrAppliedDiscount = {
+  __typename?: "CrAppliedDiscount"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAppliedDiscount>
+  impact?: Maybe<Scalars["Float"]>
+  discount?: Maybe<CrDiscount>
+  couponCode?: Maybe<Scalars["String"]>
+  excluded?: Maybe<Scalars["Boolean"]>
+}
 
 
-export type MutationCreateOrderAttributeVocabularyValueArgs = {
-  attributeFQN: Scalars['String'];
-  attributeVocabularyValue_Input: CrAttributeVocabularyValue_Input;
-};
+export type CrAuditInfo = {
+  __typename?: "CrAuditInfo"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAuditInfo>
+  updateDate?: Maybe<Scalars["DateTime"]>
+  createDate?: Maybe<Scalars["DateTime"]>
+  updateBy?: Maybe<Scalars["String"]>
+  createBy?: Maybe<Scalars["String"]>
+}
 
 
 export type MutationUpdateOrderAttributeVocabularyValueArgs = {
@@ -10445,14 +10706,31 @@ export type MutationDeleteOrderAttributeVocabularyValuesArgs = {
 };
 
 
-export type MutationCreateOrderAttributeNamespaceArgs = {
-  namespace_Input: CrNamespace_Input;
-};
+export type CrPhone = {
+  __typename?: "CrPhone"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrPhone>
+  home?: Maybe<Scalars["String"]>
+  mobile?: Maybe<Scalars["String"]>
+  work?: Maybe<Scalars["String"]>
+}
 
 
-export type MutationDeleteOrderAttributeNamespaceArgs = {
-  namespace_Input: CrNamespace_Input;
-};
+export type CrAddress = {
+  __typename?: "CrAddress"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAddress>
+  address1?: Maybe<Scalars["String"]>
+  address2?: Maybe<Scalars["String"]>
+  address3?: Maybe<Scalars["String"]>
+  address4?: Maybe<Scalars["String"]>
+  cityOrTown?: Maybe<Scalars["String"]>
+  stateOrProvince?: Maybe<Scalars["String"]>
+  postalOrZipCode?: Maybe<Scalars["String"]>
+  countryCode?: Maybe<Scalars["String"]>
+  addressType?: Maybe<Scalars["String"]>
+  isValidated?: Maybe<Scalars["Boolean"]>
+}
 
 
 export type MutationFixMigrationOrderLineItemsArgs = {
@@ -10527,6 +10805,60 @@ export type MutationDeleteReturnArgs = {
   returnId: Scalars['String'];
 };
 
+export type CrOrderItem = {
+  __typename?: "CrOrderItem"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrOrderItem>
+  id?: Maybe<Scalars["String"]>
+  destinationId?: Maybe<Scalars["String"]>
+  originalCartItemId?: Maybe<Scalars["String"]>
+  fulfillmentLocationCode?: Maybe<Scalars["String"]>
+  fulfillmentMethod?: Maybe<Scalars["String"]>
+  dutyAmount?: Maybe<Scalars["Float"]>
+  expectedDeliveryDate?: Maybe<Scalars["DateTime"]>
+  localeCode?: Maybe<Scalars["String"]>
+  purchaseLocation?: Maybe<Scalars["String"]>
+  lineId?: Maybe<Scalars["Int"]>
+  product?: Maybe<CrProduct>
+  quantity: Scalars["Int"]
+  isRecurring?: Maybe<Scalars["Boolean"]>
+  isTaxable?: Maybe<Scalars["Boolean"]>
+  subtotal?: Maybe<Scalars["Float"]>
+  extendedTotal?: Maybe<Scalars["Float"]>
+  taxableTotal?: Maybe<Scalars["Float"]>
+  discountTotal?: Maybe<Scalars["Float"]>
+  discountedTotal?: Maybe<Scalars["Float"]>
+  itemTaxTotal?: Maybe<Scalars["Float"]>
+  shippingTaxTotal?: Maybe<Scalars["Float"]>
+  shippingTotal?: Maybe<Scalars["Float"]>
+  handlingAmount?: Maybe<Scalars["Float"]>
+  feeTotal?: Maybe<Scalars["Float"]>
+  total?: Maybe<Scalars["Float"]>
+  unitPrice?: Maybe<CommerceUnitPrice>
+  productDiscount?: Maybe<AppliedLineItemProductDiscount>
+  productDiscounts?: Maybe<Array<Maybe<AppliedLineItemProductDiscount>>>
+  shippingDiscounts?: Maybe<Array<Maybe<AppliedLineItemShippingDiscount>>>
+  data?: Maybe<Scalars["Object"]>
+  taxData?: Maybe<Scalars["Object"]>
+  auditInfo?: Maybe<CrAuditInfo>
+  shippingAmountBeforeDiscountsAndAdjustments?: Maybe<Scalars["Float"]>
+  weightedOrderAdjustment?: Maybe<Scalars["Float"]>
+  weightedOrderDiscount?: Maybe<Scalars["Float"]>
+  adjustedLineItemSubtotal?: Maybe<Scalars["Float"]>
+  totalWithoutWeightedShippingAndHandling?: Maybe<Scalars["Float"]>
+  weightedOrderTax?: Maybe<Scalars["Float"]>
+  weightedOrderShipping?: Maybe<Scalars["Float"]>
+  weightedOrderShippingDiscount?: Maybe<Scalars["Float"]>
+  weightedOrderShippingManualAdjustment?: Maybe<Scalars["Float"]>
+  weightedOrderShippingTax?: Maybe<Scalars["Float"]>
+  weightedOrderHandlingFee?: Maybe<Scalars["Float"]>
+  weightedOrderHandlingFeeTax?: Maybe<Scalars["Float"]>
+  weightedOrderHandlingFeeDiscount?: Maybe<Scalars["Float"]>
+  weightedOrderDuty?: Maybe<Scalars["Float"]>
+  totalWithWeightedShippingAndHandling?: Maybe<Scalars["Float"]>
+  weightedOrderHandlingAdjustment?: Maybe<Scalars["Float"]>
+  autoAddDiscountId?: Maybe<Scalars["Int"]>
+}
 
 export type MutationCreateReturnActionArgs = {
   returnAction_Input: ReturnAction_Input;
@@ -11072,28 +11404,89 @@ export type MutationDeleteAdminLocationTypeArgs = {
   locationTypeCode: Scalars['String'];
 };
 
+export type CrAttributeCollection = {
+  __typename?: "CrAttributeCollection"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeCollection>
+  startIndex: Scalars["Int"]
+  pageSize: Scalars["Int"]
+  pageCount: Scalars["Int"]
+  totalCount: Scalars["Int"]
+  items?: Maybe<Array<Maybe<CrAttribute>>>
+}
 
 export type MutationUpdateAppdataArgs = {
   dBEntry_Input: DbEntry_Input;
 };
 
+export type CrAttribute = {
+  __typename?: "CrAttribute"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttribute>
+  id?: Maybe<Scalars["Int"]>
+  adminName?: Maybe<Scalars["String"]>
+  namespace?: Maybe<Scalars["String"]>
+  attributeCode?: Maybe<Scalars["String"]>
+  inputType?: Maybe<Scalars["String"]>
+  valueType?: Maybe<Scalars["String"]>
+  dataType?: Maybe<Scalars["String"]>
+  attributeMetadata?: Maybe<Array<Maybe<CrAttributeMetadataItem>>>
+  attributeFQN?: Maybe<Scalars["String"]>
+  content?: Maybe<CrAttributeLocalizedContent>
+  validation?: Maybe<CrAttributeValidation>
+  vocabularyValues?: Maybe<Array<Maybe<CrAttributeVocabularyValue>>>
+  auditInfo?: Maybe<CrAuditInfo>
+  isActive?: Maybe<Scalars["Boolean"]>
+  isRequired?: Maybe<Scalars["Boolean"]>
+  isReadOnly: Scalars["Boolean"]
+  isMultiValued?: Maybe<Scalars["Boolean"]>
+  isVisible?: Maybe<Scalars["Boolean"]>
+  order?: Maybe<Scalars["Int"]>
+  displayGroup?: Maybe<Scalars["String"]>
+}
 
 export type MutationCreateAppdataEntryArgs = {
   dbEntryQuery: Scalars['String'];
   graphQLString: Scalars['String'];
 };
 
+export type CrAttributeMetadataItem = {
+  __typename?: "CrAttributeMetadataItem"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeMetadataItem>
+  key?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["String"]>
+}
 
 export type MutationUpdateAppdataEntryArgs = {
   dbEntryQuery: Scalars['String'];
   graphQLString: Scalars['String'];
 };
 
+export type CrAttributeLocalizedContent = {
+  __typename?: "CrAttributeLocalizedContent"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeLocalizedContent>
+  localeCode?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["String"]>
+}
 
 export type MutationDeleteAppdataEntryArgs = {
   dbEntryQuery: Scalars['String'];
 };
 
+export type CrAttributeValidation = {
+  __typename?: "CrAttributeValidation"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeValidation>
+  regularExpression?: Maybe<Scalars["String"]>
+  minStringLength?: Maybe<Scalars["Int"]>
+  maxStringLength?: Maybe<Scalars["Int"]>
+  minNumericValue?: Maybe<Scalars["Float"]>
+  maxNumericValue?: Maybe<Scalars["Float"]>
+  minDateTime?: Maybe<Scalars["DateTime"]>
+  maxDateTime?: Maybe<Scalars["DateTime"]>
+}
 
 export type MutationUpdateEntityListEntitiesArgs = {
   entityListFullName: Scalars['String'];
@@ -11101,12 +11494,28 @@ export type MutationUpdateEntityListEntitiesArgs = {
   httpRequestMessage_Input: MzdbHttpRequestMessage_Input;
 };
 
+export type CrAttributeVocabularyValue = {
+  __typename?: "CrAttributeVocabularyValue"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeVocabularyValue>
+  value?: Maybe<Scalars["String"]>
+  sequence?: Maybe<Scalars["Int"]>
+  isHidden?: Maybe<Scalars["Boolean"]>
+  content?: Maybe<CrAttributeValueLocalizedContent>
+}
 
 export type MutationDeleteEntityListEntityArgs = {
   entityListFullName: Scalars['String'];
   id: Scalars['String'];
 };
 
+export type CrAttributeValueLocalizedContent = {
+  __typename?: "CrAttributeValueLocalizedContent"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrAttributeValueLocalizedContent>
+  localeCode?: Maybe<Scalars["String"]>
+  value?: Maybe<Scalars["String"]>
+}
 
 export type MutationCreateEntityListEntityArgs = {
   entityListFullName: Scalars['String'];
@@ -16425,6 +16834,13 @@ export type SearchTuningRuleSolr = {
   boostBlockFunctions?: Maybe<Array<Maybe<SearchTuningRuleExpressionSolr>>>;
 };
 
+export type CrNamespace = {
+  __typename?: "CrNamespace"
+  _get?: Maybe<Scalars["AnyScalar"]>
+  _root?: Maybe<CrNamespace>
+  nameSpaceId?: Maybe<Scalars["Int"]>
+  name?: Maybe<Scalars["String"]>
+}
 
 export type SearchTuningRuleSolr_GetArgs = {
   path: Scalars['String'];

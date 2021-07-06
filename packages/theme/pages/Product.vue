@@ -225,7 +225,7 @@ export default {
     const product = computed(() => products.value[0]);
 
     const options = computed(() =>
-      productGetters.getOptions(product.value, ['color', 'size'])
+      productGetters.getOptions(product.value)
     );
     const configuration = computed(() =>
       productGetters.getConfiguration(product.value)
@@ -331,7 +331,9 @@ export default {
     MobileStoreBanner,
     LazyHydrate
   },
-  data() {}
+  data() {
+    return {};
+  }
 };
 </script>
 

@@ -3,35 +3,35 @@ import {
   useCartFactory,
   UseCartFactoryParams
 } from '@vue-storefront/core';
-import type {
-  Cart,
-  CartItem,
-  Product
-} from '@vue-storefront/<% INTEGRATION %>-api';
 
-const params: UseCartFactoryParams<Cart, CartItem, Product> = {
+import { Cart, CartItem, CrProduct, CrAppliedDiscount } from '../../../api-client/src/types/GraphQL';
+//
+
+const params: UseCartFactoryParams<Cart, CartItem, CrProduct, CrAppliedDiscount> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-    console.log('Mocked: useCart.load');
-    return {};
+    return await context.$kibo.api.getCart(null, customQuery);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
-    console.log('Mocked: useCart.addItem');
-    return {};
+    const cartItem = await context.$kibo.api.addToCart({ product, quantity }, customQuery);
+    currentCart.items.push(cartItem);
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
-    console.log('Mocked: useCart.removeItem');
-    return {};
+    await context.$kibo.api.removeFromCart({ product });
+    currentCart.items.splice(currentCart.items.indexOf(currentCart.items.find(ci => ci.id === product.id)));
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
-    console.log('Mocked: useCart.updateItemQty');
-    return {};
+    await context.$kibo.api.updateItemQty({ product, quantity });
+    currentCart.items.find(ci => ci.id === product.id).quantity = quantity;
+    return currentCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,4 +64,4 @@ const params: UseCartFactoryParams<Cart, CartItem, Product> = {
   }
 };
 
-export const useCart = useCartFactory<Cart, CartItem, Product>(params);
+export default useCartFactory<Cart, CartItem, CrProduct, CrAppliedDiscount>(params);

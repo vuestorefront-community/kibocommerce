@@ -117,7 +117,11 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
 
     const formatAttributes = (product: Product): AgnosticAttribute[] => {
       const attributes = [];
-      product.options?.filter(p => filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase())).forEach(p => {
+      const options = filterByAttributeName
+        ? product.options?.filter(p => filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()))
+        : product.options;
+
+      options.forEach(p => {
         attributes.push(...p.values.map(val => {
           if (val.value !== null)
             return {
@@ -211,14 +215,14 @@ export const getIsPurchasable = (product: Product): boolean => {
 
 export const getProductConfiguration = (product: Product): any => {
   const ret = {};
-  product.options.filter(o => ['tenant~size', 'tenant~color'].indexOf(o.attributeFQN) > -1).forEach(o => {
-    ret[o.attributeFQN.replace(/^tenant~/, '')] = o.values?.filter(v => v.isSelected)?.[0]?.value;
+  product.options.forEach(o => {
+    ret[o.attributeDetail?.name.toLowerCase()] = o.values?.filter(v => v.isSelected)?.[0]?.value;
   });
   return ret;
 };
 
 export const getProductInventory = (product: Product): number => {
-  if (product.inventoryInfo?.manageStock) return product.inventoryInfo.onlineStockAvailable;
+  if (product?.inventoryInfo?.manageStock) return product.inventoryInfo.onlineStockAvailable;
   return 100;
 };
 

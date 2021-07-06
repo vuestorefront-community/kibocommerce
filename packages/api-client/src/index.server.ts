@@ -11,6 +11,8 @@ import logInUser from './api/logInUser';
 import logOutUser from './api/logOutUser';
 import getCart from './api/getCart';
 import addToCart from './api/addToCart';
+import removeFromCart from './api/cart/removeFromCart';
+import updateItemQty from './api/cart/updateItemQuantity';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -35,16 +37,8 @@ const tryParse = (str: string) => {
 const ticketExtension: ApiClientExtension = {
   name: 'ticketExtension',
   hooks: (req, res) => {
-    const rawCurrentTicket = req.cookies[AUTH_COOKIE_NAME];
-    const currentTicket: UserAuthTicket = tryParse(rawCurrentTicket);
-
-    const setCookie: (res, authTicket: UserAuthTicket) => void = (res, authTicket) => {
-      res.cookie(
-        AUTH_COOKIE_NAME,
-        JSON.stringify(authTicket),
-        authTicket?.accessTokenExpiration ? { expires: new Date(authTicket.accessTokenExpiration) } : {}
-      );
-    };
+    const rawTicket = req.cookies[AUTH_COOKIE_NAME];
+    let currentTicket = tryParse(rawTicket);
 
     return {
       beforeCreate: ({ configuration }) => ({
@@ -52,17 +46,26 @@ const ticketExtension: ApiClientExtension = {
         clientAuthHooks: {
           onTicketChange: (authTicket: UserAuthTicket) => {
             if (!currentTicket || currentTicket.accessToken !== authTicket.accessToken) {
-              setCookie(res, authTicket);
+              currentTicket = authTicket;
+              res.cookie(
+                AUTH_COOKIE_NAME,
+                JSON.stringify(currentTicket),
+                currentTicket?.accessTokenExpiration ? { expires: new Date(currentTicket.accessTokenExpiration) } : {}
+              );
             }
           },
 
           onTicketRead: () => {
-            setCookie(res, currentTicket);
             return currentTicket;
           },
 
           onTicketRemove: () => {
-            delete req.cookies[AUTH_COOKIE_NAME];
+            res.cookie(
+              AUTH_COOKIE_NAME,
+              null,
+              { expires: new Date(0) }
+            );
+            currentTicket = undefined;
           }
         }
       })
@@ -79,7 +82,9 @@ const { createApiClient } = apiClientFactory<any, any>({
     registerUser,
     logOutUser,
     getCart,
-    addToCart
+    addToCart,
+    removeFromCart,
+    updateItemQty
   },
   extensions: [
     ticketExtension

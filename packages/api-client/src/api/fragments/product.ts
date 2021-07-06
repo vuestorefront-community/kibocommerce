@@ -63,6 +63,7 @@ export const productInfo = `
 fragment productInfo on Product {
         productCode
         productUsage
+        isPackagedStandAlone
         categories {
           categoryCode
           categoryId

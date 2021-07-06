@@ -19,12 +19,11 @@
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
     "kibo.apollo.typescript.client": "file:../../../Kibo.Apollo.Clients/Typescript",
-    "mozu-node-sdk": "^2.15.6",
     "graphql-tag": "^2.12.4"
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",
-    "@rollup/plugin-node-resolve": "^13.0.0"
+    "@rollup/plugin-node-resolve": "^13.0.0" 
   },
   "files": [
     "lib/**/*"
