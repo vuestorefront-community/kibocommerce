@@ -9,5 +9,5 @@ export default async function updateItemQuantity(context: Context, { product, qu
       quantity
     },
     fetchPolicy: 'no-cache'
-  }).data.updateCartItemQuantity;
+  });
 }

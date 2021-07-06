@@ -1,9 +1,9 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
-import { PrProduct } from 'packages/api-client/src/types/GraphQL';
+import { Product } from 'packages/api-client/src/types/GraphQL';
 import addToCurrentCartQuery from './defaultMutation';
 
 function buildAddToCartVariables({ product, quantity = 1 }: {
-  product: PrProduct,
+  product: Product,
   quantity: number;
 }) {
   return {
@@ -36,5 +36,5 @@ export default async function addToCart(context: Context, { product, quantity },
     mutation: addToCart.mutation,
     variables: addToCart.variables,
     fetchPolicy: 'no-cache'
-  }).data.addToCart;
+  });
 }

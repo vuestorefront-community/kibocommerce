@@ -6,10 +6,9 @@ export default async function getCart(context:Context, _, customQuery?: CustomQu
   const { cart } = context.extendQuery(customQuery,
     { cart: { query: defaultQuery } }
   );
-  const request = await context.client.query({
+  return await context.client.query({
     query: cart.query,
     variables: cart.variables,
     fetchPolicy: 'no-cache'
   });
-  return request.data.currentCart as Cart || {};
 }

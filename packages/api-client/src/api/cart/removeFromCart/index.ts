@@ -8,5 +8,5 @@ export default async function removeFromCart(context: Context, { product }): Pro
       id: product.id
     },
     fetchPolicy: 'no-cache'
-  }).data.deleteCartItem;
+  });
 }

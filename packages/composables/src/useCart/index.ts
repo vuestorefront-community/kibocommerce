@@ -10,28 +10,25 @@ import { Cart, CartItem, CrProduct, CrAppliedDiscount } from '../../../api-clien
 const params: UseCartFactoryParams<Cart, CartItem, CrProduct, CrAppliedDiscount> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-    return await context.$kibo.api.getCart(null, customQuery);
+    return await context.$kibo.api.getCart(null, customQuery).data.getCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
-    const cartItem = await context.$kibo.api.addToCart({ product, quantity }, customQuery);
-    currentCart.items.push(cartItem);
-    return currentCart;
+    await context.$kibo.api.addToCart({ product, quantity }, customQuery);
+    return await context.$kibo.api.getCart(null, customQuery).data.getCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   removeItem: async (context: Context, { currentCart, product, customQuery }) => {
     await context.$kibo.api.removeFromCart({ product });
-    currentCart.items.splice(currentCart.items.indexOf(currentCart.items.find(ci => ci.id === product.id)));
-    return currentCart;
+    return await context.$kibo.api.getCart(null, customQuery).data.getCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
     await context.$kibo.api.updateItemQty({ product, quantity });
-    currentCart.items.find(ci => ci.id === product.id).quantity = quantity;
-    return currentCart;
+    return await context.$kibo.api.getCart(null, customQuery).data.getCart;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
