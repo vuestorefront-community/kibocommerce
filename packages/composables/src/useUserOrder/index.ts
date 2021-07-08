@@ -3,16 +3,27 @@ import {
   useUserOrderFactory,
   UseUserOrderFactoryParams
 } from '@vue-storefront/core';
-import type { Order } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { Order } from '@vue-storefront/kibo-api';
 import type {
   useUserOrderSearchParams as SearchParams
 } from '../types';
 
-const params: UseUserOrderFactoryParams<Order, SearchParams> = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  searchOrders: async (context: Context, params) => {
-    console.log('Mocked: searchOrders');
-    return {};
+const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
+  searchOrders: async (context: Context, params: OrderSearchParams): Promise<OrdersResponse> => {
+    const { customQuery, ...searchParams } = params;
+
+    const orders = (await context.$kibo.api.searchOrders(searchParams, customQuery)).data?.orders;
+
+    if (orders)
+      return {
+        data: orders.items,
+        total: orders.items.length
+      };
+
+    return {
+      data: [],
+      total: 0
+    };
   }
 };
 

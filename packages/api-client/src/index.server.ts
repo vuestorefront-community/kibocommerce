@@ -20,6 +20,8 @@ import removeCoupon from './api/cart/removeCoupon';
 import getCheckout from './api/getCheckout';
 import getOrCreateCheckoutFromCart from './api/getOrCreateCheckoutFromCart';
 
+import searchOrders from './api/searchOrders';
+
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
 const onCreate = (settings) => ({
@@ -95,7 +97,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     applyCoupon,
     removeCoupon,
     getCheckout,
-    getOrCreateCheckoutFromCart
+    getOrCreateCheckoutFromCart,
+    searchOrders
   },
   extensions: [
     ticketExtension
