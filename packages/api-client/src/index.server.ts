@@ -14,6 +14,10 @@ import addToCart from './api/addToCart';
 import removeFromCart from './api/cart/removeFromCart';
 import updateItemQty from './api/cart/updateItemQuantity';
 
+import clearCart from './api/cart/clearCart';
+import applyCoupon from './api/cart/applyCoupon';
+import removeCoupon from './api/cart/removeCoupon';
+
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
 const onCreate = (settings) => ({
@@ -84,7 +88,10 @@ const { createApiClient } = apiClientFactory<any, any>({
     getCart,
     addToCart,
     removeFromCart,
-    updateItemQty
+    updateItemQty,
+    clearCart,
+    applyCoupon,
+    removeCoupon
   },
   extensions: [
     ticketExtension

@@ -215,7 +215,7 @@ export const getIsPurchasable = (product: Product): boolean => {
 
 export const getProductConfiguration = (product: Product): any => {
   const ret = {};
-  product.options.forEach(o => {
+  product?.options.forEach(o => {
     ret[o.attributeDetail?.name.toLowerCase()] = o.values?.filter(v => v.isSelected)?.[0]?.value;
   });
   return ret;

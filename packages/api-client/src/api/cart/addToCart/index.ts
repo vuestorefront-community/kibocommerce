@@ -14,7 +14,7 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
         productCode: product.productCode,
         isPackagedStandAlone: product.isPackagedStandAlone || true,
         variationProductCode: product.variationProductCode,
-        options: product.options.map(po => ({
+        options: product.options?.map(po => ({
           attributeFQN: po.attributeFQN,
           name: po.attributeDetail.name,
           value: po.values.find(v => v.isSelected).value
@@ -26,7 +26,7 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
   };
 }
 
-export default async function addToCart(context: Context, { product, quantity }, customQuery?: CustomQuery): Promise<void> {
+export default async function addToCart(context: Context, { product, quantity }, customQuery?: CustomQuery): Promise<any> {
   const variables = buildAddToCartVariables({ product, quantity });
 
   const { addToCart } = context.extendQuery(customQuery,

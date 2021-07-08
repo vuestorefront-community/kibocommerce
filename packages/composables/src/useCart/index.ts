@@ -10,59 +10,44 @@ const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(null, customQuery);
   return response.data.currentCart;
 };
-//
 
 const params: UseCartFactoryParams<Cart, CartItem, CrProduct, CrAppliedDiscount> = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
     return await getCart(context, customQuery);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  addItem: async (context: Context, { currentCart, product, quantity, customQuery }) => {
+  addItem: async (context: Context, { product, quantity, customQuery }) => {
     await context.$kibo.api.addToCart({ product, quantity }, customQuery);
     return await getCart(context, customQuery);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeItem: async (context: Context, { currentCart, product, customQuery }) => {
+  removeItem: async (context: Context, { product, customQuery }) => {
     await context.$kibo.api.removeFromCart({ product });
     return await getCart(context, customQuery);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  updateItemQty: async (context: Context, { currentCart, product, quantity, customQuery }) => {
+  updateItemQty: async (context: Context, { product, quantity, customQuery }) => {
     await context.$kibo.api.updateItemQty({ product, quantity });
     return await getCart(context, customQuery);
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  clear: async (context: Context, { currentCart }) => {
-    console.log('Mocked: useCart.clear');
-    return {};
+  clear: async (context: Context) => {
+    return await context.$kibo.api.clearCart().data.deleteCurrentCartItems;
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
-    console.log('Mocked: useCart.applyCoupon');
-    return {
-      updatedCart: {},
-      updatedCoupon: {}
-    };
+    await context.$kibo.api.applyCoupon(context, { cartId: currentCart.id, couponCode });
+    return { updatedCart: await getCart(context, customQuery) };
   },
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
-    console.log('Mocked: useCart.removeCoupon');
-    return {
-      updatedCart: {}
-    };
+  removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
+    await context.$kibo.api.removeCoupon(context, { cartId: currentCart.id, couponCode: coupon });
+    return { updatedCart: await getCart(context, customQuery) };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInCart: (context: Context, { currentCart, product }) => {
-    console.log('Mocked: useCart.isInCart');
-    return false;
+    return currentCart?.items?.find(i => i.product.productCode === product.productCode) !== null;
   }
 };
 

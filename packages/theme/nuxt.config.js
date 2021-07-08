@@ -93,6 +93,7 @@ export default {
       { code: 'en', label: 'English', file: 'en.js', iso: 'en' },
       { code: 'de', label: 'German', file: 'de.js', iso: 'de' }
     ],
+    locales: ['en'],
     defaultLocale: 'en',
     lazy: true,
     seo: true,
@@ -109,6 +110,14 @@ export default {
           currency: {
             style: 'currency', currency: 'EUR', currencyDisplay: 'symbol'
           }
+        }
+      },
+      messages: {
+        en: {
+          welcome: 'Welcome'
+        },
+        de: {
+          welcome: 'Wilkommen'
         }
       }
     },

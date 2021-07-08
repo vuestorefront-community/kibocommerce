@@ -72,7 +72,7 @@ export default async function getProduct(context: Context, params: ProductsSearc
 
       const productsList = key === 'products' ? request.data.products.items : [request.data.product];
 
-      if (key === 'product' && Object.keys(params.attributes).length > 0) {
+      if (key === 'product' && params.attributes && Object.keys(params.attributes).length > 0) {
         const attributes = Object.keys(params.attributes).map(a => ({
           attributeFQN: `tenant~${a}`,
           value: params.attributes[a]

@@ -1,26 +1,12 @@
 import gql from 'graphql-tag';
-import cartItemDetails from '../../fragments/cartItemDetails';
+import cartDetails from '../../fragments/cartDetails';
 
 export default gql`
-${cartItemDetails}
+${cartDetails}
 
 query cart {
   currentCart {
-    id
-    orderDiscounts {
-      impact
-      discount {
-        id
-        name        
-      }
-      couponCode
-    }
-    subtotal
-    shippingTotal
-    total
-    items {
-      ...cartItemDetails
-    }
+    ...cartDetails
   }
 }
 `;
