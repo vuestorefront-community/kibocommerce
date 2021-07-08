@@ -7,7 +7,7 @@ export type Category = Record<string, unknown>;
 export type User = {
   firstName?: string;
   lastName?: string;
-  email?: string;
+  emailAddress?: string;
 };
 
 export type UserAddress = Record<string, unknown>;

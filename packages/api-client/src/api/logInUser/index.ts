@@ -1,22 +1,25 @@
-import { Context } from '@vue-storefront/core'
-// import { CustomerUserAuthInfo_Input, CustomerAuthTicket } from '../../types/GraphQL'
-import mutation from './defaultMutation'
+/* eslint camelcase: "warn"*/
 
+import { Context } from '@vue-storefront/core';
+import { KiboApolloClient } from 'kibo.apollo.typescript.client';
+import { CustomerUserAuthInfo_Input } from '../../types/GraphQL';
+import mutation from './defaultMutation';
 
-//const loginUser = async (context:Context, params: CustomerUserAuthInfo_Input ): Promise<any> => {
-const loginUser = async (context:Context, params: any ): Promise<any> => {
+const loginUser = async (context:Context, params:CustomerUserAuthInfo_Input): Promise<any> => {
 
-    const variables = {
-        loginInput: params
-    };
-    //CustomerAuthTicket
-    const loginResponse = await context.client.mutate({
-        mutation,
-        variables,
-        fetchPolicy: 'no-cache'
-    }) as any;
-    
-    return loginResponse
-}
+  const client = context.client as KiboApolloClient;
+  const { username, password } = params;
+  await client.authClient.customerPasswordAuth({ username, password });
 
-export default loginUser
+  /* TODO: Switch this for "getCurrentUser" once Thom has deployed that API */
+  const variables = { loginInput: params };
+  const loginResponse = await context.client.mutate({
+    mutation,
+    variables,
+    fetchPolicy: 'no-cache'
+  }) as any;
+
+  return loginResponse;
+};
+
+export default loginUser;

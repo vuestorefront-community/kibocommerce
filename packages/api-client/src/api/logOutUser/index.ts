@@ -1,12 +1,9 @@
-const logOutUser = async ({ config, client }) => {
-    if (config.auth.onTokenRemove) {
-      config.auth.onTokenRemove();
-    }
-  
-    if (client.tokenProvider) {
-      client.tokenProvider.invalidateTokenInfo();
-    }
-  };
-  
-  export default logOutUser;
-  
+import { Context } from '@vue-storefront/core';
+
+const logOutUser = async (context:Context) => {
+  if (context.client.ticketManager) {
+    context.client.ticketManager.invalidateTicket();
+  }
+};
+
+export default logOutUser;
