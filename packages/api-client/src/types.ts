@@ -1,8 +1,6 @@
 /* eslint-disable */
 import { Product } from './types/GraphQL';
 
-export type Cart = Record<string, unknown>;
-export type Wishlist = Record<string, unknown>;
 export type ProductCategory = {
   categoryId: number;
   parentCategory?: ProductCategory;
