@@ -18,7 +18,7 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   logOut: async (context: Context) => {
     await context.$kibo.api.logOutUser();
     context.setCart(null);
-    return;
+
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -28,18 +28,17 @@ const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
   },
 
   register: async (context: Context, { email, password, firstName, lastName }) => {
-    const account = { emailAddress: email, firstName, lastName }
+    const account = { emailAddress: email, firstName, lastName };
     const registerResponse = await context.$kibo.api.registerUser({ account, password });
     const customerAccount = registerResponse.data?.account?.customerAccount;
-    //const cart = await context.$kibo.api.getCart()
-    //context.setCart(cart);
-    return customerAccount
+    // const cart = await context.$kibo.api.getCart()
+    // context.setCart(cart);
+    return customerAccount;
   },
   logIn: async (context: Context, { username, password }) => {
-    const loginResponse = await context.$kibo.api.logInUser({ username, password });
-    const customerAccount = loginResponse.data?.account?.customerAccount;
-    //const cart = await context.$kibo.api.getCart()
-    //context.setCart(cart);
+    const { customerAccount } = await context.$kibo.api.logInUser({ username, password });
+    // const cart = await context.$kibo.api.getCart()
+    // context.setCart(cart);
     return customerAccount;
   },
 
