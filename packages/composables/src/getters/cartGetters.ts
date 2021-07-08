@@ -58,14 +58,23 @@ function getFormattedPrice(price: number): string {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getCoupons(cart: Cart): AgnosticCoupon[] {
-  return [];
-}
+export const getCoupons = (cart: Cart): AgnosticCoupon[] =>
+  cart?.orderDiscounts?.filter(d => d.couponCode !== null).map(d => ({
+    id: d.discount?.id.toString(),
+    name: d.discount?.name,
+    code: d.couponCode,
+    value: d.impact
+  }));
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getDiscounts(cart: Cart): AgnosticDiscount[] {
-  return [];
-}
+export const getDiscounts = (cart: Cart): AgnosticDiscount[] =>
+  cart?.orderDiscounts?.map(d => ({
+    id: d.discount?.id.toString(),
+    name: d.discount?.name,
+    description: d.discount?.name,
+    value: d.impact,
+    code: d.couponCode
+  }));
 
 const cartGetters: CartGetters<Cart, CartItem> = {
   getTotals: getCartTotals,
