@@ -36,12 +36,12 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, CrAppliedDiscount>
   },
 
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {
-    await context.$kibo.api.applyCoupon(context, { cartId: currentCart.id, couponCode });
+    await context.$kibo.api.applyCoupon({ cartId: currentCart.id, couponCode });
     return { updatedCart: await getCart(context, customQuery) };
   },
 
   removeCoupon: async (context: Context, { currentCart, coupon, customQuery }) => {
-    await context.$kibo.api.removeCoupon(context, { cartId: currentCart.id, couponCode: coupon });
+    await context.$kibo.api.removeCoupon({ cartId: currentCart.id, couponCode: coupon });
     return { updatedCart: await getCart(context, customQuery) };
   },
 

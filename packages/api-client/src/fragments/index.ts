@@ -12,7 +12,7 @@ fragment categoryInfo on PrCategory {
 }`;
 
 export const searchFacets = `
-fragment searchFacets on pr_Facet {
+fragment searchFacets on Facet {
     label
     field
     values {
