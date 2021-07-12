@@ -1,4 +1,5 @@
-import { productInfo } from '../api/fragments/product'
+export { baseCheckoutInfo, checkoutLineItemInfo } from './checkout';
+import { productInfo } from '../api/fragments/product';
 
 export const CategoryInfo = `
 fragment categoryInfo on PrCategory {

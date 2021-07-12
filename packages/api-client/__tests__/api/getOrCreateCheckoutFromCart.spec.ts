@@ -1,5 +1,5 @@
-import getOrCreateCheckout from '../../src/api/getOrCreateCheckout';
-import defaultMutation from '../../src/api/getOrCreateCheckout/defaultMutation';
+import getOrCreateCheckout from '../../src/api/getOrCreateCheckoutFromCart';
+import defaultMutation from '../../src/api/getOrCreateCheckoutFromCart/defaultMutation';
 
 describe('[kibo-api-client] getOrCreateCheckout', () => {
   beforeEach(() => {
