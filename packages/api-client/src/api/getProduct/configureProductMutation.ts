@@ -3,12 +3,12 @@ import gql from 'graphql-tag';
 export default gql`
   mutation configureProduct(
     $productCode: String!,
-    $selectedOptions: ProductOptionSelections_Input!
+    $selectedOptions: ProductOptionSelectionsInput!
   ) {
     configureProduct(
       productCode: $productCode, 
       includeOptionDetails:true, 
-      productOptionSelections_Input: $selectedOptions
+      productOptionSelectionsInput: $selectedOptions
     ) {
       productCode
       variationProductCode

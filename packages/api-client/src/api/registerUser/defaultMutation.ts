@@ -1,8 +1,8 @@
-import gql from 'graphql-tag'
+import gql from 'graphql-tag';
 
 const createAccountAndLoginMutation = gql`
-mutation registerUser($inp: CustomerAccountAndAuthInfo_Input!) {
-    account:createCustomerAccountAndLogin(customerAccountAndAuthInfo_Input:$inp) {
+mutation registerUser($inp: CustomerAccountAndAuthInfoInput!) {
+    account:createCustomerAccountAndLogin(customerAccountAndAuthInfoInput:$inp) {
           customerAccount {
             emailAddress
             userName
@@ -19,11 +19,11 @@ mutation registerUser($inp: CustomerAccountAndAuthInfo_Input!) {
       userId
       accessToken
     }
-}`
+}`;
 
 const createAccountMutation = gql`
-mutation registerUser($createAccountInput: CustomerAccount_Input!) {
-    account:createCustomerAccount(customerAccount_Input:$createAccountInput) {
+mutation registerUser($createAccountInput: CustomerAccountInput!) {
+    account:createCustomerAccount(customerAccountInput:$createAccountInput) {
           emailAddress
           userName
           firstName
@@ -37,11 +37,11 @@ mutation registerUser($createAccountInput: CustomerAccount_Input!) {
             fullyQualifiedName
           }
       }
-}`
+}`;
 
 const createAccountLoginMutation = gql`
-mutation registerUserLogin($id: Int!, $createAccountLoginInput: CustomerLoginInfo_Input!) {
-    account:createCustomerAccountLogin(accountId:$id, customerLoginInfo_Input:$createAccountLoginInput) {
+mutation registerUserLogin($id: Int!, $createAccountLoginInput: CustomerLoginInfoInput!) {
+    account:createCustomerAccountLogin(accountId:$id, customerLoginInfoInput:$createAccountLoginInput) {
         accessToken
         accessTokenExpiration
         refreshToken
@@ -54,13 +54,12 @@ mutation registerUserLogin($id: Int!, $createAccountLoginInput: CustomerLoginInf
             userName
         }
     }
-}`
+}`;
 
-export default createAccountAndLoginMutation
+export default createAccountAndLoginMutation;
 
 export {
-    createAccountMutation, 
-    createAccountLoginMutation
-}
-
+  createAccountMutation,
+  createAccountLoginMutation
+};
 

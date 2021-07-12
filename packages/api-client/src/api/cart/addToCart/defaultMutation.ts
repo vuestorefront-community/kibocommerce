@@ -4,8 +4,8 @@ import cartItemDetails from '../../fragments/cartItemDetails';
 const addToCurrentCartQuery = gql`
 ${cartItemDetails}
 
-mutation addToCart($productToAdd:CartItem_Input!){
-    addItemToCurrentCart(cartItem_Input: $productToAdd) {
+mutation addToCart($productToAdd:CartItemInput!){
+    addItemToCurrentCart(cartItemInput: $productToAdd) {
       ...cartItemDetails
     }
 }`;
