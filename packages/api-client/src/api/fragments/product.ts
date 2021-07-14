@@ -72,6 +72,9 @@ fragment productInfo on Product {
             slug
           }
         }
+        purchasableState {
+          isPurchasable
+        }
         ...productPrices
         ...productAttributes
         ...productContent

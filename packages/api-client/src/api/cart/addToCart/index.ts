@@ -21,7 +21,8 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
         }))
       },
       quantity,
-      fulfillmentMethod: 'Ship'
+      fulfillmentMethod: 'Ship',
+      isAssemblyRequired: true
     }
   };
 }
