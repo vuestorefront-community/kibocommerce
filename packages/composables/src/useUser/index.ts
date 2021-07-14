@@ -3,22 +3,17 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import type { User } from '@vue-storefront/kibo-api';
-import type {
-  UseUserUpdateParams as UpdateParams,
-  UseUserRegisterParams as RegisterParams
-} from '../types';
+import { User } from '../types';
 
-const params: UseUserFactoryParams<User, UpdateParams, RegisterParams> = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+const params: UseUserFactoryParams<User, any, any> = {
   load: async (context: Context) => {
-    console.log('Mocked: loadUserBB');
-    return {};
+    const customerAccountResponse = context.$kibo.api.getCurrentUser();
+    const customerAccount = customerAccountResponse.data?.customerAccount;
+    return customerAccount;
   },
   logOut: async (context: Context) => {
     await context.$kibo.api.logOutUser();
     context.setCart(null);
-
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

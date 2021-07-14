@@ -9,12 +9,13 @@ import getCategory from './api/getCategory';
 import registerUser from './api/registerUser';
 import logInUser from './api/logInUser';
 import logOutUser from './api/logOutUser';
-import getCart from './api/getCart';
-import addToCart from './api/addToCart';
+import getCurrentUser from './api/getCurrentUser';
+
+import getCart from './api/cart/getCart';
+import clearCart from './api/cart/clearCart';
+import addToCart from './api/cart/addToCart';
 import removeFromCart from './api/cart/removeFromCart';
 import updateItemQty from './api/cart/updateItemQuantity';
-
-import clearCart from './api/cart/clearCart';
 import applyCoupon from './api/cart/applyCoupon';
 import removeCoupon from './api/cart/removeCoupon';
 import getCheckout from './api/getCheckout';
@@ -89,6 +90,7 @@ const { createApiClient } = apiClientFactory<any, any>({
     logInUser,
     registerUser,
     logOutUser,
+    getCurrentUser,
     getCart,
     addToCart,
     removeFromCart,
