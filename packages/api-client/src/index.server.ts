@@ -71,7 +71,7 @@ const ticketExtension: ApiClientExtension = {
           onTicketRemove: () => {
             res.cookie(
               AUTH_COOKIE_NAME,
-              null,
+              'expire',
               { expires: new Date(0) }
             );
             currentTicket = undefined;

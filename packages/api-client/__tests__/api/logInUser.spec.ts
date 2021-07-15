@@ -1,5 +1,4 @@
 import logInUser from '../../src/api/logInUser';
-import defaultMutation from '../../src/api/logInUser/defaultMutation';
 
 describe('[kibo-api-client] logInUser', () => {
   beforeEach(() => {
@@ -8,8 +7,8 @@ describe('[kibo-api-client] logInUser', () => {
 
   it('creates user session', async () => {
     const givenVariables = {
-        username: 'kevin.watts@kibocommerce.com',
-        password: '12345'
+      username: 'kevin.watts@kibocommerce.com',
+      password: '12345'
     };
 
     const context = {
@@ -19,15 +18,14 @@ describe('[kibo-api-client] logInUser', () => {
         currency: 'USD'
       },
       client: {
-        mutate: ({ variables, mutation }) => {
-          expect(variables).toEqual(givenVariables);
-          expect(mutation).toEqual(defaultMutation);
+        loginCustomerAndSetAuthTicket: (params) =>{
+          expect(params).toEqual(givenVariables);
           return { data: 'user response' };
         }
       }
     };
 
-    const { data } = await logInUser(context, givenVariables);
+    const { data } = await logInUser(context, givenVariables) as any;
     expect(data).toBe('user response');
   });
 });

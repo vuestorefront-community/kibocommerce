@@ -4,10 +4,10 @@ import { KiboApolloClient } from 'kibo.apollo.typescript.client';
 import { CustomerUserAuthInfoInput, CustomerAuthTicket } from '../../types/GraphQL';
 
 const loginUser = async (context:Context, params:CustomerUserAuthInfoInput): Promise<CustomerAuthTicket> => {
-
   const client = context.client as KiboApolloClient;
   const { username, password } = params;
-  return await client.authClient.customerPasswordAuth({ username, password });
+  const loginResponse = await client.loginCustomerAndSetAuthTicket({ username, password }) as any;
+  return loginResponse;
 };
 
 export default loginUser;

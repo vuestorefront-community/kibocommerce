@@ -7,7 +7,7 @@ import { User } from '../types';
 
 const params: UseUserFactoryParams<User, any, any> = {
   load: async (context: Context) => {
-    const customerAccountResponse = context.$kibo.api.getCurrentUser();
+    const customerAccountResponse = await context.$kibo.api.getCurrentUser();
     const customerAccount = customerAccountResponse.data?.customerAccount;
     return customerAccount;
   },
