@@ -3,22 +3,34 @@ import {
   useBillingFactory,
   UseBillingParams
 } from '@vue-storefront/core';
-import type { BillingAddress } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { BillingAddress } from '@vue-storefront/kibo-api';
 import type {
   UseBillingAddParams as AddParams
 } from '../types';
 
-const params: UseBillingParams<BillingAddress, AddParams> = {
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load: async (context: Context, { customQuery }) => {
-    console.log('Mocked: useBilling.load');
-    return {};
-  },
+// let details = {};
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  save: async (context: Context, { params, billingDetails, customQuery }) => {
-    console.log('Mocked: useBilling.save');
-    return {};
+const getOrderId = async (context) => {
+  const cartResponse = await context.$kibo.api.getCart();
+  const cartId = cartResponse.data?.currentCart?.id;
+  if (!cartId) {
+    return '';
+  }
+  const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId });
+  return checkoutResponse.data?.order?.id;
+};
+
+const params: UseBillingParams<Address, any> = {
+  load: async (context: Context, { customQuery }) => {
+    const orderId = await getOrderId(context);
+    const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId }, customQuery);
+    return billingInfoResponse.data?.orderBillingInfo?.billingContact;
+  },
+  save: async (context: Context, { billingDetails, customQuery }) => {
+    const orderId = await getOrderId(context);
+    const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId, billingDetails }, customQuery);
+    const billingInfo = billingInfoResponse.data?.updateOrderBillingInfo?.billingContact;
+    return billingInfo;
   }
 };
 

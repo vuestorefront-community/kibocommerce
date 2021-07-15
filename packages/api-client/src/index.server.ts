@@ -20,6 +20,8 @@ import applyCoupon from './api/cart/applyCoupon';
 import removeCoupon from './api/cart/removeCoupon';
 import getCheckout from './api/getCheckout';
 import getOrCreateCheckoutFromCart from './api/getOrCreateCheckoutFromCart';
+import getBillingInfo from './api/getBillingInfo';
+import setBillingInfo from './api/setBillingInfo';
 
 import changePassword from './api/changePassword';
 import searchOrders from './api/searchOrders';
@@ -114,7 +116,9 @@ const { createApiClient } = apiClientFactory<any, any>({
     setShippingAddress,
     getShipmentMethod,
     setShipmentMethod,
-    updateCustomerPersonalData
+    updateCustomerPersonalData,
+    getBillingInfo,
+    setBillingInfo
   },
   extensions: [
     ticketExtension

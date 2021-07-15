@@ -26,7 +26,8 @@ export default integrationPlugin(({ app, integration }) => {
         label: 'United States',
         states: [
           'California',
-          'Nevada'
+          'Nevada',
+          'TX'
         ]
       },
       {
