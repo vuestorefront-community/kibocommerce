@@ -20,6 +20,7 @@ import applyCoupon from './api/cart/applyCoupon';
 import removeCoupon from './api/cart/removeCoupon';
 import getCheckout from './api/getCheckout';
 import getOrCreateCheckoutFromCart from './api/getOrCreateCheckoutFromCart';
+import changePassword from './api/changePassword';
 
 import searchOrders from './api/searchOrders';
 
@@ -100,7 +101,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     removeCoupon,
     getCheckout,
     getOrCreateCheckoutFromCart,
-    searchOrders
+    searchOrders,
+    changePassword
   },
   extensions: [
     ticketExtension

@@ -8,6 +8,7 @@ export type User = {
   firstName?: string;
   lastName?: string;
   emailAddress?: string;
+  userId?: string;
 };
 
 export type UserAddress = Record<string, unknown>;

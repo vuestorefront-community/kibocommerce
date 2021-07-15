@@ -22,25 +22,48 @@ const params: UseUserFactoryParams<User, any, any> = {
     return {};
   },
 
-  register: async (context: Context, { email, password, firstName, lastName }) => {
+  register: async (
+    context: Context,
+    { email, password, firstName, lastName }
+  ) => {
     const account = { emailAddress: email, firstName, lastName };
-    const registerResponse = await context.$kibo.api.registerUser({ account, password });
+    const registerResponse = await context.$kibo.api.registerUser({
+      account,
+      password
+    });
     const customerAccount = registerResponse.data?.account?.customerAccount;
     // const cart = await context.$kibo.api.getCart()
     // context.setCart(cart);
     return customerAccount;
   },
   logIn: async (context: Context, { username, password }) => {
-    const { customerAccount } = await context.$kibo.api.logInUser({ username, password });
+    const { customerAccount } = await context.$kibo.api.logInUser({
+      username,
+      password
+    });
     // const cart = await context.$kibo.api.getCart()
     // context.setCart(cart);
     return customerAccount;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  changePassword: async (context: Context, { currentUser, currentPassword, newPassword }) => {
-    console.log('Mocked: useUser.changePassword');
-    return {};
+  changePassword: async (
+    context: Context,
+    { currentUser, currentPassword, newPassword }
+  ) => {
+    currentUser.userId = 'd92eb105d5fc404c9bbff99ba0c80026';
+    currentPassword = 'Deep.laha4@';
+    newPassword = 'Deep.laha4@D';
+    const response = await context.$kibo.api.changePassword({
+      accountId: 1069,
+      unlockAccount: true,
+      userId: currentUser.userId,
+      passwordInfoInput: {
+        oldPassword: currentPassword,
+        newPassword: newPassword
+      }
+    });
+    return response;
   }
 };
 
