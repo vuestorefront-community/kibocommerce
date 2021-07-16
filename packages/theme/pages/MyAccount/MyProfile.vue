@@ -17,9 +17,9 @@
     <!-- Password reset -->
     <SfTab title="Password change">
       <p class="message">
-        {{ $t('Change password your account') }}:<br />
+        {{ $t('Change password of your account') }}:<br />
         {{ $t('Your current email address is') }}
-        <span class="message__label">example@email.com</span>
+        <span class="message__label">{{ currentUserEmailAddress }}</span>
       </p>
 
       <PasswordResetForm @submit="updatePassword" />
@@ -33,7 +33,7 @@ import { email, required, min, confirmed } from 'vee-validate/dist/rules';
 import ProfileUpdateForm from '~/components/MyAccount/ProfileUpdateForm';
 import PasswordResetForm from '~/components/MyAccount/PasswordResetForm';
 import { SfTabs, SfInput, SfButton } from '@storefront-ui/vue';
-import { useUser } from '@vue-storefront/kibo';
+import { useUser, userGetters } from '@vue-storefront/kibo';
 
 extend('email', {
   ...email,
@@ -51,8 +51,12 @@ extend('min', {
 });
 
 extend('password', {
-  validate: value => String(value).length >= 8 && String(value).match(/[A-Za-z]/gi) && String(value).match(/[0-9]/gi),
-  message: 'Password must have at least 8 characters including one letter and a number'
+  validate: (value) =>
+    String(value).length >= 8 &&
+    String(value).match(/[A-Za-z]/gi) &&
+    String(value).match(/[0-9]/gi),
+  message:
+    'Password must have at least 8 characters including one letter and a number'
 });
 
 extend('confirmed', {
@@ -72,7 +76,8 @@ export default {
   },
 
   setup() {
-    const { updateUser, changePassword } = useUser();
+    const { user, updateUser, changePassword } = useUser();
+    const currentUserEmailAddress = userGetters.getEmailAddress(user.value);
 
     const formHandler = async (fn, onComplete, onError) => {
       try {
@@ -83,12 +88,23 @@ export default {
       }
     };
 
-    const updatePersonalData = ({ form, onComplete, onError }) => formHandler(() => updateUser({ user: form.value }), onComplete, onError);
-    const updatePassword = ({ form, onComplete, onError }) => formHandler(() => changePassword({ current: form.value.currentPassword, new: form.value.newPassword }), onComplete, onError);
+    const updatePersonalData = ({ form, onComplete, onError }) =>
+      formHandler(() => updateUser({ user: form.value }), onComplete, onError);
+    const updatePassword = ({ form, onComplete, onError }) =>
+      formHandler(
+        () =>
+          changePassword({
+            current: form.value.currentPassword,
+            new: form.value.newPassword
+          }),
+        onComplete,
+        onError
+      );
 
     return {
       updatePersonalData,
-      updatePassword
+      updatePassword,
+      currentUserEmailAddress
     };
   }
 };
@@ -111,5 +127,4 @@ export default {
   margin: var(--spacer-lg) 0 0 0;
   font-size: var(--font-size--sm);
 }
-
 </style>
