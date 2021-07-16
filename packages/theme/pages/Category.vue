@@ -1,6 +1,5 @@
 <template>
   <div id="category">
-    <button @click="handleChangePassword">Change Password</button>
     <SfBreadcrumbs
       class="breadcrumbs desktop-only"
       :breadcrumbs="breadcrumbs"
@@ -393,8 +392,7 @@ import {
   useWishlist,
   productGetters,
   useFacet,
-  facetGetters,
-  useUser
+  facetGetters
 } from '@vue-storefront/kibo';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
@@ -491,19 +489,6 @@ export default {
       changeFilters(selectedFilters.value);
     };
 
-    const { changePassword } = useUser();
-    const handleChangePassword = () => {
-      console.log('----------calling from category--------------');
-
-      changePassword({
-        currentUser: {
-          userId: '123456'
-        },
-        currentPassword: '12345678',
-        newPassword: 'qwerty'
-      });
-    };
-
     return {
       ...uiState,
       th,
@@ -526,8 +511,7 @@ export default {
       isFilterSelected,
       selectedFilters,
       clearFilters,
-      applyFilters,
-      handleChangePassword
+      applyFilters
     };
   },
   components: {
