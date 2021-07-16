@@ -8,6 +8,7 @@ export type User = {
   firstName?: string;
   lastName?: string;
   emailAddress?: string;
+  id?: number;
   userId?: string;
 };
 
@@ -47,7 +48,10 @@ export type OrdersResponse = {
   total: number;
 };
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
-  getAddresses: (shipping: USER_SHIPPING, criteria?: Record<string, any>) => USER_SHIPPING_ITEM[];
+  getAddresses: (
+    shipping: USER_SHIPPING,
+    criteria?: Record<string, any>
+  ) => USER_SHIPPING_ITEM[];
   getDefault: (shipping: USER_SHIPPING) => USER_SHIPPING_ITEM;
   getTotal: (shipping: USER_SHIPPING) => number;
   getPostCode: (address: USER_SHIPPING_ITEM) => string;

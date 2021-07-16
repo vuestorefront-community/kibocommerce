@@ -13,11 +13,15 @@ const changePassword = async (
     };
   }
 ): Promise<boolean> => {
-  return await context.client.mutate({
-    mutation: changeCustomerAccountPassword,
-    variables: params,
-    fetchPolicy: 'no-cache'
-  });
+  try {
+    return await context.client.mutate({
+      mutation: changeCustomerAccountPassword,
+      variables: params,
+      fetchPolicy: 'no-cache'
+    });
+  } catch (error) {
+    return false;
+  }
 };
 
 export default changePassword;

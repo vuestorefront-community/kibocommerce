@@ -51,11 +51,8 @@ const params: UseUserFactoryParams<User, any, any> = {
     context: Context,
     { currentUser, currentPassword, newPassword }
   ) => {
-    currentUser.userId = 'd92eb105d5fc404c9bbff99ba0c80026';
-    currentPassword = 'Deep.laha4@';
-    newPassword = 'Deep.laha4@D';
     const response = await context.$kibo.api.changePassword({
-      accountId: 1069,
+      accountId: currentUser.id,
       unlockAccount: true,
       userId: currentUser.userId,
       passwordInfoInput: {
