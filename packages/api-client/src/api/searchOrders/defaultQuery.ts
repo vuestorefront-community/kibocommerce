@@ -9,6 +9,7 @@ query {
         createDate
       }
       id
+      orderNumber
       status
       total
       items {

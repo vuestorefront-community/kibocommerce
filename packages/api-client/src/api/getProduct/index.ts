@@ -1,5 +1,5 @@
 import { CustomQuery, ProductsSearchParams, Context } from '@vue-storefront/core';
-import { KiboApolloClient } from 'kibo.apollo.typescript.client/';
+import { KiboApolloClient } from 'kibo.apollo.typescript.client';
 import getProductsQuery from './getProductsQuery';
 import getProductQuery from './getProductQuery';
 import { buildProductSearchVars } from './_util';

@@ -2,10 +2,10 @@ import { UserOrderGetters } from '@vue-storefront/core';
 import { Order, CrOrderItem } from '../../../api-client/src';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getDate = (order: Order): string => order?.auditInfo?.createDate;
+export const getDate = (order: Order): string => order?.auditInfo?.createDate ? new Date(order?.auditInfo?.createDate).toLocaleDateString() : '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getId = (order: Order): string => order?.id;
+export const getId = (order: Order): string => order?.orderNumber?.toString() || order?.id;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getStatus = (order: Order): string => order?.status;

@@ -5,8 +5,10 @@ export default async function searchOrders(context: Context, _, customQuery?: Cu
   const { orders } = context.extendQuery(customQuery,
     { orders: { query: defaultQuery } }
   );
-  return await context.client.query({
+  const response = await context.client.query({
     query: orders.query,
     fetchPolicy: 'no-cache'
   });
+
+  return response;
 }
