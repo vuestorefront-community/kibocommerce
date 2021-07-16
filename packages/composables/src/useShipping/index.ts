@@ -8,7 +8,6 @@ import type {
   UseShippingAddParams as AddParams
 } from '../types';
 
-const details = {};
 let orderId;
 
 const getOrderId = async (context) =>{
@@ -23,6 +22,7 @@ const getOrderId = async (context) =>{
 };
 
 const params: UseShippingParams<Address, any> = {
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
     const cartOrderId = await getOrderId(context);
