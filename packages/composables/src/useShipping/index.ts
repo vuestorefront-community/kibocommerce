@@ -25,9 +25,11 @@ const params: UseShippingParams<Address, any> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
+
     const cartOrderId = await getOrderId(context);
     const shippingResponce = await context.$kibo.api.getShippingAddress({orderId: cartOrderId}, customQuery);
     const fulfillmentContact = shippingResponce.data.orderFulfillmentInfo.fulfillmentContact;
+
     return fulfillmentContact ? ({addresses: [fulfillmentContact]}) : null;
 
   },
