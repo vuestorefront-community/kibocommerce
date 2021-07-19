@@ -28,7 +28,7 @@ const params: UseBillingParams<Address, any> = {
   },
   save: async (context: Context, { billingDetails, customQuery }) => {
     const orderId = await getOrderId(context);
-    const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId, billingDetails }, customQuery);
+    const billingInfoResponse = await context.$kibo.api.setBillingInfo({ orderId, billingDetails }, customQuery);
     const billingInfo = billingInfoResponse.data?.updateOrderBillingInfo?.billingContact;
     return billingInfo;
   }
