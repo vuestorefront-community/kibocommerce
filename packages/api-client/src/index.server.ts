@@ -20,10 +20,14 @@ import applyCoupon from './api/cart/applyCoupon';
 import removeCoupon from './api/cart/removeCoupon';
 import getCheckout from './api/getCheckout';
 import getOrCreateCheckoutFromCart from './api/getOrCreateCheckoutFromCart';
+
 import changePassword from './api/changePassword';
 import searchOrders from './api/searchOrders';
 import getShippingAddress from './api/shippingAddress/getShippingAddress';
 import setShippingAddress from './api/shippingAddress/setShippingAddress';
+import getShipmentMethod from './api/shipmentMethod/getShipmentMethod';
+import setShipmentMethod from './api/shipmentMethod/setShipmentMethod';
+
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -102,11 +106,13 @@ const { createApiClient } = apiClientFactory<any, any>({
     removeCoupon,
     getCheckout,
     getOrCreateCheckoutFromCart,
+
     searchOrders,
     changePassword,
     getShippingAddress,
-    setShippingAddress
-
+    setShippingAddress,
+    getShipmentMethod,
+    setShipmentMethod
   },
   extensions: [
     ticketExtension
