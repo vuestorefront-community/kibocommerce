@@ -2,16 +2,9 @@
   <SfTabs :open-tab="1">
     <!-- Personal data update -->
     <SfTab title="Personal data">
-      <p class="message">
-        {{ $t('Feel free to edit') }}
-      </p>
 
       <ProfileUpdateForm @submit="updatePersonalData" />
 
-      <p class="notice">
-        {{ $t('Use your personal data') }}
-        <a href="">{{ $t('Privacy Policy') }}</a>
-      </p>
     </SfTab>
 
     <!-- Password reset -->

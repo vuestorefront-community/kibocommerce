@@ -18,8 +18,23 @@ const params: UseUserFactoryParams<User, any, any> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
-    console.log('Mocked: updateUser');
-    return {};
+    const response = await context.$kibo.api.updateCustomerPersonalData({
+      accountId: currentUser.id,
+      customerAccountInput: {
+        emailAddress: updatedUserData.email,
+        userName: updatedUserData.email,
+        firstName: updatedUserData.firstName,
+        lastName: updatedUserData.lastName,
+        isAnonymous: false,
+        isLocked: false,
+        isActive: true,
+        acceptsMarketing: false,
+        hasExternalPassword: false,
+        id: currentUser.id,
+        taxExempt: false
+      }
+    });
+    return response.data.user;
   },
 
   register: async (
@@ -60,7 +75,7 @@ const params: UseUserFactoryParams<User, any, any> = {
         newPassword: newPassword
       }
     });
-    return response;
+    return response.data.user;
   }
 };
 

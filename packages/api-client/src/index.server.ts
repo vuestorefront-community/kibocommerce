@@ -28,6 +28,7 @@ import setShippingAddress from './api/shippingAddress/setShippingAddress';
 import getShipmentMethod from './api/shipmentMethod/getShipmentMethod';
 import setShipmentMethod from './api/shipmentMethod/setShipmentMethod';
 
+import updateCustomerPersonalData from './api/updateCustomerPersonalData';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -112,7 +113,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     getShippingAddress,
     setShippingAddress,
     getShipmentMethod,
-    setShipmentMethod
+    setShipmentMethod,
+    updateCustomerPersonalData
   },
   extensions: [
     ticketExtension
