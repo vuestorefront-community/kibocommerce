@@ -1,12 +1,13 @@
 import facetGetters from './../../src/getters/facetGetters';
 // import { getProductFiltered } from './../../src/getters/productGetters';
-import { getCategoryTree } from './../../src/getters/categoryGetters';
+import categoryGetters from './../../src/getters/categoryGetters';
 
 jest.mock('./../../src/getters/productGetters', () => ({
   getProductFiltered: jest.fn()
 }));
 
 jest.mock('./../../src/getters/categoryGetters', () => ({
+  getTree: jest.fn(),
   getCategoryTree: jest.fn()
 }));
 
@@ -41,47 +42,52 @@ describe('[kibo-getters] facet getters', () => {
     const searchData = {
       input: {},
       data: {
-        facets: {
-          color: {
-            type: 'LocalizedEnumAttribute',
-            options: [
-              { label: 'white', value: 'white' },
-              { label: 'black', value: 'black' }
+        facets: [
+          {
+            label: 'Color',
+            field: 'Tenant~color',
+            values: [
+              { label: 'Black', value: 'black', isApplied: false, filterValue: 'Tenant~color:black', isDisplayed: true, count: 20 },
+              { label: 'Blue', value: 'blue', isApplied: false, filterValue: 'Tenant~color:blue', isDisplayed: true, count: 9 }
             ]
           },
-          size: {
-            type: 'StringAttribute',
-            options: [
-              { label: '34', value: '34' },
-              { label: 'M', value: 'M' }
-            ]
+          {
+            label: 'Gender',
+            field: 'Tenant~gender',
+            values: [{ label: 'Men', value: 'men', isApplied: false, filterValue: 'Tenant~gender:men', isDisplayed: true, count: 20 }]
           }
-        }
+        ]
       }
     } as any;
 
-    const facets = facetGetters.getGrouped(searchData);
+    const facets = facetGetters.getGrouped(searchData, ['tenant~color']);
 
     expect(facets).toEqual([
       {
         count: null,
-        id: 'color',
-        label: 'color',
+        id: 'Color',
+        label: 'Color',
         options: [
-          { attrName: 'color', count: null, id: 'white', selected: false, type: 'attribute', value: 'white' },
-          { attrName: 'color', count: null, id: 'black', selected: false, type: 'attribute', value: 'black' }
-        ]
-      },
-      {
-        count: null,
-        id: 'size',
-        label: 'size',
-        options: [
-          { attrName: 'size', count: null, id: '34', selected: false, type: 'attribute', value: '34' },
-          { attrName: 'size', count: null, id: 'M', selected: false, type: 'attribute', value: 'M' }
+          {
+            attrName: 'Black',
+            count: 20,
+            id: 'black',
+            selected: false,
+            type: 'attribute',
+            value: 'Tenant~color:black'
+          },
+          {
+            attrName: 'Blue',
+            count: 9,
+            id: 'blue',
+            selected: false,
+            type: 'attribute',
+            value: 'Tenant~color:blue'
+          }
         ]
       }
     ]);
+
   });
 
   it('returns facets', () => {
@@ -90,32 +96,29 @@ describe('[kibo-getters] facet getters', () => {
     const searchData = {
       input: {},
       data: {
-        facets: {
-          color: {
-            type: 'LocalizedEnumAttribute',
-            options: [
-              { label: 'white', value: 'white' },
-              { label: 'black', value: 'black' }
+        facets: [
+          {
+            label: 'Color',
+            field: 'Tenant~color',
+            values: [
+              { label: 'Black', value: 'black', isApplied: false, filterValue: 'Tenant~color:black', isDisplayed: true, count: 20 },
+              { label: 'Blue', value: 'blue', isApplied: false, filterValue: 'Tenant~color:blue', isDisplayed: true, count: 9 }
             ]
           },
-          size: {
-            type: 'StringAttribute',
-            options: [
-              { label: '34', value: '34' },
-              { label: 'M', value: 'M' }
-            ]
+          {
+            label: 'Gender',
+            field: 'Tenant~gender',
+            values: [{ label: 'Men', value: 'men', isApplied: false, filterValue: 'Tenant~gender:men', isDisplayed: true, count: 20 }]
           }
-        }
+        ]
       }
     } as any;
 
-    const facets = facetGetters.getAll(searchData);
+    const facets = facetGetters.getAll(searchData, ['tenant~color']);
 
     expect(facets).toEqual([
-      { attrName: 'color', id: 'white', value: 'white', count: null, selected: false, type: 'attribute' },
-      { attrName: 'color', id: 'black', value: 'black', count: null, selected: false, type: 'attribute' },
-      { attrName: 'size', id: '34', value: '34', count: null, selected: false, type: 'attribute' },
-      { attrName: 'size', id: 'M', value: 'M', count: null, selected: false, type: 'attribute' }
+      { attrName: 'Black', count: 20, id: 'black', selected: false, type: 'attribute', value: 'Tenant~color:black' },
+      { attrName: 'Blue', count: 9, id: 'blue', selected: false, type: 'attribute', value: 'Tenant~color:blue' }
     ]);
   });
 
@@ -145,7 +148,7 @@ describe('[kibo-getters] facet getters', () => {
 
     facetGetters.getCategoryTree(searchData);
 
-    expect(getCategoryTree).toBeCalled();
+    expect(categoryGetters.getTree).toBeCalled();
   });
 
   it('returns breadcrumbs', () => {
@@ -160,18 +163,18 @@ describe('[kibo-getters] facet getters', () => {
                 name: 'cat3',
                 slug: 'cat-3'
           },
-          parent: {
+          parentCategory: {
             categoryCode: 'cat2code',
             content: {
                   name: 'cat2',
                   slug: 'cat-2'
             },
-            parent: {
-                categoryCode: 'cat1code',
-                content: {
-                    name: 'cat1',
-                    slug: 'cat-1'
-                }
+            parentCategory: {
+              categoryCode: 'cat1code',
+              content: {
+                name: 'cat1',
+                slug: 'cat-1'
+              }
             }
         }
         }]
@@ -182,14 +185,21 @@ describe('[kibo-getters] facet getters', () => {
 
     expect(breadcrumbs).toEqual([
       { link: '/', text: 'Home' },
-      { link: '/c/cat-1/cat1code', text: 'cat1' },
-      { link: '/c/cat-2/cat2code', text: 'cat2' },
-      { link: '/c/cat-3/cat3code', text: 'cat3' }
+      { link: 'c/cat-1/cat1code', text: 'cat1' },
+      { link: 'c/cat-2/cat2code', text: 'cat2' },
+      { link: 'c/cat-3/cat3code', text: 'cat3' }
     ]);
   });
 
   it('returns pagination info', () => {
-    expect(facetGetters.getPagination({ data: null } as any)).toEqual({});
+
+    expect(facetGetters.getPagination({ data: null } as any)).toEqual({
+      currentPage: 1,
+      itemsPerPage: 10,
+      pageOptions: undefined,
+      totalItems: 0,
+      totalPages: 1
+    });
 
     const searchData = {
       input: {

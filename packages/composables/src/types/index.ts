@@ -1,8 +1,11 @@
+import { FacetSearchResult } from '@vue-storefront/core';
+import { ProductCategory } from '@vue-storefront/kibo-api';
+
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 
 export type Address = Record<string, unknown>;
 
-export type Category = Record<string, unknown>;
+export type Category = Record<string, any>;
 
 export type User = {
   firstName?: string;
@@ -36,6 +39,8 @@ export type WishlistProduct = Record<string, unknown>;
 
 export type Wishlist = Record<string, unknown>;
 
+export type Facet = Record<string, any>;
+
 export type ProductsResponse = {
   data: Product[];
   total: number;
@@ -47,6 +52,17 @@ export type OrdersResponse = {
   data: any[];
   total: number;
 };
+
+export interface FacetResultsData {
+  products: Product[];
+  categories: ProductCategory[];
+  facets: Facet[];
+  total: number;
+  perPageOptions: number[];
+  itemsPerPage: number;
+}
+export type SearchData = FacetSearchResult<FacetResultsData>
+
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getAddresses: (
     shipping: USER_SHIPPING,

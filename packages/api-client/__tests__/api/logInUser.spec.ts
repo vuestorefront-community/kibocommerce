@@ -6,11 +6,11 @@ describe('[kibo-api-client] logInUser', () => {
   });
 
   it('creates user session', async () => {
+
     const givenVariables = {
       username: 'kevin.watts@kibocommerce.com',
       password: '12345'
     };
-
     const context = {
       config: {
         locale: 'en',

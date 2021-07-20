@@ -14,7 +14,7 @@ function buildCategorySearchVars(params) {
 
 export default async function getCategory(context:Context, params, customQuery?: CustomQuery): Promise<any> {
 
-  if (params.slug) {
+  if (params?.slug) {
     const defaultVariables = buildCategorySearchVars(params);
     const { categories } = context.extendQuery(customQuery,
       { categories: { query: defaultQuery, variables: defaultVariables } }
@@ -33,7 +33,7 @@ export default async function getCategory(context:Context, params, customQuery?:
       query: categoryTreeQuery,
       fetchPolicy: 'no-cache'
     });
-    const categoryCode = params.id || params.categoryCode;
+    const categoryCode = params?.id || params?.categoryCode;
     const categoryTree = request.data?.categories?.items;
 
     // if searching by category code, build category from tree for parent/children data

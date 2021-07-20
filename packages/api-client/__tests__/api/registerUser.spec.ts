@@ -1,16 +1,28 @@
 import registerUser from '../../src/api/registerUser';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createAccountMutation, createAccountLoginMutation} from '../../src/api/registerUser/defaultMutation';
 
 describe('[kibo-api-client] registerUser', () => {
   it('creates user account', async () => {
-    const givenVariables = {
+    const params = {
+      account: {
         firstName: 'Kevin',
         lastName: 'Watts',
-        email: 'kevin.watts@kibocommerce.com',
-        password: 'xxxxx',
-        isImport: false
+        emailAddress: 'kevin.watts@kibocommerce.com',
+        isAnonymous: false,
+        isLocked: false,
+        isActive: true,
+        acceptsMarketing: true,
+        hasExternalPassword: false,
+        id: 0,
+        taxExempt: false
+      },
+      password: 'xxxxx',
+      isImport: false
     };
-
+    const expectedVariables = {
+      createAccountInput: params.account
+    };
     const context = {
       config: {
         locale: 'en',
@@ -19,15 +31,15 @@ describe('[kibo-api-client] registerUser', () => {
       },
       client: {
         mutate: ({ variables, mutation }) => {
-          expect(variables).toEqual(givenVariables);
-          expect(mutation).toEqual(createAccountMutation);
-
+          if (mutation === createAccountMutation) {
+            expect(variables).toEqual(expectedVariables);
+          }
           return { data: 'user response' };
         }
       }
     };
 
-    const { data } = await registerUser(context, givenVariables);
+    const { data } = await registerUser(context, params);
     expect(data).toBe('user response');
   });
 });

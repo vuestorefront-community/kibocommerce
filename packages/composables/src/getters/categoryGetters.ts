@@ -1,9 +1,9 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { Category } from '@vue-storefront/kibo-api/src/types';
+import { ProductCategory } from '@vue-storefront/kibo-api/src/types';
 
 export const getCategoryTree = (category: any): AgnosticCategoryTree => {
 
-  const getRoot = (category: any): Category => (category.parentCategory ? getRoot(category.parentCategory) : category);
+  const getRoot = (category: any): ProductCategory => (category.parentCategory ? getRoot(category.parentCategory) : category);
   const itemToTree = (rootCategory: any): AgnosticCategoryTree => {
     return {
       id: rootCategory.categoryCode,
@@ -21,8 +21,8 @@ export const getCategoryTree = (category: any): AgnosticCategoryTree => {
   return {} as AgnosticCategoryTree;
 };
 
-export const categoryGetters: CategoryGetters<Category> = {
-  getTree:getCategoryTree
+const categoryGetters: CategoryGetters<ProductCategory> = {
+  getTree: getCategoryTree
 };
 
 export default categoryGetters;

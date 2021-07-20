@@ -186,12 +186,12 @@ const category = {
 } as any;
 
 describe('[kibo-getters] category helpers', () => {
-  it('returns null when there is no category', () => {
-    expect(getCategoryTree(null)).toBe(null);
+  it('returns empty object when there is no category', () => {
+    expect(getCategoryTree(null)).toStrictEqual({});
   });
 
   it('returns category tree', () => {
     const categoryRoot = getCategoryTree(category);
-    expect(categoryRoot.categoryCode).toBe('M');
+    expect(categoryRoot.id).toBe('M');
   });
 });

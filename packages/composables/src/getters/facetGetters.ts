@@ -8,6 +8,8 @@ import {
   AgnosticBreadcrumb,
   AgnosticFacet
 } from '@vue-storefront/core';
+import { SearchData } from '../types';
+
 import buildCategoryTree from './categoryGetters';
 import {buildBreadcrumbs} from '../useFacet/_utils';
 
@@ -30,54 +32,54 @@ const normalizeFacetGroup = (facets =[]) => {
       label: facetGroup.label,
       options: facetGroup.values.map(normalizeFacet),
       count: null
-    }
-  })
-}
-const getAll = (searchData, criteria?: string[]): AgnosticFacet[] => {
+    };
+  });
+};
+const getAll = (searchData:SearchData, criteria?: string[]): AgnosticFacet[] => {
   const facets = searchData.data?.facets || [];
-  const includedFacets = facets.filter(facet => criteria.includes(facet.field.toLowerCase()))
-  return includedFacets.reduce((accum, facetGroup) => {
+  const includedFacets = facets.filter(facet => criteria.includes(facet.field.toLowerCase()));
+  return includedFacets.reduce((accum: any[], facetGroup) => {
     return [
       ...accum,
-      ...normalizeFacetGroup(facetGroup)
-    ]
-  }, [])
+      ...facetGroup.values.map(normalizeFacet)
+    ];
+  }, []) as AgnosticFacet[];
 };
 
-const getGrouped = (searchData, criteria?: string[]): AgnosticGroupedFacet[] =>{
+const getGrouped = (searchData:SearchData, criteria?: string[]): AgnosticGroupedFacet[] =>{
   const facets = searchData.data?.facets || [];
   const includedFacets = facets.filter(facet => criteria.includes(facet.field.toLowerCase()))
   return normalizeFacetGroup(includedFacets)
 };
 
-const getSortOptions = (searchData): AgnosticSort => { 
-    const options = [
-      { type:'sort', value: "Default", id: "", count: null},
-      { type:'sort', value: "Price: Low to High", id: "price asc" , count: null},
-      { type:'sort', value: "Price: High to Low", id: "price desc" , count: null},
-      { type:'sort', value: "Latest", id: "createDate desc" , count: null},
-      { type:'sort', value: "Oldest", id: "createDate asc" , count: null}
-    ].map(option => ({...option, selected: option.id === searchData.input.sort }))
+const getSortOptions = (searchData:SearchData): AgnosticSort => {
+  const options = [
+    { type: 'sort', value: 'Default', id: '', count: null},
+    { type: 'sort', value: 'Price: Low to High', id: 'price asc', count: null},
+    { type: 'sort', value: 'Price: High to Low', id: 'price desc', count: null},
+    { type: 'sort', value: 'Latest', id: 'createDate desc', count: null},
+    { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null}
+  ].map(option => ({...option, selected: option.id === searchData.input.sort }));
 
     const selected = options.find(option => option.selected)?.id || ""
 
     return { options, selected };
 };
 
-const getCategoryTree = (searchData): AgnosticCategoryTree => {
+const getCategoryTree = (searchData:SearchData): AgnosticCategoryTree => {
   if (!searchData.data) {
     return {} as AgnosticCategoryTree;
   }
   return buildCategoryTree.getTree(searchData.data.categories[0]);
 };
 
-const getProducts = (searchData): any => {
+const getProducts = (searchData:SearchData): any => {
   return searchData.data?.products;
 };
 
-const getPagination = (searchData): AgnosticPagination => {
-  if(!searchData) {
-     return { 
+const getPagination = (searchData:SearchData): AgnosticPagination => {
+  if (!searchData) {
+    return {
       currentPage: 1,
       totalPages: 1,
       totalItems: 0,
