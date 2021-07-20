@@ -9,10 +9,10 @@ const params: UseUserFactoryParams<User, any, any> = {
   load: async (context: Context) => {
     const customerAccountResponse = await context.$kibo.api.getCurrentUser();
     const customerAccount = customerAccountResponse.data?.customerAccount;
-    if (customerAccount?.isAnonymous) {
-      return;
+    if (customerAccount?.isAnonymous === false) {
+      return customerAccount;
     }
-    return customerAccount;
+
   },
   logOut: async (context: Context) => {
     await context.$kibo.api.logOutUser();
