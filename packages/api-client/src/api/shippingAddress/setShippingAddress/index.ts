@@ -1,5 +1,5 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
-import defaultQuery from './defaultQuery';
+import defaultMutation from './defaultMutation';
 
 function buildShippingAddressVars(params) {
   return ({ orderId: params.orderId, updateMode: params.updateMode, fulfillmentInfoInput: params.fulfillmentInfoInput });
@@ -10,7 +10,7 @@ export default async function setShippingAddress(context:Context, params, custom
   const defaultVariables = buildShippingAddressVars(params);
 
   const { shippingAddress } = context.extendQuery(customQuery,
-    { shippingAddress: { mutation: defaultQuery, variables: defaultVariables } }
+    { shippingAddress: { mutation: defaultMutation, variables: defaultVariables } }
   );
 
   const request = await context.client.mutate({
