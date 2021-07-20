@@ -8,6 +8,7 @@ query getUser {
         lastName
         emailAddress
         userName
+        isAnonymous
     }
 }
 `;
