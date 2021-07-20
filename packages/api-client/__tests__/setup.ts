@@ -1,7 +1,7 @@
 import { createApiClient } from './../src/index.server';
 
 // jest.mock('../src/api/updateCart', () => jest.fn((arg) => arg));
-jest.mock('kibo.apollo.typescript.client');
+jest.mock('@kibocommerce/graphql-client');
 
 export default createApiClient({
   api: {} as any,

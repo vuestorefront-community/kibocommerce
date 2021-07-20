@@ -1,6 +1,6 @@
 /* eslint camelcase: "warn"*/
 import { Context } from '@vue-storefront/core';
-import { KiboApolloClient } from 'kibo.apollo.typescript.client';
+import { KiboApolloClient } from '@kibocommerce/graphql-client';
 import { CustomerUserAuthInfoInput, CustomerAuthTicket } from '../../types/GraphQL';
 
 const loginUser = async (context:Context, params:CustomerUserAuthInfoInput): Promise<CustomerAuthTicket> => {

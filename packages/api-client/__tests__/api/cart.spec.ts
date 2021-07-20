@@ -1,5 +1,5 @@
-import { CreateApolloClient, KiboApolloClient } from 'kibo.apollo.typescript.client';
-import { UserAuthTicket } from 'kibo.apollo.typescript.client/dist/lib/AuthClient';
+import { CreateApolloClient, KiboApolloClient } from '@kibocommerce/graphql-client';
+import { UserAuthTicket } from '@kibocommerce/graphql-client/dist/lib/AuthClient';
 import getProduct from '../../src/api/getProduct';
 import addToCart from '../../src/api/cart/addToCart';
 import applyCoupon from '../../src/api/cart/applyCoupon';

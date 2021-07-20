@@ -18,7 +18,7 @@
   },
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
-    "kibo.apollo.typescript.client": "file:../../../Kibo.Apollo.Clients/Typescript",
+    "@kibocommerce/graphql-client": "^1.0.1-beta1.0",
     "graphql-tag": "^2.12.4"
   },
   "devDependencies": {
@@ -32,3 +32,4 @@
     "access": "public"
   }
 }
+
