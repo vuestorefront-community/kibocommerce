@@ -104,7 +104,7 @@ export default {
   setup (props) {
     const loading = ref(false);
     const shippingMethods = ref([]);
-    const { $ct } = useVSFContext();
+    const { $kibo } = useVSFContext();
     const { cart } = useCart();
     const {
       state,
@@ -124,7 +124,11 @@ export default {
     const loadMethods = async () => {
       try {
         error.loadMethods = null;
-        const shippingMethodsResponse = await $ct.api.getShippingMethods(cart.value.id);
+
+        const checkoutResponse = await $kibo.api.getOrCreateCheckoutFromCart({ cartId: cart.value.id});
+        const orderId = checkoutResponse.data.order.id;
+
+        const shippingMethodsResponse = await $kibo.api.getShippingMethod({orderId: orderId});
         return shippingMethodsResponse.data;
       } catch (err) {
         error.loadMethods = err;

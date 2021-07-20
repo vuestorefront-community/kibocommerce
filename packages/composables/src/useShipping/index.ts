@@ -37,6 +37,10 @@ const params: UseShippingParams<Address, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   save: async (context: Context, { shippingDetails, customQuery }) => {
 
+    if (shippingDetails.isDefault) {
+      delete shippingDetails.isDefault;
+    }
+
     const cartOrderId = await getOrderId(context);
     const updateMode = 'ApplyAndCommit';
     const fulfillmentInfoInput = {fulfillmentContact: shippingDetails};

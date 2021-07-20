@@ -64,7 +64,7 @@
 
           <SfInput
             v-e2e="'streetName'"
-            :value="shippingDetails.address.address1"
+            :value="shippingDetails.address && shippingDetails.address.address1"
             @input="streetName => changeShippingDetails('address1', streetName)"
             label="Street name"
             name="streetName"
@@ -82,7 +82,7 @@
         >
           <SfInput
             v-e2e="'apartment'"
-            :value="shippingDetails.address.address2"
+            :value="shippingDetails.address && shippingDetails.address.address2"
             @input="apartment => changeShippingDetails('address2', apartment)"
             label="House/Apartment number"
             name="apartment"
@@ -100,7 +100,7 @@
         >
           <SfInput
             v-e2e="'city'"
-            :value="shippingDetails.address.cityOrTown"
+            :value="shippingDetails.address && shippingDetails.address.cityOrTown"
             @input="city => changeShippingDetails('cityOrTown', city)"
             label="City"
             name="city"
@@ -119,7 +119,7 @@
 
           <SfSelect
             v-e2e="'state'"
-            :value="shippingDetails.address.stateOrProvince"
+            :value="shippingDetails.address && shippingDetails.address.stateOrProvince"
             @input="state => changeShippingDetails('stateOrProvince', state)"
             label="State/Province"
             name="state"
@@ -146,7 +146,7 @@
         >
           <SfSelect
             v-e2e="'country'"
-            :value="shippingDetails.address.countryCode"
+            :value="shippingDetails.address && shippingDetails.address.countryCode"
             @input="country => changeShippingDetails('countryCode', country)"
             label="Country"
             name="country"
@@ -172,7 +172,7 @@
         >
           <SfInput
             v-e2e="'zipcode'"
-            :value="shippingDetails.address.postalOrZipCode"
+            :value="shippingDetails.address && shippingDetails.address.postalOrZipCode"
             @input="postalCode => changeShippingDetails('postalOrZipCode', postalCode)"
             label="Zip-code"
             name="zipCode"
@@ -184,13 +184,13 @@
         </ValidationProvider>
         <ValidationProvider
           name="phone"
-          rules="required|phone"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
           <SfInput
             v-e2e="'phone'"
-            :value="shippingDetails.phoneNumbers.home"
+            :value="shippingDetails.address && shippingDetails.phoneNumbers.home"
             @input="phone => changeShippingDetails('home', phone)"
             label="Phone number"
             name="phone"
