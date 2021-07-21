@@ -2,17 +2,31 @@
   <div>
     <SfHeader
       class="sf-header--has-mobile-search"
-      :class="{'header-on-top': isSearchOpen}"
+      :class="{ 'header-on-top': isSearchOpen }"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
         <nuxt-link :to="localePath('/')" class="sf-header__logo">
-          <SfImage src="/icons/logo.svg" alt="Vue Storefront Next" class="sf-header__logo-image"/>
+          <SfImage
+            src="/icons/logo.svg"
+            alt="Vue Storefront Next"
+            class="sf-header__logo-image"
+          />
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem class="nav-item" v-e2e="'app-header-url_women'" label="Skiing" :link="localePath('/c/skiing/31')"/>
-        <SfHeaderNavigationItem class="nav-item"  v-e2e="'app-header-url_men'" label="Apparel" :link="localePath('/c/apparel/40')" />
+        <SfHeaderNavigationItem
+          class="nav-item"
+          v-e2e="'app-header-url_women'"
+          label="Skiing"
+          :link="localePath('/c/skiing/31')"
+        />
+        <SfHeaderNavigationItem
+          class="nav-item"
+          v-e2e="'app-header-url_men'"
+          label="Apparel"
+          :link="localePath('/c/apparel/40')"
+        />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -24,32 +38,25 @@
             class="sf-button--pure sf-header__action"
             @click="handleAccountClick"
           >
-            <SfIcon
-              :icon="accountIcon"
-              size="1.25rem"
-            />
+            <SfIcon :icon="accountIcon" size="1.25rem" />
           </SfButton>
           <SfButton
             class="sf-button--pure sf-header__action"
             @click="toggleWishlistSidebar"
           >
-            <SfIcon
-              class="sf-header__icon"
-              icon="heart"
-              size="1.25rem"
-            />
+            <SfIcon class="sf-header__icon" icon="heart" size="1.25rem" />
           </SfButton>
           <SfButton
             v-e2e="'app-header-cart'"
             class="sf-button--pure sf-header__action"
             @click="toggleCartSidebar"
           >
-            <SfIcon
-              class="sf-header__icon"
-              icon="empty_cart"
-              size="1.25rem"
-            />
-            <SfBadge v-if="cartTotalItems" class="sf-badge--number cart-badge">{{cartTotalItems}}</SfBadge>
+            <SfIcon class="sf-header__icon" icon="empty_cart" size="1.25rem" />
+            <SfBadge
+              v-if="cartTotalItems"
+              class="sf-badge--number cart-badge"
+              >{{ cartTotalItems }}</SfBadge
+            >
           </SfButton>
         </div>
       </template>
@@ -79,7 +86,9 @@
             <SfButton
               v-else
               class="sf-search-bar__button sf-button--pure"
-              @click="isSearchOpen ? isSearchOpen = false : isSearchOpen = true"
+              @click="
+                isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
+              "
             >
               <span class="sf-search-bar__icon">
                 <SfIcon color="var(--c-text)" size="20px" icon="search" />
@@ -89,15 +98,35 @@
         </SfSearchBar>
       </template>
     </SfHeader>
-    <SearchResults :visible="isSearchOpen" :result="result" @close="closeSearch" @removeSearchResults="removeSearchResults" />
+    <SearchResults
+      :visible="isSearchOpen"
+      :result="result"
+      @close="closeSearch"
+      @removeSearchResults="removeSearchResults"
+    />
     <SfOverlay :visible="isSearchOpen" />
   </div>
 </template>
 
 <script>
-import { SfHeader, SfImage, SfIcon, SfButton, SfBadge, SfSearchBar, SfOverlay, SfMenuItem, SfLink } from '@storefront-ui/vue';
+import {
+  SfHeader,
+  SfImage,
+  SfIcon,
+  SfButton,
+  SfBadge,
+  SfSearchBar,
+  SfOverlay,
+  SfMenuItem,
+  SfLink
+} from '@storefront-ui/vue';
 import { useUiState } from '~/composables';
-import { useCart, useWishlist, useUser, cartGetters } from '@vue-storefront/kibo';
+import {
+  useCart,
+  useWishlist,
+  useUser,
+  cartGetters
+} from '@vue-storefront/kibo';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
@@ -127,9 +156,10 @@ export default {
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } = useUiState();
+    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
+      useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
-    const { isAuthenticated, load: loadUser } = useUser();
+    const { load: loadUser, isAuthenticated } = useUser();
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().phrase);
@@ -142,7 +172,9 @@ export default {
       return count ? count.toString() : null;
     });
 
-    const accountIcon = computed(() => isAuthenticated.value ? 'profile_fill' : 'profile');
+    const accountIcon = computed(() =>
+      isAuthenticated.value ? 'profile_fill' : 'profile'
+    );
 
     // TODO: https://github.com/DivanteLtd/vue-storefront/issues/4927
     const handleAccountClick = async () => {
@@ -173,7 +205,6 @@ export default {
         term.value = paramValue.target.value;
       }
       result.value = mockedSearchProducts;
-
     }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());
@@ -187,12 +218,19 @@ export default {
       }
     };
 
-    watch(() => term.value, (newVal, oldVal) => {
-      const shouldSearchBeOpened = (!isMobile.value && term.value.length > 0) && ((!oldVal && newVal) || (newVal.length !== oldVal.length && isSearchOpen.value === false));
-      if (shouldSearchBeOpened) {
-        isSearchOpen.value = true;
+    watch(
+      () => term.value,
+      (newVal, oldVal) => {
+        const shouldSearchBeOpened =
+          !isMobile.value &&
+          term.value.length > 0 &&
+          ((!oldVal && newVal) ||
+            (newVal.length !== oldVal.length && isSearchOpen.value === false));
+        if (shouldSearchBeOpened) {
+          isSearchOpen.value = true;
+        }
       }
-    });
+    );
 
     const removeSearchResults = () => {
       result.value = null;
@@ -225,12 +263,12 @@ export default {
 
 <style lang="scss" scoped>
 .sf-header {
-  --header-padding:  var(--spacer-sm);
+  --header-padding: var(--spacer-sm);
   @include for-desktop {
     --header-padding: 0;
   }
   &__logo-image {
-      height: 100%;
+    height: 100%;
   }
 }
 .header-on-top {

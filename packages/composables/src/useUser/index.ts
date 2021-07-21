@@ -12,7 +12,6 @@ const params: UseUserFactoryParams<User, any, any> = {
     if (customerAccount?.isAnonymous === false) {
       return customerAccount;
     }
-
   },
   logOut: async (context: Context) => {
     await context.$kibo.api.logOutUser();
@@ -78,7 +77,12 @@ const params: UseUserFactoryParams<User, any, any> = {
         newPassword: newPassword
       }
     });
-    return response.data.user;
+    if (response.data.user) {
+      return await params.logIn(context, {
+        username: currentUser.emailAddress,
+        password: newPassword
+      });
+    }
   }
 };
 
