@@ -9,21 +9,15 @@ import type {
 } from '../types';
 
 const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
-  searchOrders: async (context: Context, params: OrderSearchParams): Promise<OrdersResponse> => {
+  searchOrders: async (context: Context, params: OrderSearchParams): Promise<any> => {
     const { customQuery, ...searchParams } = params || { customQuery: {} };
 
     const orders = (await context.$kibo.api.searchOrders(searchParams, customQuery)).data?.orders;
 
     if (orders)
-      return {
-        data: orders.items,
-        total: orders.items.length
-      };
+      return orders.items;
 
-    return {
-      data: [],
-      total: 0
-    };
+    return [];
   }
 };
 
