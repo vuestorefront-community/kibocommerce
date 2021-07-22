@@ -2,7 +2,7 @@ import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
 
 function buildShippingAddressVars(params) {
-  return ({ orderId: params.orderId, updateMode: params.updateMode, fulfillmentInfoInput: params.fulfillmentInfoInput });
+  return ({ orderId: params.orderId, fulfillmentInfoInput: params.fulfillmentInfoInput });
 }
 
 export default async function setShippingAddress(context:Context, params, customQuery?: CustomQuery): Promise<any> {

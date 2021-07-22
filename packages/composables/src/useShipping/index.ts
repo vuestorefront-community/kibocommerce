@@ -18,7 +18,6 @@ const getOrderId = async (context) =>{
 
   const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId: cartId});
   orderId = checkoutResponse.data.order.id;
-  localStorage.setItem('orderId', orderId);
 
   return orderId;
 };
