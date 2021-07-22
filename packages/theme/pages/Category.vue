@@ -748,12 +748,12 @@ export default {
     flex: 1 1 50%;
     ::v-deep .sf-image {
       object-fit: contain;
-      height: 200px;
+      max-height: 200px;
     }
     @include for-mobile {
       ::v-deep .sf-image {
         object-fit: contain;
-        height: 170px;
+        max-height: 170px;
       }
     }
     @include for-desktop {
