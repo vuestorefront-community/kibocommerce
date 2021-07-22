@@ -18,6 +18,8 @@ const getOrderId = async (context) =>{
 
   const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId: cartId});
   orderId = checkoutResponse.data.order.id;
+  localStorage.setItem('orderId', orderId);
+
   return orderId;
 };
 
@@ -30,8 +32,14 @@ const params: UseShippingParams<Address, any> = {
     const shippingResponce = await context.$kibo.api.getShippingAddress({orderId: cartOrderId}, customQuery);
     const fulfillmentContact = shippingResponce.data.orderFulfillmentInfo.fulfillmentContact;
 
-    return fulfillmentContact ? ({addresses: [fulfillmentContact]}) : null;
+    // Delete __typename
+    if (fulfillmentContact) {
+      if (fulfillmentContact.__typename) delete fulfillmentContact.__typename;
+      if (fulfillmentContact.address.__typename) delete fulfillmentContact.address.__typename;
+      if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
+    }
 
+    return fulfillmentContact;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -43,6 +51,7 @@ const params: UseShippingParams<Address, any> = {
 
     const cartOrderId = await getOrderId(context);
     const updateMode = 'ApplyAndCommit';
+
     const fulfillmentInfoInput = {fulfillmentContact: shippingDetails};
 
     const shippingResponce = await context.$kibo.api.setShippingAddress({orderId: cartOrderId, updateMode: updateMode, fulfillmentInfoInput: fulfillmentInfoInput}, customQuery);

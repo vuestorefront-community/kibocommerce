@@ -58,8 +58,8 @@ const params: UseUserFactoryParams<User, any, any> = {
       username,
       password
     });
-    // const cart = await context.$kibo.api.getCart()
-    // context.setCart(cart);
+    const cart = await context.$kibo.api.getCart();
+    context.setCart(cart);
     return customerAccount;
   },
 

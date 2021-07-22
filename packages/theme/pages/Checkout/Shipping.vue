@@ -116,7 +116,6 @@
           v-slot="{ errors }"
           slim
         >
-
           <SfSelect
             v-e2e="'state'"
             :value="shippingDetails.address && shippingDetails.address.stateOrProvince"
@@ -283,7 +282,6 @@ export default {
     VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
   },
   setup () {
-
     const { $kibo: { config } } = useVSFContext();
     const { shipping: address, loading, load, save } = useShipping();
     const { isAuthenticated } = useUser();
@@ -324,22 +322,17 @@ export default {
     });
 
     const handleAddressSubmit = (reset) => async () => {
-      const addressId = currentAddressId.value;
       await save({ shippingDetails: shippingDetails.value });
 
-      if (addressId !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
-        const chosenAddress = userShippingGetters.getAddresses(userShipping.value, { id: addressId });
-        if (chosenAddress && chosenAddress.length) {
-          await setDefaultAddress({ address: chosenAddress[0] });
-        }
-      }
-      reset();
       isShippingDetailsStepCompleted.value = true;
+      canAddNewAddress.value = false;
+      load();
     };
 
     const handleAddNewAddressBtnClick = () => {
       currentAddressId.value = NOT_SELECTED_ADDRESS;
       canAddNewAddress.value = true;
+      isShippingDetailsStepCompleted.value = false;
     };
 
     const handleSetCurrentAddress = address => {
@@ -350,8 +343,6 @@ export default {
     };
 
     const changeShippingDetails = (field, value) => {
-      // shippingDetails.value = {...shippingDetails.value, [field]: value};
-
       const addressList = ['address1', 'address2', 'addressType', 'cityOrTown', 'stateOrProvince', 'postalOrZipCode', 'countryCode', 'isValidated'];
       const phoneList = ['home'];
 

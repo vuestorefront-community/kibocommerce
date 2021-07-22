@@ -13,7 +13,7 @@
         <div v-else-if="errorShippingProvider.save">
           {{ $t('There was some error while trying to select this shipping method. We are sorry, please try with different shipping method or later.') }}
         </div>
-        <div v-else-if="!shippingMethods.length">
+        <div v-else-if="!(shippingMethods && shippingMethods.length)">
           {{ $t('There are no shipping methods available for this country. We are sorry, please try with different country or later.') }}
         </div>
       </SfLoader>
@@ -21,16 +21,16 @@
           <SfRadio
             v-e2e="'shipping-method-label'"
             v-for="method in shippingMethods"
-            :key="method.id"
-            :label="method.name"
-            :value="method.id"
-            :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.id"
+            :key="method.shippingMethodCode"
+            :label="method.shippingMethodName"
+            :value="method.shippingMethodCode"
+            :selected="selectedShippingMethod && selectedShippingMethod.shippingMethod && selectedShippingMethod.shippingMethod.shippingMethodCode"
             @input="selectShippingMethod(method)"
             name="shippingMethod"
             :description="method.localizedDescription"
             class="form__radio shipping"
           >
-            <template #label="{ label }">
+           <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
                 <div>{{ label }}</div>
                 <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method, totals.total), 'currency') }}</div>
@@ -59,7 +59,6 @@ import {
 } from '@storefront-ui/vue';
 import { ref, reactive, onMounted, computed } from '@vue/composition-api';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
-import { useVSFContext } from '@vue-storefront/core';
 
 export default {
   name: 'VsfShippingProvider',
@@ -104,7 +103,6 @@ export default {
   setup (props) {
     const loading = ref(false);
     const shippingMethods = ref([]);
-    const { $kibo } = useVSFContext();
     const { cart } = useCart();
     const {
       state,
@@ -114,37 +112,23 @@ export default {
       error: errorShippingProvider,
       loading: loadingShippingProvider
     } = useShippingProvider();
-    const selectedShippingMethod = computed(() => state.value && state.value.response);
+
+    const shippingMethodsList = computed(() => state.value && state.value.response);
+    const selectedShippingMethod = ref({});
     const totals = computed(() => cartGetters.getTotals(cart.value));
 
     const error = reactive({
       loadMethods: null
     });
 
-    const loadMethods = async () => {
-      try {
-        error.loadMethods = null;
-
-        const checkoutResponse = await $kibo.api.getOrCreateCheckoutFromCart({ cartId: cart.value.id});
-        const orderId = checkoutResponse.data.order.id;
-
-        const shippingMethodsResponse = await $kibo.api.getShippingMethod({orderId: orderId});
-        return shippingMethodsResponse.data;
-      } catch (err) {
-        error.loadMethods = err;
-        await props.onError({
-          action: 'loadMethods',
-          error: error.loadMethods
-        });
-      }
-    };
-
     const selectShippingMethod = async shippingMethod => {
       if (loadingShippingProvider.value) {
         return;
       }
+
       const interceptedShippingMethod = await props.beforeSelect(shippingMethod);
       await save({ shippingMethod: interceptedShippingMethod });
+
       if (errorShippingProvider.value.save) {
         setState({
           ...(state.value ? state.value : {}),
@@ -156,7 +140,9 @@ export default {
         });
         return;
       }
-      await props.afterSelect(selectedShippingMethod.value);
+
+      selectedShippingMethod.value = { shippingMethod: {shippingMethodCode: shippingMethod.shippingMethodCode} };
+      await props.afterSelect(shippingMethod);
       setState({
         ...(state.value ? state.value : {}),
         _status: true
@@ -166,12 +152,8 @@ export default {
     onMounted(async () => {
       loading.value = true;
       await props.beforeLoad();
-      const shippingMethodsResponse = await loadMethods();
-      if (error.loadMethods) {
-        return;
-      }
       await load();
-      shippingMethods.value = await props.afterLoad(shippingMethodsResponse);
+      shippingMethods.value = shippingMethodsList.value;
       loading.value = false;
     });
 
