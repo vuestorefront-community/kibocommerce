@@ -20,6 +20,7 @@ export const getOrderId = async (context) => {
     cartId: cartId
   });
   orderId = checkoutResponse.data.order.id;
+  localStorage.setItem('orderId', orderId);
 
   return orderId;
 };
@@ -38,10 +39,8 @@ export const params: UseShippingParams<Address, any> = {
     // Delete __typename
     if (fulfillmentContact) {
       if (fulfillmentContact.__typename) delete fulfillmentContact.__typename;
-      if (fulfillmentContact.address.__typename)
-        delete fulfillmentContact.address.__typename;
-      if (fulfillmentContact.phoneNumbers.__typename)
-        delete fulfillmentContact.phoneNumbers.__typename;
+      if (fulfillmentContact.address.__typename) delete fulfillmentContact.address.__typename;
+      if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
     }
 
     return fulfillmentContact;

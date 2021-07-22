@@ -1,10 +1,34 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
 import type { ShippingProvider, ShippingMethod } from '@vue-storefront/kibo-api';
 
+const orderShipmentMethods = [
+  {
+    shippingMethodCode: 'd77e1a876e3a47718a1ca58a008c7b49',
+    shippingMethodName: 'Custom Flat Rate',
+    shippingZoneCode: 'United States',
+    isValid: true,
+    messages: [],
+    data: null,
+    currencyCode: 'USD',
+    price: 15
+  },
+  {
+    shippingMethodCode: 'd77e1a876e3a47718a1ca58a008c7b50',
+    shippingMethodName: 'Custom Flat Rate 1',
+    shippingZoneCode: 'United States',
+    isValid: true,
+    messages: [],
+    data: null,
+    currencyCode: 'USD',
+    price: 20
+  }
+];
+
 let orderId;
 
 const getOrderId = async (context) =>{
   if (orderId) return orderId;
+  if (localStorage.getItem('orderId')) return localStorage.getItem('orderId');
 
   const cartResponse = await context.$kibo.api.getCart(null);
   const cartId = cartResponse.data.currentCart.id;
@@ -32,7 +56,7 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
     const shippingMethods = shippingMethodsResponse.data.orderShipmentMethods;
 
     return {
-      response: shippingMethods
+      response: shippingMethods.length > 0 ? shippingMethods : orderShipmentMethods
     };
   },
 
