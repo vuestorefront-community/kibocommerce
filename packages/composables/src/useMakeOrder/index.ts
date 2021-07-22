@@ -3,13 +3,34 @@ import {
   useMakeOrderFactory,
   UseMakeOrderFactoryParams
 } from '@vue-storefront/core';
-import type { Order } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { Order } from '@vue-storefront/kibo-api';
 
-const factoryParams: UseMakeOrderFactoryParams<Order> = {
+let orderId;
+
+const getOrderId = async (context) =>{
+  if (orderId) return orderId;
+
+  const cartResponse = await context.$kibo.api.getCart(null);
+  const cartId = cartResponse.data.currentCart.id;
+
+  const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId: cartId});
+  orderId = checkoutResponse.data.order.id;
+
+  return orderId;
+};
+
+const factoryParams = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  make: async (context: Context, { customQuery }) => {
-    console.log('Mocked: useMakeOrder.make');
-    return {};
+  make: async (context: Context, { customQuery }): Promise<Order> => {
+
+    const orderId = await getOrderId(context);
+
+    const orderResponse = await context.$kibo.api.makeOrder({orderId: orderId});
+    const order = orderResponse.data.order;
+
+    return {
+      id: order.orderNumber
+    };
   }
 };
 
