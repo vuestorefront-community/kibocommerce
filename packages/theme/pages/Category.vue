@@ -229,6 +229,12 @@
                 )
               "
             >
+              <template #description>
+                <p
+                  class="sf-product-card-horizontal__description desktop-only"
+                  v-html="productGetters.getDescription(product)"
+                />
+              </template>
               <template #configuration>
                 <SfProperty
                   class="desktop-only"
@@ -740,6 +746,16 @@ export default {
     --product-card-title-font-weight: var(--font-weight--medium);
     --product-card-title-margin: var(--spacer-xs) 0 0 0;
     flex: 1 1 50%;
+    ::v-deep .sf-image {
+      object-fit: contain;
+      max-height: 200px;
+    }
+    @include for-mobile {
+      ::v-deep .sf-image {
+        object-fit: contain;
+        max-height: 170px;
+      }
+    }
     @include for-desktop {
       --product-card-title-font-weight: var(--font-weight--normal);
       --product-card-add-button-bottom: var(--spacer-base);
@@ -748,6 +764,9 @@ export default {
   }
   &__product-card-horizontal {
     flex: 0 0 100%;
+    ::v-deep .sf-image {
+      object-fit: contain;
+    }
     @include for-mobile {
       ::v-deep .sf-image {
         --image-width: 5.3125rem;
