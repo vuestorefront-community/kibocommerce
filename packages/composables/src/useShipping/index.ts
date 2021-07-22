@@ -20,7 +20,6 @@ export const getOrderId = async (context) => {
     cartId: cartId
   });
   orderId = checkoutResponse.data.order.id;
-  localStorage.setItem('orderId', orderId);
 
   return orderId;
 };
