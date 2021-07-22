@@ -1,7 +1,7 @@
-import createOrder from '../../src/api/createOrder';
-import defaultMutation from '../../src/api/createOrder/defaultMutation';
+import makeOrder from '../../src/api/makeOrder';
+import defaultMutation from '../../src/api/makeOrder/defaultMutation';
 
-describe('[kibo-api-client] createOrder', () => {
+describe('[kibo-api-client] makeOrder', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
@@ -53,7 +53,7 @@ describe('[kibo-api-client] createOrder', () => {
       extendQuery: (_, args) => args
     };
 
-    const { data } = await createOrder(context, givenVariables);
+    const { data } = await makeOrder(context, givenVariables);
 
     expect(data).toStrictEqual(expectedData);
   });

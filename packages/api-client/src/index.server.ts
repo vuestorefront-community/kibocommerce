@@ -29,7 +29,7 @@ import getShippingAddress from './api/shippingAddress/getShippingAddress';
 import setShippingAddress from './api/shippingAddress/setShippingAddress';
 import getShipmentMethod from './api/shipmentMethod/getShipmentMethod';
 import setShipmentMethod from './api/shipmentMethod/setShipmentMethod';
-import checkout from './api/checkout';
+import makeOrder from './api/makeOrder';
 
 import updateCustomerPersonalData from './api/updateCustomerPersonalData';
 
@@ -117,10 +117,10 @@ const { createApiClient } = apiClientFactory<any, any>({
     setShippingAddress,
     getShipmentMethod,
     setShipmentMethod,
-    updateCustomerPersonalData,
     getBillingInfo,
     setBillingInfo,
-    checkout
+    makeOrder,
+    updateCustomerPersonalData
   },
   extensions: [
     ticketExtension
