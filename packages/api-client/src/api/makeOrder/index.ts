@@ -2,7 +2,7 @@ import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
 
 function buildMakeOrderVars(params) {
-  return ({ orderId: params.orderId, orderActionInput: {actionName: 'Submit'} });
+  return ({ orderId: params.orderId, orderActionInput: {actionName: 'SubmitOrder'} });
 }
 
 export default async function makeOrder(context:Context, params: {orderId: string}, customQuery?: CustomQuery): Promise<any> {
