@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import cartItemDetails from '../../fragments/cartItemDetails';
+import {cartItemDetails} from '../../../fragments';
 
 const addToCurrentCartQuery = gql`
 ${cartItemDetails}

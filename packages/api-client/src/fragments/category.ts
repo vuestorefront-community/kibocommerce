@@ -1,5 +1,16 @@
 import gql from 'graphql-tag';
 
+export const CategoryInfo = `
+fragment categoryInfo on PrCategory {
+    categoryId
+    categoryCode
+    content {
+        name
+        slug
+        description
+    }
+}`;
+
 const categoryFields = gql`
 fragment CategoryFields on PrCategory {
   categoryId

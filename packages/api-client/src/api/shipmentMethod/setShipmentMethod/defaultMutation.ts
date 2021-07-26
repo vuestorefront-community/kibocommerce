@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import fullfillmentInfoFields from '../../fragments/fulfillmentInfo';
+import { fullfillmentInfoFields } from '../../../fragments';
 
 const query = gql`
   mutation setShipmentMethod(

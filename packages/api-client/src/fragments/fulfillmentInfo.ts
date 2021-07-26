@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+export const fullfillmentInfoFields = gql`
 fragment fullfillmentInfoFields on FulfillmentInfo {
   shippingMethodCode 
   shippingMethodName

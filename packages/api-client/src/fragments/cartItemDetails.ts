@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 
-export default gql`
+export const cartItemDetails = gql`
 fragment cartItemDetails on CartItem {
   id
   product {

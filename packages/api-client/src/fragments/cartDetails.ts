@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
-import cartItemDetails from '../fragments/cartItemDetails';
+import { cartItemDetails } from './cartItemDetails';
 
-export default gql`
+export const cartDetails = gql`
 ${cartItemDetails}
 
 fragment cartDetails on Cart {

@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import cartDetails from '../../fragments/cartDetails';
+import { cartDetails } from '../../../fragments';
 
 /*
 * Remove a coupon from a cart
