@@ -1,6 +1,6 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
-import { makeOrderParams, makeOrderResponse } from './../../types/Api';
+import { makeOrderParams, makeOrderResponse } from '../../types/Api';
 
 function buildMakeOrderVars(params) {
   return ({ orderId: params.orderId, orderActionInput: {actionName: 'SubmitOrder'} });

@@ -1,8 +1,8 @@
 
 import { Context } from '@vue-storefront/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-import { CustomerAccountAndAuthInfoInput, CustomerAccount, CustomerAuthTicket } from '../../types/GraphQL';
 import { createAccountLoginMutation, createAccountMutation } from './defaultMutation';
+import { registerUserParams, registerUserResponse } from '../../types/Api';
 
 function getCreateAccountVars(account) {
   const { emailAddress, firstName, lastName} = account;
@@ -35,7 +35,7 @@ function getCreateAccountLoginVars(id, password, account) {
   };
 }
 
-const registerUser = async (context:Context, params: CustomerAccountAndAuthInfoInput): Promise<any> => {
+const registerUser = async (context:Context, params: registerUserParams): Promise<registerUserResponse> => {
 
   // CustomerAccount
   const customerAccountResponse = await context.client.mutate({

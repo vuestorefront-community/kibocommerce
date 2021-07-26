@@ -1,7 +1,8 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultQuery from './defaultQuery';
+import { searchOrdersParams, searchOrdersResponse } from '../../types/Api';
 
-export default async function searchOrders(context: Context, params: { id?: string, page?: number, pageSize?: number}, customQuery?: CustomQuery): Promise<any> {
+export default async function searchOrders(context: Context, params: searchOrdersParams, customQuery?: CustomQuery): Promise<searchOrdersResponse> {
   const variables: {
     filter?: string;
     startIndex?: number;

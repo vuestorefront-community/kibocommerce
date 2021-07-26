@@ -1,6 +1,7 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultQuery, { categoryTreeQuery } from './defaultQuery';
 import { selectCategoryFromTree } from './_utils';
+import { getCategoryParams, getCategoryResponse } from '../../types/Api';
 
 function buildCategorySearchVars(params) {
   let filter = '';
@@ -12,7 +13,7 @@ function buildCategorySearchVars(params) {
   return { filter };
 }
 
-export default async function getCategory(context:Context, params, customQuery?: CustomQuery): Promise<any> {
+export default async function getCategory(context:Context, params: getCategoryParams, customQuery?: CustomQuery): Promise<getCategoryResponse> {
 
   if (params?.slug) {
     const defaultVariables = buildCategorySearchVars(params);

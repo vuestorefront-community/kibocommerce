@@ -1,4 +1,4 @@
-import { CustomQuery, ProductsSearchParams, Context } from '@vue-storefront/core';
+import { CustomQuery, Context } from '@vue-storefront/core';
 import { KiboApolloClient } from '@kibocommerce/graphql-client';
 import getProductsQuery from './getProductsQuery';
 import getProductQuery from './getProductQuery';
@@ -7,6 +7,7 @@ import productSearchQuery from './productSearchQuery';
 import configureProductMutation from './configureProductMutation';
 import gql from 'graphql-tag';
 import { ConfiguredProduct, Product } from '../../types/GraphQL';
+import { getProductParams, productSearchResponse, getProductResponse, getProductsResponse } from '../../types/Api';
 
 const copyProps = (source: any, target: any): void => {
   for (const p in source) {
@@ -17,7 +18,7 @@ const copyProps = (source: any, target: any): void => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function getProduct(context: Context, params: ProductsSearchParams, customQuery?: CustomQuery): Promise<any> {
+export default async function getProduct(context: Context, params: getProductParams, customQuery?: CustomQuery): Promise<productSearchResponse| getProductResponse| getProductsResponse> {
   try {
     const client = context.client as KiboApolloClient;
 

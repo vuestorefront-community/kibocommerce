@@ -1,8 +1,9 @@
 import { Context } from '@vue-storefront/core';
 import { Cart } from '../../../types/GraphQL';
 import defaultMutation from './defaultMutation';
+import { clearCartResponse} from '../../../types/Api';
 
-export default async function clearCart(context: Context): Promise<Cart> {
+export default async function clearCart(context: Context): Promise<clearCartResponse> {
   return await context.client.mutate({
     mutation: defaultMutation,
     fetchPolicy: 'no-cache'

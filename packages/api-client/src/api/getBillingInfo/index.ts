@@ -1,7 +1,8 @@
 import { Context, CustomQuery} from '@vue-storefront/core';
 import defaultQuery from './defaultQuery';
+import { getBillingInfoParams, getBillingInfoResponse } from '../../types/Api';
 
-const getBillingInfo = async (context: Context, params: {orderId: string}, customQuery: CustomQuery) => {
+const getBillingInfo = async (context: Context, params: getBillingInfoParams, customQuery: CustomQuery): Promise<getBillingInfoResponse> => {
 
   const { billingInfo } = context.extendQuery(customQuery,
     { billingInfo: { query: defaultQuery, variables: params } }

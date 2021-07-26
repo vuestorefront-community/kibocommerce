@@ -1,6 +1,6 @@
-import { updateCustomerPersonalDataParams, updateCustomerPersonalDataResponse } from './../../types/Api';
 import { Context } from '@vue-storefront/core';
 import updateCustomerData from './defaultMutation';
+import { updateCustomerPersonalDataParams, updateCustomerPersonalDataResponse } from './../../types/Api';
 
 const updateCustomerPersonalData = async (
   context: Context,

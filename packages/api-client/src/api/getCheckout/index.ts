@@ -1,8 +1,8 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import getCheckoutQuery from './defaultQuery';
-import { OrderMutationResponse } from '../../types/Api';
+import { getCheckoutParams, getCheckoutResponse } from '../../types/Api';
 
-const getCheckout = async (context:Context, params: { orderId: string}, customQuery?: CustomQuery): Promise<OrderMutationResponse> => {
+const getCheckout = async (context:Context, params: getCheckoutParams, customQuery?: CustomQuery): Promise<getCheckoutResponse> => {
 
   const { checkout } = context.extendQuery(customQuery,
     { checkout: { query: getCheckoutQuery, variables: params } }
