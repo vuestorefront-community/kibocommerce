@@ -29,7 +29,6 @@ import setShippingAddress from './api/shippingAddress/setShippingAddress';
 import getShipmentMethod from './api/shipmentMethod/getShipmentMethod';
 import setShipmentMethod from './api/shipmentMethod/setShipmentMethod';
 import makeOrder from './api/makeOrder';
-
 import updateCustomerPersonalData from './api/updateCustomerPersonalData';
 import addPaymentMethodToCheckout from './api/addPaymentToCheckout';
 import addUserAddress from './api/addUserAddress';
