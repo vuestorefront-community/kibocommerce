@@ -30,7 +30,6 @@ export type RemoveFromCartResponse = boolean;
 
 export type UpdateItemQuantityParams = { product, quantity }
 export type UpdateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
-
 // changePassword
 export type ChangePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
 export type ChangePasswordResponse = boolean
