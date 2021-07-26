@@ -10,7 +10,6 @@ import registerUser from './api/registerUser';
 import logInUser from './api/logInUser';
 import logOutUser from './api/logOutUser';
 import getCurrentUser from './api/getCurrentUser';
-
 import getCart from './api/cart/getCart';
 import clearCart from './api/cart/clearCart';
 import addToCart from './api/cart/addToCart';
@@ -33,6 +32,10 @@ import makeOrder from './api/makeOrder';
 
 import updateCustomerPersonalData from './api/updateCustomerPersonalData';
 import addPaymentMethodToCheckout from './api/addPaymentToCheckout';
+import addUserAddress from './api/addUserAddress';
+import updateUserAddress from './api/updateUserAddress';
+import deleteUserAddress from './api/deleteUserAddress';
+import getUserAddresses from './api/getUserAddresses';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -122,7 +125,11 @@ const { createApiClient } = apiClientFactory<any, any>({
     setBillingInfo,
     makeOrder,
     updateCustomerPersonalData,
-    addPaymentMethodToCheckout
+    addPaymentMethodToCheckout,
+    addUserAddress,
+    updateUserAddress,
+    deleteUserAddress,
+    getUserAddresses
   },
   extensions: [
     ticketExtension
