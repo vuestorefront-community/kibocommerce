@@ -13,6 +13,7 @@ export type User = {
   emailAddress?: string;
   id?: number;
   userId?: string;
+  isAnonymous?: boolean;
 };
 
 export type UserAddress = Record<string, unknown>;
