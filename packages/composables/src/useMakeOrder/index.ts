@@ -26,7 +26,7 @@ const factoryParams = {
     const orderId = await getOrderId(context);
 
     const orderResponse = await context.$kibo.api.makeOrder({orderId: orderId});
-    const order = orderResponse.data.order;
+    const order = orderResponse.data.createOrderAction;
 
     return {
       id: order.orderNumber

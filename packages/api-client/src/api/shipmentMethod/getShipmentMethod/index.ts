@@ -1,11 +1,12 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultQuery from './defaultQuery';
+import { getShipmentMethodParams, getShipmentMethodResponse} from '../../../types/Api';
 
 function buildShipmentMethodVars(params) {
   return ({ orderId: params.orderId });
 }
 
-export default async function getShipmentMethod(context:Context, params, customQuery?: CustomQuery): Promise<any> {
+export default async function getShipmentMethod(context:Context, params: getShipmentMethodParams, customQuery?: CustomQuery): Promise<getShipmentMethodResponse> {
 
   const defaultVariables = buildShipmentMethodVars(params);
 
