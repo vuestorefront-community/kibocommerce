@@ -48,7 +48,7 @@ const context = {
   setCart: jest.fn()
 } as any;
 
-describe('[commercetools-composables] factoryParams', () => {
+describe('[kibo-composables] factoryParams', () => {
   it('load return customer data', async () => {
     (context.$kibo.api.getCurrentUser as jest.Mock).mockReturnValueOnce({
       data: {
