@@ -10,7 +10,7 @@ import {
   CrProduct
 } from '../../../api-client/src/types/GraphQL';
 
-export const getCart = async (context: Context, customQuery): Promise<Cart> => {
+const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);
   return response.data.currentCart;
 };
@@ -39,7 +39,7 @@ export const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
   },
 
   clear: async (context: Context) => {
-    const clearCartResponse = await context.$kibo.api.clearCart();
+    const clearCartResponse = await context.$kibo.api.clearCart() as any;
     return clearCartResponse.data.deleteCurrentCartItems;
   },
 

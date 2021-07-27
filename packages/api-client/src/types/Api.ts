@@ -33,31 +33,27 @@ export type AddUserAddressResponse  = QueryResponse<'customerContact', GraphQLTy
 
 // cart
 export type AddToCartParams = { product: any, quantity: number } // { product: GraphQLTypes.CrProduct, quantity: number } 
-export type AddToCartResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
+export type AddToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
 
 export type ApplyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
 export type ApplyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type ClearCartResponse =  QueryResponse<'deleteCurrentCartItems', GraphQLTypes.Cart>; 
+export type ClearCartResponse = any // QueryResponse<'cart', GraphQLTypes.Cart>;
 
 export type GetCartResponse = QueryResponse<'currentCart', GraphQLTypes.Cart>;
 
-export type RemoveCouponParams =  GraphQLTypes.MutationDeleteCartCouponArgs 
+export type RemoveCouponParams = { cartId: string, couponCode: GraphQLTypes.CrAppliedDiscount } 
 export type RemoveCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
 export type RemoveFromCartParams = { product: any} // { product: GraphQLTypes.CartItem}
-export type RemoveFromCartResponse = QueryResponse<'deleteCurrentCartItem', boolean>;
+export type RemoveFromCartResponse = boolean;
 
 export type UpdateItemQuantityParams = { product: GraphQLTypes.CartItem, quantity } 
-export type UpdateItemQuantityResponse = QueryResponse<'updateCurrentCartItemQuantity', GraphQLTypes.CartItem>;
+export type UpdateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
 
 // changePassword
 export type ChangePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
-export type ChangePasswordResponse = QueryResponse<'user', boolean>
-
-// deleteUserAddress
-export type DeleteUserAddressParams = GraphQLTypes.MutationDeleteCustomerAccountContactArgs;
-export type DeleteUserAddressResponse  = QueryResponse<'user', boolean>
+export type ChangePasswordResponse = { data: {user: boolean}}
 
 // getBillingInfo
 export type GetBillingInfoParams =  GraphQLTypes.QueryOrderBillingInfoArgs 
@@ -66,8 +62,7 @@ export type GetBillingInfoResponse = QueryResponse<'orderBillingInfo', GraphQLTy
 // getCategory
 export type GetCategoryParams =  {slug?: string, id?: string, categoryCode: string, } 
 type Category = Record<string, any>;
-// export type GetCategoryResponse =  QueryResponse<'categories', Category[]> 
-export type GetCategoryResponse =  QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categoriesTree', GraphQLTypes.CategoryCollection> ; // categoriesTree
+export type GetCategoryResponse =  QueryResponse<'categories', Category[]> // QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categories', GraphQLTypes.CategoryCollection>; // categoriesTree
 
 // getCheckout
 export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 
@@ -87,12 +82,7 @@ type GetProduct= QueryResponse<'product', GraphQLTypes.Product>;
 type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
 
 export type GetProductParams = ProductsSearchParams
-export type GetProductResponse = ProductSearchResponse | GetProduct | GetProductsResponse  // QueryResponse<'products', ProductSearchResponse | GetProduct | GetProductsResponse>; 
-
-// getUserAddresses
-export type GetUserAddressesParams = GraphQLTypes.QueryCustomerAccountContactsArgs;
-export type GetUserAddressesResponse = QueryResponse<'customerContactCollection', GraphQLTypes.CustomerContactCollection>;;
-
+export type GetProductResponse = any // ProductSearchResponse | GetProduct | GetProductsResponse;
 
 // logInUser
 export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
@@ -114,15 +104,7 @@ export type SearchOrdersParams = { id?: string, page?: number, pageSize?: number
 export type SearchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCollection>;
 
 // setBillingInfo
-export type SetBillingInfoParams = {
-  orderId: any,
-  billingInfoInput: {
-      billingContact: {
-          [x: string]: any
-      },
-      isSameBillingShippingAddress: boolean
-  }
-}
+export type SetBillingInfoParams = {orderId: string, billingDetails: any} // GraphQLTypes.MutationUpdateOrderBillingInfoArgs 
 export type SetBillingInfoResponse = QueryResponse<'updateOrderBillingInfo', GraphQLTypes.BillingInfo>;
 
 // shipmentMethod
@@ -142,10 +124,6 @@ export type SetShippingAddressResponse = QueryResponse<'updateOrderFulfillmentIn
 // updateCustomerPersonalData
 export type UpdateCustomerPersonalDataParams = GraphQLTypes.MutationUpdateCustomerAccountArgs 
 export type UpdateCustomerPersonalDataResponse = QueryResponse<'user', GraphQLTypes.CustomerAccount>;
-
-// updateUserAddress
-export type UpdateUserAddressParams = GraphQLTypes.MutationUpdateCustomerAccountContactArgs;
-export type UpdateUserAddressResponse = any;
 
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
