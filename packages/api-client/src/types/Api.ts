@@ -18,7 +18,7 @@ export type AddToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.Car
 export type ApplyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
 export type ApplyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type ClearCartResponse = any // QueryResponse<'cart', GraphQLTypes.Cart>;
+export type ClearCartResponse =  QueryResponse<'deleteCurrentCartItems', any>; // QueryResponse<'cart', GraphQLTypes.Cart>;
 
 export type GetCartResponse = QueryResponse<'currentCart', GraphQLTypes.Cart>;
 
@@ -60,7 +60,7 @@ type GetProduct= QueryResponse<'product', GraphQLTypes.Product>;
 type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
 
 export type GetProductParams = ProductsSearchParams
-export type GetProductResponse = any // ProductSearchResponse | GetProduct | GetProductsResponse;
+export type GetProductResponse = QueryResponse<'products', any>; // ProductSearchResponse | GetProduct | GetProductsResponse;
 
 // logInUser
 export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
