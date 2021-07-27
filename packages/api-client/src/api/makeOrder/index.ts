@@ -1,12 +1,12 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
-import { makeOrderParams, makeOrderResponse } from '../../types/Api';
+import { MakeOrderParams, MakeOrderResponse } from '../../types/Api';
 
 function buildMakeOrderVars(params) {
   return ({ orderId: params.orderId, orderActionInput: {actionName: 'SubmitOrder'} });
 }
 
-export default async function makeOrder(context:Context, params: makeOrderParams, customQuery?: CustomQuery): Promise<makeOrderResponse> {
+export default async function makeOrder(context:Context, params: MakeOrderParams, customQuery?: CustomQuery): Promise<MakeOrderResponse> {
 
   const defaultVariables = buildMakeOrderVars(params);
 
