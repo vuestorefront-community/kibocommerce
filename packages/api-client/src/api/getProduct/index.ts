@@ -7,7 +7,7 @@ import productSearchQuery from './productSearchQuery';
 import configureProductMutation from './configureProductMutation';
 import gql from 'graphql-tag';
 import { ConfiguredProduct, Product } from '../../types/GraphQL';
-import { getProductParams, productSearchResponse, getProductResponse, getProductsResponse } from '../../types/Api';
+import { GetProductParams, ProductSearchResponse, GetProductResponse, GetProductsResponse } from '../../types/Api';
 
 const copyProps = (source: any, target: any): void => {
   for (const p in source) {
@@ -18,7 +18,7 @@ const copyProps = (source: any, target: any): void => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function getProduct(context: Context, params: getProductParams, customQuery?: CustomQuery): Promise<productSearchResponse| getProductResponse| getProductsResponse> {
+export default async function getProduct(context: Context, params: GetProductParams, customQuery?: CustomQuery): Promise<ProductSearchResponse| GetProductResponse| GetProductsResponse> {
   try {
     const client = context.client as KiboApolloClient;
 

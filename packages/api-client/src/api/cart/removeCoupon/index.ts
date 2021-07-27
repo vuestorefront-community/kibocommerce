@@ -1,8 +1,8 @@
 import { Context } from '@vue-storefront/core';
 import removeCartCouponMutation from './defaultMutation';
-import { removeCouponParams, removeCouponResponse } from '../../../types/Api';
+import { RemoveCouponParams, RemoveCouponResponse } from '../../../types/Api';
 
-export default async function removeCoupon(context: Context, { cartId, couponCode }: removeCouponParams): Promise<removeCouponResponse> {
+export default async function removeCoupon(context: Context, { cartId, couponCode }: RemoveCouponParams): Promise<RemoveCouponResponse> {
   return await context.client.mutate({
     mutation: removeCartCouponMutation,
     variables: {

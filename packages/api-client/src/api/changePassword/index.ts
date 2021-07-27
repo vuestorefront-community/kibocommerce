@@ -1,11 +1,11 @@
 import { Context } from '@vue-storefront/core';
 import changeCustomerAccountPassword from './defaultMutation';
-import { changePasswordParams, changePasswordResponse } from '../../types/Api';
+import { ChangePasswordParams, ChangePasswordResponse } from '../../types/Api';
 
 const changePassword = async (
   context: Context,
-  params: changePasswordParams
-): Promise<changePasswordResponse> => {
+  params: ChangePasswordParams
+): Promise<ChangePasswordResponse> => {
   return await context.client.mutate({
     mutation: changeCustomerAccountPassword,
     variables: params,

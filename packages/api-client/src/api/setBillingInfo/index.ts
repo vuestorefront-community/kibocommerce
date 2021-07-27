@@ -1,6 +1,6 @@
 import { Context, CustomQuery } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
-import { setBillingInfoParams, setBillingInfoResponse } from '../../types/Api';
+import { SetBillingInfoParams, SetBillingInfoResponse } from '../../types/Api';
 
 const buildSetBillingVars = (params: {orderId: string, billingDetails: any}) => {
   const { orderId, billingDetails } = params;
@@ -15,7 +15,7 @@ const buildSetBillingVars = (params: {orderId: string, billingDetails: any}) => 
     }
   };
 };
-const setBillingInfo = async (context: Context, params: setBillingInfoParams, customQuery: CustomQuery): Promise<setBillingInfoResponse> => {
+const setBillingInfo = async (context: Context, params: SetBillingInfoParams, customQuery: CustomQuery): Promise<SetBillingInfoResponse> => {
 
   const billingVariables = buildSetBillingVars(params);
   const { billingInfo } = context.extendQuery(customQuery,

@@ -1,8 +1,8 @@
 import { Context } from '@vue-storefront/core';
 import getOrCreateCheckoutMutation from './defaultMutation';
-import { getOrCreateCheckoutFromCartParams, getOrCreateCheckoutFromCartResponse } from '../../types/Api';
+import { GetOrCreateCheckoutFromCartParams, GetOrCreateCheckoutFromCartResponse } from '../../types/Api';
 
-const getOrCreateCheckoutFromCart = async (context:Context, params: getOrCreateCheckoutFromCartParams): Promise<getOrCreateCheckoutFromCartResponse> => {
+const getOrCreateCheckoutFromCart = async (context:Context, params: GetOrCreateCheckoutFromCartParams): Promise<GetOrCreateCheckoutFromCartResponse> => {
   return await context.client.mutate({
     mutation: getOrCreateCheckoutMutation,
     variables: params,

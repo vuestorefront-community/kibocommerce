@@ -1,8 +1,8 @@
 import { Context } from '@vue-storefront/core';
 import updateCartCouponMutation from './defaultMutation';
-import { applyCouponParams, applyCouponResponse} from '../../../types/Api';
+import { ApplyCouponParams, ApplyCouponResponse} from '../../../types/Api';
 
-export default async function applyCoupon(context: Context, { cartId, couponCode }: applyCouponParams): Promise<applyCouponResponse> {
+export default async function applyCoupon(context: Context, { cartId, couponCode }: ApplyCouponParams): Promise<ApplyCouponResponse> {
   return await context.client.mutate({
     mutation: updateCartCouponMutation,
     variables: {

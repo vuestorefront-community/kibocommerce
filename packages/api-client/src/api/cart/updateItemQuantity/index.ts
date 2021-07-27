@@ -1,8 +1,8 @@
 import { Context } from '@vue-storefront/core';
 import updateItemQuantityMutation from './defaultMutation';
-import { updateItemQuantityParams, updateItemQuantityResponse } from '../../../types/Api';
+import { UpdateItemQuantityParams, UpdateItemQuantityResponse } from '../../../types/Api';
 
-export default async function updateItemQuantity(context: Context, { product, quantity }:updateItemQuantityParams): Promise<updateItemQuantityResponse> {
+export default async function updateItemQuantity(context: Context, { product, quantity }:UpdateItemQuantityParams): Promise<UpdateItemQuantityResponse> {
   return await context.client.mutate({
     mutation: updateItemQuantityMutation,
     variables: {

@@ -12,134 +12,134 @@ export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 // --------------- Define Params and ReturnTypes --------------- 
 
 // cart
-export type addToCartParams = { product, quantity }//GraphQLTypes.MutationAddItemToCurrentCartArgs; 
-export type addToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
+export type AddToCartParams = { product, quantity }
+export type AddToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
 
-export type applyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
-export type applyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type ApplyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
+export type ApplyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type clearCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type ClearCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type getCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type GetCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type removeCouponParams = GraphQLTypes.MutationDeleteCartCouponArgs 
-export type removeCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type RemoveCouponParams = GraphQLTypes.MutationDeleteCartCouponArgs 
+export type RemoveCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type removeFromCartParams = { product: {id: string} } // GraphQLTypes.MutationDeleteCurrentCartItemArgs 
-export type removeFromCartResponse = boolean;
+export type RemoveFromCartParams = { product: {id: string} } 
+export type RemoveFromCartResponse = boolean;
 
-export type updateItemQuantityParams = { product, quantity }// GraphQLTypes.MutationUpdateCustomerAccountArgs 
-export type updateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
+export type UpdateItemQuantityParams = { product, quantity }
+export type UpdateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
 
 // changePassword
-export type changePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
-export type changePasswordResponse = boolean
+export type ChangePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
+export type ChangePasswordResponse = boolean
 
 // getBillingInfo
-export type getBillingInfoParams =  GraphQLTypes.QueryOrderBillingInfoArgs 
-export type getBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
+export type GetBillingInfoParams =  GraphQLTypes.QueryOrderBillingInfoArgs 
+export type GetBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
 
 // getCategory
-export type getCategoryParams =  {slug: string, id: string, categoryCode: string} // GraphQLTypes.QueryCategoriesArgs 
-export type getCategoryResponse = QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection>;
+export type GetCategoryParams =  {slug: string, id: string, categoryCode: string} 
+export type GetCategoryResponse = QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection>;
 
 // getCheckout
-export type getCheckoutParams = GraphQLTypes.QueryOrderArgs 
-export type getCheckoutResponse = QueryResponse<'order', GraphQLTypes.Order>;
+export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 
+export type GetCheckoutResponse = QueryResponse<'order', GraphQLTypes.Order>;
 
 // getCurrentUser
-export type getCurrentUserResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
+export type GetCurrentUserResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
 
 // getOrCreateCheckoutFromCart
-export type getOrCreateCheckoutFromCartParams = GraphQLTypes.MutationCreateOrderArgs 
-export type getOrCreateCheckoutFromCartResponse = QueryResponse<'order', GraphQLTypes.Order>;
+export type GetOrCreateCheckoutFromCartParams = GraphQLTypes.MutationCreateOrderArgs 
+export type GetOrCreateCheckoutFromCartResponse = QueryResponse<'order', GraphQLTypes.Order>;
 
 // getProduct
-export type getProductParams = ProductsSearchParams
-export type productSearchResponse = QueryResponse<'productSearchResult', GraphQLTypes.ProductSearchResult>;
-export type getProductResponse = QueryResponse<'product', GraphQLTypes.Product>;
-export type getProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
+export type GetProductParams = ProductsSearchParams
+export type ProductSearchResponse = QueryResponse<'productSearchResult', GraphQLTypes.ProductSearchResult>;
+export type GetProductResponse = QueryResponse<'product', GraphQLTypes.Product>;
+export type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
 
 // logInUser
-export type logInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
-export type logInUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
+export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
+export type LogInUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
 
 // logOutUser
-export type logOutUserResponse = void;
+export type LogOutUserResponse = void;
 
 // makeOrder
-export type makeOrderParams = GraphQLTypes.MutationCreateOrderActionArgs 
-export type makeOrderResponse = QueryResponse<'createOrderAction', GraphQLTypes.Order>;
+export type MakeOrderParams = GraphQLTypes.MutationCreateOrderActionArgs 
+export type MakeOrderResponse = QueryResponse<'createOrderAction', GraphQLTypes.Order>;
 
 // registerUser
-export type registerUserParams = GraphQLTypes.CustomerAccountAndAuthInfoInput 
-export type registerUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
+export type RegisterUserParams = GraphQLTypes.CustomerAccountAndAuthInfoInput 
+export type RegisterUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
 
 // searchOrders
-export type searchOrdersParams = { id?: string, page?: number, pageSize?: number}// GraphQLTypes.QueryOrdersArgs
-export type searchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCollection>;
+export type SearchOrdersParams = { id?: string, page?: number, pageSize?: number}
+export type SearchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCollection>;
 
 // setBillingInfo
-export type setBillingInfoParams = {orderId: string, billingDetails: any} // GraphQLTypes.MutationUpdateOrderBillingInfoArgs 
-export type setBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
+export type SetBillingInfoParams = {orderId: string, billingDetails: any} // GraphQLTypes.MutationUpdateOrderBillingInfoArgs 
+export type SetBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
 
 // shipmentMethod
-export type getShipmentMethodParams = GraphQLTypes.QueryOrderShipmentMethodsArgs
-export type getShipmentMethodResponse = QueryResponse<'orderShipmentMethods', GraphQLTypes.ShippingRate>;
+export type GetShipmentMethodParams = GraphQLTypes.QueryOrderShipmentMethodsArgs
+export type GetShipmentMethodResponse = QueryResponse<'orderShipmentMethods', GraphQLTypes.ShippingRate>;
 
 export type setShipmentMethodParams = GraphQLTypes.MutationUpdateOrderFulfillmentInfoArgs
 export type setShipmentMethodResponse = QueryResponse<'updateOrderFulfillmentInfo', GraphQLTypes.FulfillmentInfo>;
 
 // shippingAddress
-export type getShippingAddressParams = GraphQLTypes.QueryOrderFulfillmentInfoArgs
-export type getShippingAddressResponse = QueryResponse<'orderFulfillmentInfo', GraphQLTypes.FulfillmentInfo>;
+export type GetShippingAddressParams = GraphQLTypes.QueryOrderFulfillmentInfoArgs
+export type GetShippingAddressResponse = QueryResponse<'orderFulfillmentInfo', GraphQLTypes.FulfillmentInfo>;
 
-export type setShippingAddressParams = GraphQLTypes.MutationUpdateOrderFulfillmentInfoArgs
-export type setShippingAddressResponse = QueryResponse<'updateOrderFulfillmentInfo', GraphQLTypes.FulfillmentInfo>;
+export type SetShippingAddressParams = GraphQLTypes.MutationUpdateOrderFulfillmentInfoArgs
+export type SetShippingAddressResponse = QueryResponse<'updateOrderFulfillmentInfo', GraphQLTypes.FulfillmentInfo>;
 
 // updateCustomerPersonalData
-export type updateCustomerPersonalDataParams = GraphQLTypes.MutationUpdateCustomerAccountArgs 
-export type updateCustomerPersonalDataResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
+export type UpdateCustomerPersonalDataParams = GraphQLTypes.MutationUpdateCustomerAccountArgs 
+export type UpdateCustomerPersonalDataResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
 
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
   // cart
-  addToCart(params:addToCartParams ): Promise<addToCartParamsResponse>;
-  applyCoupon(params: applyCouponParams): Promise<applyCouponResponse>;
-  clearCart(): Promise<clearCartResponse>;
-  getCart(): Promise<getCartResponse>;
-  removeCoupon(params: removeCouponParams): Promise<removeCouponResponse>;
-  removeFromCart(params: removeFromCartParams): Promise<removeFromCartResponse>;
-  updateItemQuantity(params:updateItemQuantityParams ): Promise<updateItemQuantityResponse>;
+  addToCart(params:AddToCartParams ): Promise<AddToCartParamsResponse>;
+  applyCoupon(params: ApplyCouponParams): Promise<ApplyCouponResponse>;
+  clearCart(): Promise<ClearCartResponse>;
+  getCart(): Promise<GetCartResponse>;
+  removeCoupon(params: RemoveCouponParams): Promise<RemoveCouponResponse>;
+  removeFromCart(params: RemoveFromCartParams): Promise<RemoveFromCartResponse>;
+  updateItemQuantity(params:UpdateItemQuantityParams ): Promise<UpdateItemQuantityResponse>;
 
-  changePassword(params: changePasswordParams): Promise<changePasswordResponse>;
-  getBillingInfo(params: getBillingInfoParams): Promise<getBillingInfoResponse>;
-  getCategory(params: getCategoryParams): Promise<getCategoryResponse>;
-  getCheckout(params: getCheckoutParams): Promise<getCheckoutResponse>;
-  getCurrentUser(): Promise<getCurrentUserResponse>;
-  getOrCreateCheckoutFromCart(params: getOrCreateCheckoutFromCartParams): Promise<getOrCreateCheckoutFromCartResponse>;
+  changePassword(params: ChangePasswordParams): Promise<ChangePasswordResponse>;
+  getBillingInfo(params: GetBillingInfoParams): Promise<GetBillingInfoResponse>;
+  getCategory(params: GetCategoryParams): Promise<GetCategoryResponse>;
+  getCheckout(params: GetCheckoutParams): Promise<GetCheckoutResponse>;
+  getCurrentUser(): Promise<GetCurrentUserResponse>;
+  getOrCreateCheckoutFromCart(params: GetOrCreateCheckoutFromCartParams): Promise<GetOrCreateCheckoutFromCartResponse>;
   
   // getProduct
-  getProduct(params: getProductParams): Promise<productSearchResponse | getProductResponse | getProductsResponse>;
-  mergeProducts(params: ProductsSearchParams): Promise<productSearchResponse | getProductResponse | getProductsResponse>;
-  configureProduct(params: ProductsSearchParams): Promise<productSearchResponse | getProductResponse | getProductsResponse>;
+  getProduct(params: GetProductParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
+  mergeProducts(params: ProductsSearchParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
+  configureProduct(params: ProductsSearchParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
  
-  logInUser(params: logInUserParams): Promise<logInUserResponse>;
-  logOutUser(): Promise<logOutUserResponse>;
-  makeOrder(params: makeOrderParams): Promise<makeOrderResponse>;
-  registerUser(params: registerUserParams): Promise<registerUserResponse>;
-  searchOrders(params: searchOrdersParams): Promise<searchOrdersResponse>;
-  setBillingInfo(params: setBillingInfoParams): Promise<setBillingInfoResponse>;
+  logInUser(params: LogInUserParams): Promise<LogInUserResponse>;
+  logOutUser(): Promise<LogOutUserResponse>;
+  makeOrder(params: MakeOrderParams): Promise<MakeOrderResponse>;
+  registerUser(params: RegisterUserParams): Promise<RegisterUserResponse>;
+  searchOrders(params: SearchOrdersParams): Promise<SearchOrdersResponse>;
+  setBillingInfo(params: SetBillingInfoParams): Promise<SetBillingInfoResponse>;
 
   // shipmentMethod
-  getShipmentMethod(params: getShipmentMethodParams): Promise<getShipmentMethodResponse>;
+  getShipmentMethod(params: GetShipmentMethodParams): Promise<GetShipmentMethodResponse>;
   setShipmentMethod(params: setShipmentMethodParams): Promise<setShipmentMethodResponse>;
 
   // shippingAddress
-  getShippingAddress(params: getShippingAddressParams): Promise<getShippingAddressResponse>;
-  setShippingAddress(params: setShippingAddressParams): Promise<setShippingAddressResponse>;
+  getShippingAddress(params: GetShippingAddressParams): Promise<GetShippingAddressResponse>;
+  setShippingAddress(params: SetShippingAddressParams): Promise<SetShippingAddressResponse>;
 
-  updateCustomerPersonalData(params: updateCustomerPersonalDataParams): Promise<updateCustomerPersonalDataResponse>;
+  updateCustomerPersonalData(params: UpdateCustomerPersonalDataParams): Promise<UpdateCustomerPersonalDataResponse>;
 }
 
 // ---------------  Export KiboMethods --------------- 

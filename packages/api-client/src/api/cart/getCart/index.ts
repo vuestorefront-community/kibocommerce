@@ -1,8 +1,8 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import defaultQuery from './defaultQuery';
-import { getCartResponse } from '../../../types/Api';
+import { GetCartResponse } from '../../../types/Api';
 
-export default async function getCart(context:Context, _, customQuery?: CustomQuery): Promise<getCartResponse> {
+export default async function getCart(context:Context, _, customQuery?: CustomQuery): Promise<GetCartResponse> {
   const { cart } = context.extendQuery(customQuery,
     { cart: { query: defaultQuery } }
   );

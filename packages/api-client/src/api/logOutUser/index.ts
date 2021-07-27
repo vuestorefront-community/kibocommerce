@@ -1,7 +1,7 @@
 import { Context } from '@vue-storefront/core';
-import { logOutUserResponse } from '../../types/Api';
+import { LogOutUserResponse } from '../../types/Api';
 
-const logOutUser = async (context:Context): Promise<logOutUserResponse> => {
+const logOutUser = async (context:Context): Promise<LogOutUserResponse> => {
   if (context.client.ticketManager) {
     context.client.ticketManager.invalidateTicket();
   }

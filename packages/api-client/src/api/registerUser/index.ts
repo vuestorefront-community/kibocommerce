@@ -2,7 +2,7 @@
 import { Context } from '@vue-storefront/core';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { createAccountLoginMutation, createAccountMutation } from './defaultMutation';
-import { registerUserParams, registerUserResponse } from '../../types/Api';
+import { RegisterUserParams, RegisterUserResponse } from '../../types/Api';
 
 function getCreateAccountVars(account) {
   const { emailAddress, firstName, lastName} = account;
@@ -35,7 +35,7 @@ function getCreateAccountLoginVars(id, password, account) {
   };
 }
 
-const registerUser = async (context:Context, params: registerUserParams): Promise<registerUserResponse> => {
+const registerUser = async (context:Context, params: RegisterUserParams): Promise<RegisterUserResponse> => {
 
   // CustomerAccount
   const customerAccountResponse = await context.client.mutate({
