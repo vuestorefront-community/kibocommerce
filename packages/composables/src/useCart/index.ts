@@ -7,7 +7,7 @@ import {
 import { Cart, CartItem, CrProduct, CrAppliedDiscount } from '../../../api-client/src/types/GraphQL';
 
 const getCart = async (context: Context, customQuery): Promise<Cart> => {
-  const response = await context.$kibo.api.getCart(null, customQuery);
+  const response = await context.$kibo.api.getCart(customQuery);
   return response.data.currentCart;
 };
 
@@ -32,7 +32,8 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, CrAppliedDiscount>
   },
 
   clear: async (context: Context) => {
-    return await context.$kibo.api.clearCart().data.deleteCurrentCartItems;
+    const clearCartResponse = await context.$kibo.api.clearCart() as any;
+    return clearCartResponse.data.deleteCurrentCartItems;
   },
 
   applyCoupon: async (context: Context, { currentCart, couponCode, customQuery }) => {

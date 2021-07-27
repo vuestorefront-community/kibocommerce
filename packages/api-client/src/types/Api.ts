@@ -12,35 +12,36 @@ export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 // --------------- Define Params and ReturnTypes --------------- 
 
 // cart
-export type AddToCartParams = { product, quantity }
+export type AddToCartParams = { product: any, quantity: number } // { product: GraphQLTypes.CrProduct, quantity: number } 
 export type AddToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
 
 export type ApplyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
 export type ApplyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type ClearCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type ClearCartResponse = any // QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type GetCartResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
+export type GetCartResponse = QueryResponse<'currentCart', GraphQLTypes.Cart>;
 
-export type RemoveCouponParams = GraphQLTypes.MutationDeleteCartCouponArgs 
+export type RemoveCouponParams = { cartId: string, couponCode: GraphQLTypes.CrAppliedDiscount } 
 export type RemoveCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type RemoveFromCartParams = { product: {id: string} } 
+export type RemoveFromCartParams = { product: any} // { product: GraphQLTypes.CartItem}
 export type RemoveFromCartResponse = boolean;
 
-export type UpdateItemQuantityParams = { product, quantity }
+export type UpdateItemQuantityParams = { product: GraphQLTypes.CartItem, quantity } 
 export type UpdateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
 // changePassword
 export type ChangePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
-export type ChangePasswordResponse = boolean
+export type ChangePasswordResponse = { data: {user: boolean}}
 
 // getBillingInfo
 export type GetBillingInfoParams =  GraphQLTypes.QueryOrderBillingInfoArgs 
-export type GetBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
+export type GetBillingInfoResponse = QueryResponse<'orderBillingInfo', GraphQLTypes.BillingInfo>;
 
 // getCategory
-export type GetCategoryParams =  {slug: string, id: string, categoryCode: string} 
-export type GetCategoryResponse = QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection>;
+export type GetCategoryParams =  {slug?: string, id?: string, categoryCode: string, } 
+type Category = Record<string, any>;
+export type GetCategoryResponse =  QueryResponse<'categories', Category[]> // QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categories', GraphQLTypes.CategoryCollection>; // categoriesTree
 
 // getCheckout
 export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 
@@ -54,14 +55,16 @@ export type GetOrCreateCheckoutFromCartParams = GraphQLTypes.MutationCreateOrder
 export type GetOrCreateCheckoutFromCartResponse = QueryResponse<'order', GraphQLTypes.Order>;
 
 // getProduct
+type ProductSearchResponse = QueryResponse<'productSearchResult', GraphQLTypes.ProductSearchResult>; 
+type GetProduct= QueryResponse<'product', GraphQLTypes.Product>; 
+type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
+
 export type GetProductParams = ProductsSearchParams
-export type ProductSearchResponse = QueryResponse<'productSearchResult', GraphQLTypes.ProductSearchResult>;
-export type GetProductResponse = QueryResponse<'product', GraphQLTypes.Product>;
-export type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
+export type GetProductResponse = any // ProductSearchResponse | GetProduct | GetProductsResponse;
 
 // logInUser
 export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
-export type LogInUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
+export type LogInUserResponse = any;
 
 // logOutUser
 export type LogOutUserResponse = void;
@@ -71,8 +74,8 @@ export type MakeOrderParams = GraphQLTypes.MutationCreateOrderActionArgs
 export type MakeOrderResponse = QueryResponse<'createOrderAction', GraphQLTypes.Order>;
 
 // registerUser
-export type RegisterUserParams = GraphQLTypes.CustomerAccountAndAuthInfoInput 
-export type RegisterUserResponse = QueryResponse<'customerAuthTicket', GraphQLTypes.CustomerAuthTicket>;
+export type RegisterUserParams =  { account?: { emailAddress: string, firstName: string, lastName: string }; password?: any} //GraphQLTypes.CustomerAccountAndAuthInfoInput 
+export type RegisterUserResponse = QueryResponse<'account', GraphQLTypes.CustomerAuthTicket>;
 
 // searchOrders
 export type SearchOrdersParams = { id?: string, page?: number, pageSize?: number}
@@ -80,7 +83,7 @@ export type SearchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCol
 
 // setBillingInfo
 export type SetBillingInfoParams = {orderId: string, billingDetails: any} // GraphQLTypes.MutationUpdateOrderBillingInfoArgs 
-export type SetBillingInfoResponse = QueryResponse<'billingInfo', GraphQLTypes.BillingInfo>;
+export type SetBillingInfoResponse = QueryResponse<'updateOrderBillingInfo', GraphQLTypes.BillingInfo>;
 
 // shipmentMethod
 export type GetShipmentMethodParams = GraphQLTypes.QueryOrderShipmentMethodsArgs
@@ -98,7 +101,7 @@ export type SetShippingAddressResponse = QueryResponse<'updateOrderFulfillmentIn
 
 // updateCustomerPersonalData
 export type UpdateCustomerPersonalDataParams = GraphQLTypes.MutationUpdateCustomerAccountArgs 
-export type UpdateCustomerPersonalDataResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
+export type UpdateCustomerPersonalDataResponse = QueryResponse<'user', GraphQLTypes.CustomerAccount>;
 
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
@@ -110,6 +113,7 @@ interface ApiMethods {
   removeCoupon(params: RemoveCouponParams): Promise<RemoveCouponResponse>;
   removeFromCart(params: RemoveFromCartParams): Promise<RemoveFromCartResponse>;
   updateItemQuantity(params:UpdateItemQuantityParams ): Promise<UpdateItemQuantityResponse>;
+  updateItemQty(params:UpdateItemQuantityParams ): Promise<UpdateItemQuantityResponse>;
 
   changePassword(params: ChangePasswordParams): Promise<ChangePasswordResponse>;
   getBillingInfo(params: GetBillingInfoParams): Promise<GetBillingInfoResponse>;
@@ -119,9 +123,7 @@ interface ApiMethods {
   getOrCreateCheckoutFromCart(params: GetOrCreateCheckoutFromCartParams): Promise<GetOrCreateCheckoutFromCartResponse>;
   
   // getProduct
-  getProduct(params: GetProductParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
-  mergeProducts(params: ProductsSearchParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
-  configureProduct(params: ProductsSearchParams): Promise<ProductSearchResponse | GetProductResponse | GetProductsResponse>;
+  getProduct(params: GetProductParams): Promise<GetProductResponse>;
  
   logInUser(params: LogInUserParams): Promise<LogInUserResponse>;
   logOutUser(): Promise<LogOutUserResponse>;

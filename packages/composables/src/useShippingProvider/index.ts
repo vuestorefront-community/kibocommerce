@@ -49,9 +49,9 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
       if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
     }
 
-    const fulfillmentInfoInput = {
-      shippingMethodCode: shippingMethod.shippingMethodCode,
-      shippingMethodName: shippingMethod.shippingMethodName,
+    const fulfillmentInfoInput: FulfillmentInfoInput = {
+      shippingMethodCode: shippingMethod.shippingMethodCode as string,
+      shippingMethodName: shippingMethod.shippingMethodName as string,
       fulfillmentContact: fulfillmentContact
     };
 
