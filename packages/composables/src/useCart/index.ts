@@ -39,7 +39,7 @@ export const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
   },
 
   clear: async (context: Context) => {
-    const clearCartResponse = await context.$kibo.api.clearCart() as any;
+    const clearCartResponse = await context.$kibo.api.clearCart();
     return clearCartResponse.data.deleteCurrentCartItems;
   },
 
