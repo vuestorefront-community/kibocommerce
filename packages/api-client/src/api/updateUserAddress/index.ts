@@ -3,9 +3,11 @@ import { MutationUpdateCustomerAccountContactArgs } from '../..';
 import defaultMutation from './defaultMutation';
 
 export default async function updateUserAddress(context: Context, params: MutationUpdateCustomerAccountContactArgs): Promise<any> {
-  return await context.client.mutate({
-    query: defaultMutation,
+  const response = await context.client.mutate({
+    mutation: defaultMutation,
     variables: params,
     fetchPolicy: 'no-cache'
   });
+
+  return response;
 }

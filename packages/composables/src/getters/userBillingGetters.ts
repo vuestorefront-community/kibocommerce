@@ -2,17 +2,16 @@ import { UserBillingGetters } from '@vue-storefront/core';
 
 const userBillingGetters: UserBillingGetters<any, any> = {
   getAddresses: (billing, criteria?: Record<string, any>) => {
-    const { addresses } = billing;
     if (!criteria || !Object.keys(criteria).length) {
-      return addresses;
+      return billing;
     }
     const entries = Object.entries(criteria);
-    return billing.addresses.filter(
+    return billing.filter(
       address => entries.every(([key, value]) => address[key] === value)
     );
   },
-  getDefault: shipping => shipping.addresses.find(address => address.isDefault),
-  getTotal: shipping => shipping.addresses.length,
+  getDefault: billing => billing.find(address => address.types.find(t => t.name === 'Billing').isPrimary),
+  getTotal: billing => billing.length,
   getPostCode: address => address ? address.address.postalOrZipCode : '',
   getStreetName: address => address ? address.address.address1 : '',
   getStreetNumber: address => address ? address.address.streetNumber : '',
@@ -27,7 +26,7 @@ const userBillingGetters: UserBillingGetters<any, any> = {
   getTaxNumber: address => address ? address.taxId : '',
   getId: address => address ? address.id : '',
   getApartmentNumber: address => address ? address.address.address2 : '',
-  isDefault: address => address ? address.isDefault : false
+  isDefault: address => address ? address.types.find(t => t.name === 'Billing').isPrimary : false
 };
 
 export default userBillingGetters;

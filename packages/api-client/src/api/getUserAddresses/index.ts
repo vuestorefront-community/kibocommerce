@@ -3,12 +3,12 @@ import { QueryCustomerAccountContactsArgs } from '../..';
 import defaultQuery from './defaultQuery';
 
 export default async function getUserAddresses(context: Context, params: QueryCustomerAccountContactsArgs, customQuery?: CustomQuery): Promise<any> {
-  const { orders } = context.extendQuery(customQuery,
-    { orders: { query: defaultQuery, variables: params } }
+  const { userAddresses } = context.extendQuery(customQuery,
+    { userAddresses: { query: defaultQuery, variables: params } }
   );
   const response = await context.client.query({
-    query: orders.query,
-    variables: orders.variables,
+    query: userAddresses.query,
+    variables: userAddresses.variables,
     fetchPolicy: 'no-cache'
   });
 

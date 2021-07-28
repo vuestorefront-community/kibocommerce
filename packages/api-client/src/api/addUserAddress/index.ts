@@ -4,7 +4,7 @@ import defaultMutation from './defaultMutation';
 
 export default async function addUserAddress(context: Context, params: MutationCreateCustomerAccountContactArgs): Promise<any> {
   return await context.client.mutate({
-    query: defaultMutation,
+    mutation: defaultMutation,
     variables: params,
     fetchPolicy: 'no-cache'
   });
