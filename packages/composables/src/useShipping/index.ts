@@ -3,39 +3,45 @@ import {
   useShippingFactory,
   UseShippingParams
 } from '@vue-storefront/core';
-import type { ShippingAddress } from '@vue-storefront/kibo-api';
 import type {
-  UseShippingAddParams as AddParams
+  UseShippingAddParams as AddParams,
+  Address
 } from '../types';
 
 let orderId;
 
-const getOrderId = async (context) =>{
+export const getOrderId = async (context) => {
   if (orderId) return orderId;
 
   const cartResponse = await context.$kibo.api.getCart(null);
   const cartId = cartResponse.data.currentCart.id;
 
-  const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId: cartId});
+  const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({
+    cartId: cartId
+  });
   orderId = checkoutResponse.data.order.id;
 
   return orderId;
 };
 
-const params: UseShippingParams<Address, any> = {
-
+export const params: UseShippingParams<Address, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context, { customQuery }) => {
-
     const cartOrderId = await getOrderId(context);
-    const shippingResponce = await context.$kibo.api.getShippingAddress({orderId: cartOrderId}, customQuery);
-    const fulfillmentContact = shippingResponce.data.orderFulfillmentInfo.fulfillmentContact;
+    const shippingResponce = await context.$kibo.api.getShippingAddress(
+      { orderId: cartOrderId },
+      customQuery
+    );
+    const fulfillmentContact =
+      shippingResponce.data.orderFulfillmentInfo.fulfillmentContact;
 
     // Delete __typename
     if (fulfillmentContact) {
       if (fulfillmentContact.__typename) delete fulfillmentContact.__typename;
-      if (fulfillmentContact.address.__typename) delete fulfillmentContact.address.__typename;
-      if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
+      if (fulfillmentContact.address.__typename)
+        delete fulfillmentContact.address.__typename;
+      if (fulfillmentContact.phoneNumbers.__typename)
+        delete fulfillmentContact.phoneNumbers.__typename;
     }
 
     return fulfillmentContact;
@@ -43,7 +49,6 @@ const params: UseShippingParams<Address, any> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   save: async (context: Context, { shippingDetails, customQuery }) => {
-
     if (shippingDetails.isDefault) {
       delete shippingDetails.isDefault;
     }
@@ -51,12 +56,20 @@ const params: UseShippingParams<Address, any> = {
     const cartOrderId = await getOrderId(context);
     const updateMode = 'ApplyAndCommit';
 
-    const fulfillmentInfoInput = {fulfillmentContact: shippingDetails};
+    const fulfillmentInfoInput = { fulfillmentContact: shippingDetails };
 
-    const shippingResponce = await context.$kibo.api.setShippingAddress({orderId: cartOrderId, updateMode: updateMode, fulfillmentInfoInput: fulfillmentInfoInput}, customQuery);
-    const updatedAddress = shippingResponce.data.updateOrderFulfillmentInfo.fulfillmentContact;
+    const shippingResponce = await context.$kibo.api.setShippingAddress(
+      {
+        orderId: cartOrderId,
+        updateMode: updateMode,
+        fulfillmentInfoInput: fulfillmentInfoInput
+      },
+      customQuery
+    );
+    const updatedAddress =
+      shippingResponce.data.updateOrderFulfillmentInfo.fulfillmentContact;
 
-    return ({addresses: [updatedAddress]});
+    return { addresses: [updatedAddress] };
   }
 };
 
