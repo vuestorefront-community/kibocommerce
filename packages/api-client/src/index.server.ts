@@ -32,6 +32,7 @@ import setShipmentMethod from './api/shipmentMethod/setShipmentMethod';
 import makeOrder from './api/makeOrder';
 
 import updateCustomerPersonalData from './api/updateCustomerPersonalData';
+import addPaymentMethodToCheckout from './api/addPaymentToCheckout';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -120,7 +121,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     getBillingInfo,
     setBillingInfo,
     makeOrder,
-    updateCustomerPersonalData
+    updateCustomerPersonalData,
+    addPaymentMethodToCheckout
   },
   extensions: [
     ticketExtension
