@@ -15,8 +15,11 @@ const factoryParams = {
       categoryCode: params.input.categoryCode
     });
     let categories;
-
-    const filters = params.input.filters || []
+    
+    if ('categories' in categoryResponse.data) {
+      categories = categoryResponse.data.categories.items;
+    }
+    const filters = params.input.filters || [];
     const itemsPerPage = params.input.itemsPerPage || ITEMS_PER_PAGE[0];
     const startIndex = (params.input.page - 1) * itemsPerPage;
     const sort = params.input.sort

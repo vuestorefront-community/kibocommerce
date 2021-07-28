@@ -62,7 +62,8 @@ export type GetBillingInfoResponse = QueryResponse<'orderBillingInfo', GraphQLTy
 // getCategory
 export type GetCategoryParams =  {slug?: string, id?: string, categoryCode: string, } 
 type Category = Record<string, any>;
-export type GetCategoryResponse =  QueryResponse<'categories', Category[]> // QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categories', GraphQLTypes.CategoryCollection>; // categoriesTree
+// export type GetCategoryResponse =  QueryResponse<'categories', Category[]> 
+export type GetCategoryResponse =  QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categoriesTree', GraphQLTypes.CategoryCollection>; // categoriesTree
 
 // getCheckout
 export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 
@@ -104,7 +105,15 @@ export type SearchOrdersParams = { id?: string, page?: number, pageSize?: number
 export type SearchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCollection>;
 
 // setBillingInfo
-export type SetBillingInfoParams = {orderId: string, billingDetails: any} // GraphQLTypes.MutationUpdateOrderBillingInfoArgs 
+export type SetBillingInfoParams = {
+  orderId: any,
+  billingInfoInput: {
+      billingContact: {
+          [x: string]: any
+      },
+      isSameBillingShippingAddress: boolean
+  }
+}
 export type SetBillingInfoResponse = QueryResponse<'updateOrderBillingInfo', GraphQLTypes.BillingInfo>;
 
 // shipmentMethod
