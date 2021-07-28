@@ -192,7 +192,7 @@
 
         <ValidationProvider
           name="phone"
-          rules="required|phone"
+          rules="required"
           v-slot="{ errors }"
           slim
         >
@@ -202,6 +202,25 @@
             @input="phone => changeBillingDetails('home', phone)"
             label="Phone number"
             name="phone"
+            class="form__element form__element--half"
+            required
+            :valid="!errors[0]"
+            :errorMessage="errors[0]"
+          />
+        </ValidationProvider>
+
+        <ValidationProvider
+          name="email"
+          rules="required"
+          v-slot="{ errors }"
+          slim
+        >
+          <SfInput
+            v-e2e="'email'"
+            :value="billingDetails.email && billingDetails.email"
+            @input="email => changeBillingDetails('email', email)"
+            label="Email address"
+            name="email"
             class="form__element form__element--half"
             required
             :valid="!errors[0]"
@@ -331,7 +350,12 @@ export default {
 
     const handleAddressSubmit = (reset) => async () => {
       const addressId = currentAddressId.value;
-      await save({ billingDetails: billingDetails.value });
+      await save({
+        billingDetails: {
+          ...billingDetails.value,
+          sameAsShipping: sameAsShipping.value
+        }
+      });
       if (addressId !== NOT_SELECTED_ADDRESS && setAsDefault.value) {
         const chosenAddress = userBillingGetters.getAddresses(userBilling.value, { id: addressId });
         if (chosenAddress && chosenAddress.length) {

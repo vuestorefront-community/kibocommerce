@@ -1,5 +1,5 @@
 import gql from 'graphql-tag';
-import { productInfo } from '../../fragments';
+import { productInfo } from '../../fragments/product';
 
 export default gql`
   ${productInfo}

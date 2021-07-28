@@ -59,3 +59,23 @@ fragment baseCheckoutInfo on Order {
         couponCode
    }
 }`;
+
+export const billingContactDetails = `      
+fragment billingContactDetails on Contact {
+    id
+    firstName
+    lastNameOrSurname
+    email
+    address {
+      address1
+      address2
+      address3
+      stateOrProvince
+      postalOrZipCode
+      cityOrTown
+      countryCode
+    }
+    phoneNumbers{
+      home
+    }
+}`;

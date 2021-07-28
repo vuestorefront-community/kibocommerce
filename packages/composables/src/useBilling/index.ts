@@ -21,6 +21,7 @@ const getOrderId = async (context) => {
 };
 
 const params: UseBillingParams<Address, any> = {
+
   load: async (context: Context, { customQuery }) => {
     const orderId = await getOrderId(context);
     const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId }, customQuery);
@@ -28,7 +29,16 @@ const params: UseBillingParams<Address, any> = {
   },
   save: async (context: Context, { billingDetails, customQuery }) => {
     const orderId = await getOrderId(context);
-    const billingInfoResponse = await context.$kibo.api.setBillingInfo({ orderId, billingDetails }, customQuery);
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { sameAsShipping, isDefault, ...billingContact } = billingDetails;
+    const setBillingParams = {
+      orderId,
+      billingInfoInput: {
+        billingContact,
+        isSameBillingShippingAddress: sameAsShipping || false
+      }
+    };
+    const billingInfoResponse = await context.$kibo.api.setBillingInfo(setBillingParams, customQuery);
     const billingInfo = billingInfoResponse.data?.updateOrderBillingInfo?.billingContact;
     return billingInfo;
   }
