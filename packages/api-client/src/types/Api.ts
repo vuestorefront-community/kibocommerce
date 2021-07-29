@@ -83,7 +83,12 @@ type GetProduct= QueryResponse<'product', GraphQLTypes.Product>;
 type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
 
 export type GetProductParams = ProductsSearchParams
-export type GetProductResponse = QueryResponse<'products', any>; // ProductSearchResponse | GetProduct | GetProductsResponse;
+export type GetProductResponse = any // ProductSearchResponse | GetProduct | GetProductsResponse  // QueryResponse<'products', ProductSearchResponse | GetProduct | GetProductsResponse>; 
+
+// getUserAddresses
+export type GetUserAddressesParams = GraphQLTypes.QueryCustomerAccountContactsArgs;
+export type GetUserAddressesResponse = QueryResponse<'customerContactCollection', GraphQLTypes.CustomerContactCollection>;;
+
 
 // logInUser
 export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
