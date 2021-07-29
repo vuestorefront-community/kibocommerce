@@ -1,34 +1,28 @@
-import {
-  Context,
-  useBillingFactory,
-  UseBillingParams
-} from '@vue-storefront/core';
-import type { BillingAddress } from '@vue-storefront/kibo-api';
-import type {
-  UseBillingAddParams as AddParams
-} from '../types';
-
-// let details = {};
-
-const getOrderId = async (context) => {
-  const cartResponse = await context.$kibo.api.getCart();
-  const cartId = cartResponse.data?.currentCart?.id;
-  if (!cartId) {
-    return '';
-  }
-  const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId });
-  return checkoutResponse.data?.order?.id;
-};
+import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/core';
+import { Address } from '../types';
+import useCart from '../useCart';
+import useCheckout from '../useCheckout';
 
 const params: UseBillingParams<Address, any> = {
-
+  provide() {
+    return {
+      cart: useCart(),
+      checkout: useCheckout()
+    };
+  },
   load: async (context: Context, { customQuery }) => {
-    const orderId = await getOrderId(context);
+    if (!context.checkout?.checkout?.value?.id) {
+      await context.checkout.load();
+    }
+    const orderId = context.checkout?.checkout?.value?.id;
     const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId }, customQuery);
     return billingInfoResponse.data?.orderBillingInfo?.billingContact;
   },
   save: async (context: Context, { billingDetails, customQuery }) => {
-    const orderId = await getOrderId(context);
+    if (!context.checkout?.checkout?.value?.id) {
+      await context.checkout.load();
+    }
+    const orderId = context.checkout?.checkout?.value?.id;
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { sameAsShipping, isDefault, ...billingContact } = billingDetails;
     const setBillingParams = {
