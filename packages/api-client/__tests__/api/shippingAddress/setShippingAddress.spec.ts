@@ -9,7 +9,6 @@ describe('[kibo-api-client] setShippingAddress', () => {
   it('sets shipping address', async () => {
     const givenVariables = {
       orderId: '11f0a95c65e313000140379d0000432a',
-      updateMode: 'ApplyAndCommit',
       fulfillmentInfoInput: {
         fulfillmentContact: {
           email: 'sushant@gmail.com',

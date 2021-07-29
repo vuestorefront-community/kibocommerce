@@ -1,7 +1,7 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
 import { Product } from 'packages/api-client/src/types/GraphQL';
 import addToCurrentCartQuery from './defaultMutation';
-import { AddToCartParams, AddToCartParamsResponse} from '../../../types/Api';
+import { AddToCartParams, AddToCartResponse} from '../../../types/Api';
 
 function buildAddToCartVariables({ product, quantity = 1 }: {
   product: Product,
@@ -28,7 +28,7 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
   };
 }
 
-export default async function addToCart(context: Context, { product, quantity }: AddToCartParams, customQuery?: CustomQuery): Promise<AddToCartParamsResponse> {
+export default async function addToCart(context: Context, { product, quantity }: AddToCartParams, customQuery?: CustomQuery): Promise<AddToCartResponse> {
   const variables = buildAddToCartVariables({ product, quantity });
 
   const { addToCart } = context.extendQuery(customQuery,

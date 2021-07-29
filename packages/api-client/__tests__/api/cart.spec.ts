@@ -7,7 +7,7 @@ import clearCart from '../../src/api/cart/clearCart';
 import getCart from '../../src/api/cart/getCart';
 import removeCoupon from '../../src/api/cart/removeCoupon';
 import removeFromCart from '../../src/api/cart/removeFromCart';
-import updateItemQty from '../../src/api/cart/updateItemQuantity';
+import updateItemQuantity from '../../src/api/cart/updateItemQuantity';
 import cfg from '../../src/mozuConfig';
 import { Cart } from '../../src/types/GraphQL';
 
@@ -27,7 +27,7 @@ describe('[kibo-api-client] cart methods', () => {
       product,
       quantity: 1
     };
-    return (await addToCart(context, params)).data?.addItemToCurrentCart;
+    return (await addToCart(context, params)).data?.cartItem;
   };
 
   let standardProduct;
@@ -71,7 +71,7 @@ describe('[kibo-api-client] cart methods', () => {
 
   it('should add a standard item to the current user\'s cart', async () => {
     const result = await addToCartProxy(standardProduct);
-    expect(result.product?.productCode).toBe('MS-BTL-003');
+    expect(result?.product?.productCode).toBe('MS-BTL-003');
   });
   it('should add set the quantity to 2 for an item in the current user\'s cart', async () => {
     const addResult = await addToCartProxy(standardProduct);
@@ -79,7 +79,7 @@ describe('[kibo-api-client] cart methods', () => {
       product: addResult,
       quantity: 2
     };
-    const result = await updateItemQty(context, params);
+    const result = await updateItemQuantity(context, params);
     expect(result.data?.updateCurrentCartItemQuantity?.quantity).toBe(2);
   });
   it('should apply a coupon to the current user\'s cart', async () => {
@@ -89,7 +89,7 @@ describe('[kibo-api-client] cart methods', () => {
       cartId: cart.id,
       couponCode: 'CTD'
     };
-    cart = (await applyCoupon(context, params)).data?.updateCartCoupon;
+    cart = (await applyCoupon(context, params)).data?.cart;
     expect(cart.orderDiscounts.length).toBe(1);
   });
   it('should remove a coupon from the current user\'s cart', async () => {
@@ -99,7 +99,7 @@ describe('[kibo-api-client] cart methods', () => {
       cartId: cart.id,
       couponCode: 'CTD'
     };
-    cart = (await applyCoupon(context, params)).data?.updateCartCoupon;
+    cart = (await applyCoupon(context, params)).data?.cart;
     expect(cart.orderDiscounts.length).toBe(1);
     await removeCoupon(context, params);
     cart = (await getCart(context, null)).data?.currentCart as Cart;

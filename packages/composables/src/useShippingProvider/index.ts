@@ -42,13 +42,6 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
     const orderId = await getOrderId(context);
     const fulfillmentContact = await getShippingAddress(orderId, context);
 
-    // Delete __typename
-    if (fulfillmentContact) {
-      if (fulfillmentContact.__typename) delete fulfillmentContact.__typename;
-      if (fulfillmentContact.address.__typename) delete fulfillmentContact.address.__typename;
-      if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
-    }
-
     const fulfillmentInfoInput: FulfillmentInfoInput = {
       shippingMethodCode: shippingMethod.shippingMethodCode as string,
       shippingMethodName: shippingMethod.shippingMethodName as string,

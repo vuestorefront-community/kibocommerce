@@ -10,7 +10,7 @@ describe('[kibo-api-client] makeOrder', () => {
     const givenVariables = {
       orderId: '11f8966065e3130001da7ee90000432a',
       orderActionInput: {
-        actionName: 'Submit'
+        actionName: 'SubmitOrder'
       }
     };
 
