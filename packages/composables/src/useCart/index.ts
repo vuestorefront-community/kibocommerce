@@ -4,18 +4,14 @@ import {
   UseCartFactoryParams
 } from '@vue-storefront/core';
 
-import {
-  Cart,
-  CartItem,
-  CrProduct
-} from '../../../api-client/src/types/GraphQL';
+import { Cart, CartItem, CrProduct } from '../../../api-client/src/types/GraphQL';
 
 const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);
   return response.data.currentCart;
 };
 
-export const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
+const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
   load: async (context: Context, { customQuery }) => {
     return await getCart(context, customQuery);
   },
