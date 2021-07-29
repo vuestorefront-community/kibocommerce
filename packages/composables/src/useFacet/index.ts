@@ -14,7 +14,7 @@ const factoryParams = {
   search: async (context: Context, params: FacetSearchResult<any>) => {
 
     const categoryResponse = await context.$kibo.api.getCategory({categoryCode: params.input.categoryCode});
-    const categories = categoryResponse.data?.categories?.items;
+    let categories;
 
     const filters = params.input.filters || []
     const itemsPerPage = params.input.itemsPerPage || ITEMS_PER_PAGE[0];

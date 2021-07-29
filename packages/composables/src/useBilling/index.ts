@@ -29,7 +29,7 @@ const params: UseBillingParams<Address, any> = {
       orderId,
       billingInfoInput: {
         billingContact,
-        isSameBillingShippingAddress: sameAsShipping || false
+        isSameBillingShippingAddress: (sameAsShipping || false) as boolean
       }
     };
     const billingInfoResponse = await context.$kibo.api.setBillingInfo(setBillingParams, customQuery);
