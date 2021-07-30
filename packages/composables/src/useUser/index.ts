@@ -6,7 +6,7 @@ import {
 import { User } from '../types';
 import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibo-api/lib/types/GraphQL';
 
-export const params: UseUserFactoryParams<User, any, any> = {
+const params: UseUserFactoryParams<User, any, any> = {
   load: async (context: Context) => {
     const customerAccountResponse = await context.$kibo.api.getCurrentUser();
     const customerAccount = customerAccountResponse.data?.customerAccount;
@@ -21,7 +21,6 @@ export const params: UseUserFactoryParams<User, any, any> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   updateUser: async (context: Context, { currentUser, updatedUserData }) => {
-
     const userDetails: MutationUpdateCustomerAccountArgs = {
       accountId: currentUser.id,
       customerAccountInput: {
@@ -38,7 +37,9 @@ export const params: UseUserFactoryParams<User, any, any> = {
         taxExempt: false
       }
     };
-    const response = await context.$kibo.api.updateCustomerPersonalData(userDetails);
+    const response = await context.$kibo.api.updateCustomerPersonalData(
+      userDetails
+    );
     return response.data.user;
   },
 

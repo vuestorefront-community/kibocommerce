@@ -1,5 +1,13 @@
 import { User } from '../../src/types';
-import { params } from '../../src/useUser';
+import useUser from '../../src/useUser';
+
+jest.mock('@vue-storefront/core', () => ({
+  useUserFactory: (params) => () => params
+}));
+
+jest.mock('../../src/useCart', () => ({
+  useCart: jest.fn()
+}));
 
 const currentUser: User = {
   emailAddress: 'test@email.com',
@@ -27,15 +35,68 @@ const updatedUser = {
   }
 } as any;
 
+const receivedUpdatedUserDataParams = {
+  email: 'test@email.com',
+  firstName: 'Don',
+  lastName: 'Jon'
+} as any;
+
+const updatedUserDataResponse = {
+  accountId: 1074,
+  customerAccountInput: {
+    emailAddress: receivedUpdatedUserDataParams.email,
+    userName: receivedUpdatedUserDataParams.email,
+    firstName: receivedUpdatedUserDataParams.firstName,
+    lastName: receivedUpdatedUserDataParams.lastName,
+    isAnonymous: false,
+    isLocked: false,
+    isActive: true,
+    acceptsMarketing: false,
+    hasExternalPassword: false,
+    id: 1074,
+    taxExempt: false
+  }
+} as any;
+
 const context = {
   $kibo: {
     api: {
-      getCurrentUser: jest.fn(() => ({ user: currentUser })),
+      getCurrentUser: jest.fn(() => {
+        return {
+          data: {
+            customerAccount: currentUser
+          }
+        };
+      }),
       logOutUser: jest.fn(),
-      updateCustomerPersonalData: jest.fn(() => ({ user: currentUser })),
-      registerUser: jest.fn(() => ({ user: currentUser })),
-      logInUser: jest.fn(() => ({ user: currentUser })),
-      changePassword: jest.fn(() => ({ user: currentUser })),
+      updateCustomerPersonalData: jest.fn(() => {
+        return {
+          data: {
+            user: updatedUserDataResponse
+          }
+        };
+      }),
+      registerUser: jest.fn(() => {
+        return {
+          data: {
+            account: {
+              customerAccount: currentUser
+            }
+          }
+        };
+      }),
+      logInUser: jest.fn(() => {
+        return {
+          customerAccount: currentUser
+        };
+      }),
+      changePassword: jest.fn(() => {
+        return {
+          data: {
+            user: true
+          }
+        };
+      }),
       getCart: jest.fn(() => {})
     },
     config: {
@@ -50,58 +111,28 @@ const context = {
 
 describe('[kibo-composables] factoryParams', () => {
   it('load return customer data', async () => {
-    (context.$kibo.api.getCurrentUser as jest.Mock).mockReturnValueOnce({
-      data: {
-        customerAccount: currentUser
-      }
-    });
-    const response = await params.load(context as any);
+    const { load } = useUser() as any;
+    const response = await load(context as any);
     response.isAnonymous
       ? expect(response).toStrictEqual(undefined)
       : expect(response).toStrictEqual(currentUser);
+    expect(context.$kibo.api.getCurrentUser).toBeCalled();
   });
 
   it('logOut method calls API log out method', async () => {
-    await params.logOut(context as any);
-    expect(context.$kibo.api.logOutUser).toHaveBeenCalled();
+    const { logOut } = useUser() as any;
+    await logOut(context as any);
+    expect(context.$kibo.api.logOutUser).toBeCalled();
   });
 
   it('updateUser return updated user', async () => {
-    const receivedUpdatedUserDataParams = {
-      email: 'test@email.com',
-      firstName: 'Don',
-      lastName: 'Jon'
-    } as any;
-
-    const updatedUserDataResponse = {
-      accountId: 1074,
-      customerAccountInput: {
-        emailAddress: receivedUpdatedUserDataParams.email,
-        userName: receivedUpdatedUserDataParams.email,
-        firstName: receivedUpdatedUserDataParams.firstName,
-        lastName: receivedUpdatedUserDataParams.lastName,
-        isAnonymous: false,
-        isLocked: false,
-        isActive: true,
-        acceptsMarketing: false,
-        hasExternalPassword: false,
-        id: 1074,
-        taxExempt: false
-      }
-    } as any;
-
-    (context.$kibo.api
-      .updateCustomerPersonalData as jest.Mock).mockReturnValueOnce({
-      data: {
-        user: updatedUserDataResponse
-      }
+    const { updateUser } = useUser() as any;
+    const response = await updateUser(context as any, {
+      currentUser,
+      updatedUserData: receivedUpdatedUserDataParams
     });
-    expect(
-      await params.updateUser(context as any, {
-        currentUser,
-        updatedUserData: receivedUpdatedUserDataParams
-      })
-    ).toEqual(updatedUser);
+    expect(response).toEqual(updatedUser);
+    expect(context.$kibo.api.updateCustomerPersonalData).toBeCalled();
   });
 
   it('register method return a new customer', async () => {
@@ -111,44 +142,33 @@ describe('[kibo-composables] factoryParams', () => {
       lastName: 'Jon',
       password: 'Password@1234'
     };
-
-    (context.$kibo.api.registerUser as jest.Mock).mockReturnValueOnce({
-      data: {
-        account: {
-          customerAccount: currentUser
-        }
-      }
-    });
-    expect(await params.register(context as any, registerParams)).toEqual(
-      currentUser
-    );
+    const { register } = useUser() as any;
+    const response = await register(context as any, registerParams);
+    expect(response).toEqual(currentUser);
+    expect(context.$kibo.api.registerUser).toBeCalled();
   });
 
   it('logIn method return a logged in customer', async () => {
-    (context.$kibo.api.logInUser as jest.Mock).mockReturnValueOnce({
-      customerAccount: currentUser
+    const { logIn } = useUser() as any;
+    const response = await logIn(context as any, {
+      username: 'test@email.com',
+      password: 'test@1234'
     });
-    expect(
-      await params.logIn(context as any, {
-        username: 'test@email.com',
-        password: 'test@1234'
-      })
-    ).toEqual(currentUser);
+    expect(response).toEqual(currentUser);
+    expect(context.$kibo.api.logInUser).toBeCalled();
+    expect(context.$kibo.api.getCart).toBeCalled();
+    expect(context.setCart).toBeCalled();
   });
 
   describe('changePassword', () => {
     it('changes the password', async () => {
-      (context.$kibo.api.changePassword as jest.Mock).mockReturnValueOnce({
-        data: {
-          user: true
-        }
-      });
-
-      await params.changePassword(context as any, {
+      const { changePassword } = useUser() as any;
+      await changePassword(context as any, {
         currentUser,
         currentPassword: 'current@1234',
         newPassword: 'new@1234'
       });
+      expect(context.$kibo.api.changePassword).toBeCalled();
       expect(context.$kibo.api.logInUser).toBeCalled();
     });
   });
