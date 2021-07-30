@@ -10,10 +10,10 @@ import type {
 const ITEMS_PER_PAGE = [20, 40, 100];
 
 const factoryParams = {
-
   search: async (context: Context, params: FacetSearchResult<any>) => {
-
-    const categoryResponse = await context.$kibo.api.getCategory({categoryCode: params.input.categoryCode});
+    const categoryResponse = await context.$kibo.api.getCategory({
+      categoryCode: params.input.categoryCode
+    });
     let categories;
 
     const filters = params.input.filters || []
@@ -29,7 +29,11 @@ const factoryParams = {
       sort
     });
 
-    const productSearch = productSearchResponse.data?.products || {};
+    let productSearch;
+    if ('products' in productSearchResponse.data) {
+      productSearch = productSearchResponse.data?.products || {};
+    }
+
     const { facets, items, totalCount } = productSearch;
 
     return {

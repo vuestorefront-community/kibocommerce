@@ -1,9 +1,9 @@
+import { Order } from './../../../api-client/src/types/GraphQL';
 import { Context } from '@vue-storefront/core';
 import { useCheckoutFactory, UseCheckoutFactoryParams } from '../factories/useCheckoutFactory';
 import useCart from '../useCart';
-import { Checkout } from '@vue-storefront/kibo-api';
 
-const params: UseCheckoutFactoryParams<Checkout> = {
+const params: UseCheckoutFactoryParams<Order> = {
   provide() {
     return {
       cart: useCart()
@@ -15,8 +15,8 @@ const params: UseCheckoutFactoryParams<Checkout> = {
       cartId = context.cart?.cart?.value?.id;
     }
     const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({cartId});
-    return checkoutResponse.data?.order;
+    return [checkoutResponse.data?.order];
   }
 };
 
-export default useCheckoutFactory<Checkout>(params);
+export default useCheckoutFactory<Order>(params);

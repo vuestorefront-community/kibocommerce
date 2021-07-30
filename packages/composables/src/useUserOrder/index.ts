@@ -8,7 +8,7 @@ import type {
   useUserOrderSearchParams as SearchParams
 } from '../types';
 
-const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
+export const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
   searchOrders: async (context: Context, params: OrderSearchParams): Promise<any> => {
     const { customQuery, ...searchParams } = params || { customQuery: {} };
 

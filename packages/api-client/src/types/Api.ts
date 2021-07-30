@@ -76,6 +76,7 @@ export type GetCheckoutResponse = QueryResponse<'order', GraphQLTypes.Order>;
 // getCurrentUser
 export type GetCurrentUserResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
 
+
 // getOrCreateCheckoutFromCart
 export type GetOrCreateCheckoutFromCartParams = GraphQLTypes.MutationCreateOrderArgs 
 export type GetOrCreateCheckoutFromCartResponse = QueryResponse<'order', GraphQLTypes.Order>; // GraphQLTypes.Order>
