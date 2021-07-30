@@ -108,6 +108,7 @@ export type RegisterUserResponse = QueryResponse<'account', GraphQLTypes.Custome
 // searchOrders
 export type SearchOrdersParams = { id?: string, page?: number, pageSize?: number}
 export type SearchOrdersResponse = QueryResponse<'orders', GraphQLTypes.OrderCollection>;
+export type SearchOrderInput = {filter?: string, startIndex?:number, pageSize?: number};
 
 // setBillingInfo
 export type SetBillingInfoParams = {
