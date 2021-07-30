@@ -2,10 +2,14 @@ import { UserOrderGetters } from '@vue-storefront/core';
 import { Order, CrOrderItem } from '../../../api-client/src';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getDate = (order: Order): string => order?.auditInfo?.createDate ? new Date(order?.auditInfo?.createDate).toLocaleDateString() : '';
+export const getDate = (order: Order): string =>
+  order?.auditInfo?.createDate
+    ? new Date(order?.auditInfo?.createDate).toLocaleDateString()
+    : '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getId = (order: Order): string => order?.orderNumber?.toString() || order?.id;
+export const getId = (order: Order): string =>
+  order?.orderNumber?.toString() || order?.id;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getStatus = (order: Order): string => order?.status;
@@ -17,7 +21,8 @@ export const getPrice = (order: Order): number | null => order?.total;
 export const getItems = (order: Order): any[] => order?.items || [];
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemSku = (item: CrOrderItem): string => item?.product?.productCode;
+export const getItemSku = (item: CrOrderItem): string =>
+  item?.product?.productCode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItemName = (item: CrOrderItem): string => item?.product?.name;
@@ -29,15 +34,13 @@ export const getItemQty = (item: CrOrderItem): number => item?.quantity;
 export const getItemPrice = (item: CrOrderItem): number => item?.total || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFormattedPrice(price: number): string {
-  return '';
-}
-
+export const getFormattedPrice = (price: number) =>
+  price ? String(price) : '0';
+  
 // eslint-disable-next-line
 function getOrdersTotal(orders: any): number {
   return 1;
 }
-
 export const orderGetters: UserOrderGetters<Order, CrOrderItem> = {
   getDate,
   getId,

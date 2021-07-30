@@ -18,13 +18,6 @@ import {
   getDiscounts,
   getCartItemQty
 } from './../../src/getters/cartGetters';
-// import { getProductAttributes } from './../../src/getters/productGetters';
-
-const price = (p) => ({ value: { centAmount: p } });
-const variant = (p = {}) => ({
-  ...p,
-  images: [{ url: 'a.jpg' }, { url: 'b.jpg' }]
-});
 
 const item: CartItem = {
   product: {
@@ -52,31 +45,7 @@ const item: CartItem = {
       }
     ]
   },
-  quantity: 1000,
-  lineItems: [
-    {
-      name: 'prod1',
-      id: 1,
-      price: price(1100),
-      variant: variant(),
-      quantity: 1
-    },
-    {
-      name: 'prod2',
-      id: 2,
-      price: price(1500),
-      variant: variant(),
-      quantity: 2
-    }
-  ],
-  totalPrice: {
-    centAmount: 3044
-  },
-  shippingInfo: {
-    price: {
-      centAmount: 444
-    }
-  }
+  quantity: 1000
 } as any;
 
 const cart: Cart = {
