@@ -1,5 +1,4 @@
 import { Context } from '@vue-storefront/core';
-import { Cart } from '../../../types/GraphQL';
 import defaultMutation from './defaultMutation';
 import { ClearCartResponse} from '../../../types/Api';
 
