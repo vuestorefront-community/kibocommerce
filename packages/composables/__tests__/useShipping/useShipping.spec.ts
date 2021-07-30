@@ -1,21 +1,76 @@
 import { Address } from './../../../theme/tests/e2e/types/address';
 import { CustomQuery } from '@vue-storefront/core';
-import { getOrderId } from './../../src/useShipping/index';
-import { params } from '../../src/useShipping';
+import useShipping from '../../src/useShipping';
+
+jest.mock('@vue-storefront/core', () => ({
+  useShippingFactory: (params) => () => params
+}));
+
+jest.mock('../../src/useCart', () => ({
+  useCart: jest.fn()
+}));
+
+const fulfillmentContactResponseMock = {
+  id: '1234',
+  firstName: 'John',
+  address: {
+    address1: 'Test Address'
+  },
+  phoneNumbers: {
+    home: '+1 432 6789'
+  }
+};
+
+const shippingDetailsMock: any = {
+  streetName: 'Test street',
+  apartment: 'Test Apartment',
+  city: 'Dallas',
+  state: 'Texas',
+  country: 'US',
+  zipcode: '75001',
+  phone: '+1 987 654321'
+};
+
+const shippingDetailsMockResponse: Address = {
+  streetName: 'Test street response',
+  apartment: 'Test Apartment response',
+  city: 'Dallas',
+  state: 'Texas',
+  country: 'US',
+  zipcode: '75001',
+  phone: '+1 987 654321'
+};
 
 const context = {
+  checkout: {
+    checkout: {
+      value: {
+        id: 'checkout-id'
+      }
+    },
+    load: jest.fn(() => {})
+  },
   $kibo: {
     api: {
       getOrCreateCheckoutFromCart: jest.fn(() => {}),
-      getShippingAddress: jest.fn(() => {}),
-      setShippingAddress: jest.fn(() => {}),
-      getCart: jest.fn(() => {})
-    },
-    config: {
-      auth: {
-        onTokenRead: () => true,
-        onTokenRemove: jest.fn()
-      }
+      getShippingAddress: jest.fn(() => {
+        return {
+          data: {
+            orderFulfillmentInfo: {
+              fulfillmentContact: fulfillmentContactResponseMock
+            }
+          }
+        };
+      }),
+      setShippingAddress: jest.fn(() => {
+        return {
+          data: {
+            updateOrderFulfillmentInfo: {
+              fulfillmentContact: shippingDetailsMockResponse
+            }
+          }
+        };
+      })
     }
   }
 } as any;
@@ -25,161 +80,43 @@ describe('[Kibo-composables] useShipping', () => {
     jest.clearAllMocks();
   });
 
-  it('gets orderId if not already present', async () => {
-    const currentCartId = '12345678';
-    const orderIdResponse = '87654321';
+  it('loads shipping address if checkout is present in context', async () => {
+    const { load } = useShipping() as any;
+    const loadCartOrderId = 'checkout-id';
+    const customQuery: CustomQuery = {};
 
-    (context.$kibo.api.getCart as jest.Mock).mockReturnValueOnce({
-      data: {
-        currentCart: {
-          id: currentCartId
-        }
-      }
-    });
-
-    (context.$kibo.api
-      .getOrCreateCheckoutFromCart as jest.Mock).mockReturnValueOnce({
-      data: {
-        order: {
-          id: orderIdResponse
-        }
-      }
-    });
-
-    const orderId = await getOrderId(context);
-    expect(orderId).toBe(orderIdResponse);
-  });
-
-  it('loads shipping address', async () => {
-    jest.mock('../../src/useShipping', () => ({
-      getOrderId: () => '87654321'
-    }));
-
-    let customQuery: CustomQuery;
-    const fulfillmentContactResponseMockWithTypename = {
-      __typename: 'typename',
-      id: '1234',
-      firstName: 'John',
-      address: {
-        __typename: 'typename',
-        address1: 'Test Address'
-      },
-      phoneNumbers: {
-        __typename: 'typename',
-        home: '+1 432 6789'
-      }
-    };
-
-    const fulfillmentContactResponseMock = {
-      id: '1234',
-      firstName: 'John',
-      address: {
-        address1: 'Test Address'
-      },
-      phoneNumbers: {
-        home: '+1 432 6789'
-      }
-    };
-    const cartOrderId = await getOrderId(context);
-
-    expect(cartOrderId).toBe('87654321');
-
-    (context.$kibo.api.getShippingAddress as jest.Mock).mockReturnValue({
-      data: {
-        orderFulfillmentInfo: {
-          fulfillmentContact: fulfillmentContactResponseMockWithTypename
-        }
-      }
-    });
-
-    const shippingResponse = await context.$kibo.api.getShippingAddress(
-      { orderId: cartOrderId },
-      customQuery
-    );
-
-    expect(context.$kibo.api.getShippingAddress).toBeCalledWith(
-      {
-        orderId: '87654321'
-      },
-      customQuery
-    );
-
-    expect(context.$kibo.api.getShippingAddress).toHaveBeenCalledTimes(1);
-
-    expect(shippingResponse).toStrictEqual({
-      data: {
-        orderFulfillmentInfo: {
-          fulfillmentContact: fulfillmentContactResponseMockWithTypename
-        }
-      }
-    });
-
-    expect(
-      shippingResponse.data.orderFulfillmentInfo.fulfillmentContact
-    ).toStrictEqual(fulfillmentContactResponseMockWithTypename);
-
-    const fulfillmentContactResponse = await params.load(context, {
-      customQuery
-    });
-
-    expect(fulfillmentContactResponse).toStrictEqual(
-      fulfillmentContactResponseMock
-    );
+    expect(context.checkout.checkout.value.id).toBe(loadCartOrderId);
+    const response = await load(context, { customQuery });
+    expect(response).toBe(fulfillmentContactResponseMock);
+    expect(context.$kibo.api.getShippingAddress).toBeCalled();
   });
 
   it('saves shipping address', async () => {
-    jest.mock('../../src/useShipping', () => ({
-      getOrderId: () => '87654321'
-    }));
-
-    let customQuery: CustomQuery;
-
-    const shippingDetailsMock: Address = {
-      streetName: 'Test street',
-      apartment: 'Test Apartment',
-      city: 'Dallas',
-      state: 'Texas',
-      country: 'US',
-      zipcode: '75001',
-      phone: '+1 987 654321'
-    };
-    const cartOrderId = await getOrderId(context);
-
-    expect(cartOrderId).toBe('87654321');
-
+    const { save } = useShipping() as any;
+    const saveCartOrderId = 'checkout-id';
     const updateMode = 'ApplyAndCommit';
+    const customQuery: CustomQuery = {};
+
     const fulfillmentInfoInput = { fulfillmentContact: shippingDetailsMock };
+    expect(context.checkout.checkout.value.id).toBe(saveCartOrderId);
 
-    (context.$kibo.api.setShippingAddress as jest.Mock).mockReturnValue({
-      data: {
-        updateOrderFulfillmentInfo: {
-          fulfillmentContact: shippingDetailsMock
-        }
-      }
+    const shippingDetailsMockParams = {
+      ...shippingDetailsMock,
+      isDefault: true
+    };
+    const response = await save(context, {
+      shippingDetails: shippingDetailsMockParams,
+      customQuery
     });
-
-    const shippingResponse = await context.$kibo.api.setShippingAddress(
+    expect(response).toStrictEqual({ addresses: [shippingDetailsMockResponse] });
+    expect(context.$kibo.api.setShippingAddress).toBeCalled();
+    expect(context.$kibo.api.setShippingAddress).toBeCalledWith(
       {
-        orderId: cartOrderId,
-        updateMode,
-        fulfillmentInfoInput
+        orderId: saveCartOrderId,
+        updateMode: updateMode,
+        fulfillmentInfoInput: fulfillmentInfoInput
       },
       customQuery
     );
-
-    const updatedAddress =
-      shippingResponse?.data.updateOrderFulfillmentInfo.fulfillmentContact;
-
-    expect(updatedAddress).toStrictEqual(shippingDetailsMock);
-
-    const response = await params.save(context, {
-      params: undefined,
-      shippingDetails: shippingDetailsMock,
-      customQuery
-    });
-
-    expect(response).toStrictEqual({
-      addresses: [updatedAddress]
-    });
   });
 });

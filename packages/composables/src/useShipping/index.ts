@@ -34,7 +34,6 @@ const params: UseShippingParams<Address, any> = {
       delete shippingDetails.isDefault;
     }
 
-    // const cartOrderId = await getOrderId(context);
     const cartOrderId = context.checkout?.checkout?.value?.id;
     const updateMode = 'ApplyAndCommit';
 
