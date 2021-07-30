@@ -27,7 +27,6 @@ export const getCartItemAttributes = (item: CartItem, filterByAttributeName?: Ar
   const options = filterByAttributeName
     ? item.product?.options?.filter(o => filterByAttributeName.includes(o.name.toLowerCase()))
     : item.product?.options || [];
-
   options.forEach(opt => {
     attributes[opt.name] = opt.value;
   });
