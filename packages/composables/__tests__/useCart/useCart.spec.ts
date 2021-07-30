@@ -1,23 +1,32 @@
 import { Cart } from './../../src/types/index';
 import { CrProduct } from './../../../api-client/src/types/GraphQL';
-import { params, getCart } from './../../src/useCart';
-import { context } from '../context';
+import useCart, { getCart } from './../../src/useCart';
 
-// const context = {
-//   $kibo: {
-//     api: {
-//       getCart: jest.fn(),
-//       addToCart: jest.fn(),
-//       removeFromCart: jest.fn(),
-//       updateItemQty: jest.fn(),
-//       applyCoupon: jest.fn(),
-//       removeCoupon: jest.fn(),
-//       clearCart: jest.fn(),
-//     },
-//     client: {},
-//     config: {},
-//   },
-// };
+jest.mock('@vue-storefront/core', () => ({
+  useCartFactory: (params) => () => params
+}));
+
+const context = {
+  $kibo: {
+    api: {
+      getCart: jest.fn(() => {
+        return {
+          data: {
+            currentCart: {} as Cart
+          }
+        };
+      }),
+      addToCart: jest.fn(),
+      removeFromCart: jest.fn(),
+      updateItemQty: jest.fn(),
+      applyCoupon: jest.fn(),
+      removeCoupon: jest.fn(),
+      clearCart: jest.fn()
+    },
+    client: {},
+    config: {}
+  }
+} as any;
 
 const customQuery = undefined;
 
@@ -27,18 +36,14 @@ describe('[Kibo-composables] useCart', () => {
   });
 
   it('gets the current cart', async () => {
-    (context.$kibo.api.getCart as jest.Mock).mockReturnValue({
-      data: {
-        currentCart: {} as Cart
-      }
-    });
     const response = await getCart(context, { customQuery });
-    expect(context.$kibo.api.getCart).toHaveBeenCalled();
+    expect(context.$kibo.api.getCart).toBeCalled();
     expect(response).toStrictEqual({} as Cart);
   });
 
   it('loads the current cart', async () => {
-    const response = await params.load(context, { customQuery });
+    const { load } = useCart() as any;
+    const response = await load(context, { customQuery });
     expect(context.$kibo.api.getCart).toHaveBeenCalled();
     expect(response).toStrictEqual({} as Cart);
   });
@@ -46,7 +51,8 @@ describe('[Kibo-composables] useCart', () => {
   it('adds to cart', async () => {
     const product = {} as CrProduct;
     const quantity = 100;
-    const response = await params.addItem(context, {
+    const { addItem } = useCart() as any;
+    const response = await addItem(context, {
       currentCart: {} as Cart,
       product,
       quantity: 100,
@@ -69,8 +75,8 @@ describe('[Kibo-composables] useCart', () => {
       isAssemblyRequired: false,
       quantity: 100
     };
-
-    const response = await params.removeItem(context, {
+    const { removeItem } = useCart() as any;
+    const response = await removeItem(context, {
       currentCart: {} as Cart,
       product: product,
       customQuery
@@ -89,7 +95,8 @@ describe('[Kibo-composables] useCart', () => {
       quantity: 100
     };
     const quantity = 100;
-    const response = await params.updateItemQty(context, {
+    const { updateItemQty } = useCart() as any;
+    const response = await updateItemQty(context, {
       currentCart: {} as Cart,
       product,
       quantity,
@@ -108,7 +115,8 @@ describe('[Kibo-composables] useCart', () => {
     const currentCart = {
       id: '1234'
     } as Cart;
-    const response = await params.applyCoupon(context, {
+    const { applyCoupon } = useCart() as any;
+    const response = await applyCoupon(context, {
       currentCart,
       couponCode: 'test-coupon',
       customQuery
@@ -128,7 +136,8 @@ describe('[Kibo-composables] useCart', () => {
     const currentCart = {
       id: '1234'
     } as Cart;
-    const response = await params.removeCoupon(context, {
+    const { removeCoupon } = useCart() as any;
+    const response = await removeCoupon(context, {
       currentCart,
       coupon: 'test-coupon',
       customQuery
@@ -148,31 +157,32 @@ describe('[Kibo-composables] useCart', () => {
     items: [
       {
         product: {
-          productCode: 'ABC',
-          isPackagedStandAlone: false
+          productCode: 'ABC'
+          // isPackagedStandAlone: false,
         }
       },
       {
         product: {
-          productCode: 'DEF',
-          isPackagedStandAlone: false
+          productCode: 'DEF'
+          // isPackagedStandAlone: false,
         }
       },
       {
         product: {
-          productCode: 'GHI',
-          isPackagedStandAlone: false
+          productCode: 'GHI'
+          // isPackagedStandAlone: false,
         }
       }
     ]
   } as Cart;
+
   it('should find if item is in cart', async () => {
     const mockProduct = {
       productCode: 'ABC',
       isPackagedStandAlone: false
     } as CrProduct;
-
-    const response = await params.isInCart(context, {
+    const { isInCart } = useCart() as any;
+    const response = await isInCart(context, {
       currentCart,
       product: mockProduct
     });
@@ -180,17 +190,16 @@ describe('[Kibo-composables] useCart', () => {
     expect(response).toBe(true);
   });
 
-  // it('should return false if item is not in cart', async () => {
-  //   const mockProduct = {
-  //     productCode: 'XYZ',
-  //     isPackagedStandAlone: false,
-  //   } as CrProduct;
-
-  //   const response = await params.isInCart(context, {
-  //     currentCart,
-  //     product: mockProduct,
-  //   });
-
-  //   expect(response).toBe(false);
-  // });
+  it('should return false if item is not in cart', async () => {
+    const mockProduct = {
+      productCode: 'other-product-code',
+      isPackagedStandAlone: false
+    } as CrProduct;
+    const { isInCart } = useCart() as any;
+    const response = await isInCart(context, {
+      currentCart,
+      product: mockProduct
+    });
+    expect(response).toBe(false);
+  });
 });

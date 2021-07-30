@@ -4,7 +4,11 @@ import {
   UseCartFactoryParams
 } from '@vue-storefront/core';
 
-import { Cart, CartItem, CrProduct } from '../../../api-client/src/types/GraphQL';
+import {
+  Cart,
+  CartItem,
+  CrProduct
+} from '../../../api-client/src/types/GraphQL';
 
 const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);
@@ -60,11 +64,9 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInCart: (context: Context, { currentCart, product }) => {
-    return (
-      currentCart?.items?.find(
-        (i) => i.product.productCode === product.productCode
-      ) !== null
-    );
+    return currentCart?.items?.find(
+      (i) => i.product.productCode === product.productCode
+    ) !== undefined;
   }
 };
 
