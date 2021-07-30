@@ -71,6 +71,11 @@ const cart: Cart = {
       impact: 20
     },
     {
+      discount: {
+        id: 9101,
+        name: 'discount-name-3'
+      } as CrDiscount,
+      impact: 20,
       couponCode: null
     }
   ]
@@ -170,11 +175,11 @@ describe('[KIBO-getters] cart helpers', () => {
         value: 20
       },
       {
-        id: undefined,
-        name: undefined,
-        description: undefined,
+        id: '9101',
+        name: 'discount-name-3',
+        description: 'discount-name-3',
         code: null,
-        value: undefined
+        value: 20
       }
     ]);
   });
