@@ -34,8 +34,9 @@ describe('[commercetools-composables] useProduct', () => {
     const { productsSearch } = useProduct('test-product') as any;
 
     const response = await productsSearch(context, { id: 'MS-JKT-001' });
+    const productResponse = response.data.products.results;
 
-    expect(response).toEqual([product('Brynn Insulated Jacket', 'brynn-insulated-jacket', 'MS-JKT-001')]);
+    expect(productResponse).toEqual([product('Brynn Insulated Jacket', 'brynn-insulated-jacket', 'MS-JKT-001')]);
     expect(context.$kibo.api.getProduct).toBeCalledWith({ id: 'MS-JKT-001' }, undefined);
   });
 });
