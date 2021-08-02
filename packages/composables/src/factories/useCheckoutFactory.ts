@@ -11,7 +11,7 @@ export interface UseCheckoutErrors {
     load: Error;
 }
 export interface UseCheckoutFactoryParams<CHECKOUT> extends FactoryParams {
-    load: (context: Context, params: { cartId: string }) => Promise<CHECKOUT[]>;
+    load: (context: Context, params: { cartId: string }) => Promise<CHECKOUT>;
 }
 
 export function useCheckoutFactory<CHECKOUT>(
