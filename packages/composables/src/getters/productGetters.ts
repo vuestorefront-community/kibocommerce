@@ -13,10 +13,10 @@ type ProductFilters = any
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: Product): string => product?.content?.productName;
+export const getProductName = (product: Product): string => product?.content?.productName || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: Product): string => product?.content?.seoFriendlyUrl;
+export const getProductSlug = (product: Product): string => product?.content?.seoFriendlyUrl || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
@@ -36,7 +36,7 @@ export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] 
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: Product): string => product?.content?.productImages?.[0].imageUrl;
+export const getProductCoverImage = (product: Product): string => product?.content?.productImages?.[0]?.imageUrl || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
