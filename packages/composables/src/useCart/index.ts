@@ -64,9 +64,7 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInCart: (context: Context, { currentCart, product }) => {
-    return currentCart?.items?.find(
-      (i) => i.product.productCode === product.productCode
-    ) !== undefined;
+    return currentCart?.items?.find(i => i.product.productCode === product.productCode) !== undefined;
   }
 };
 
