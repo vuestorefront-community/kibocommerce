@@ -28,13 +28,6 @@ const order: Order = {
   orderNumber: 1234,
   status: 'confirmed',
   total: 12345,
-  totalPrice: {
-    centAmount: 12345,
-    currencyCode: 'USD'
-  },
-  auditInfo: {
-    createDate: 'Aug 1,2021'
-  },
   items: [item]
 } as any;
 
