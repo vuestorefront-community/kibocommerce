@@ -32,7 +32,7 @@
           >
            <template #label="{ label }">
               <div class="sf-radio__label shipping__label">
-                <div>{{ label }}</div>
+                <div>{{ label }}</div>   {{method.price}} {{method.currencyCode}}
                 <div v-if="method && method.zoneRates">{{ $n(getShippingMethodPrice(method, totals.total), 'currency') }}</div>
               </div>
             </template>

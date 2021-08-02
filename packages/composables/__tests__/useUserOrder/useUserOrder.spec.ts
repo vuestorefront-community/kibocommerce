@@ -8,10 +8,10 @@ const searchOrdersResponse = {
       pageSize: 10,
       pageCount: 5,
       totalCount: 50,
-      items: {
+      items: [{
         orderNumber: 123,
         locationCode: 'location'
-      }
+      }]
     }
   }
 };
@@ -33,7 +33,7 @@ describe('[commercetools-composables] useUserOrder', () => {
     const { searchOrders } = useUserOrder() as any;
     const response = await searchOrders(context, { id: 'MS-JKT-001' });
 
-    expect(response).toEqual({ orderNumber: 123, locationCode: 'location'});
+    expect(response).toEqual([{ orderNumber: 123, locationCode: 'location'}]);
     expect(context.$kibo.api.searchOrders).toBeCalledWith({ id: 'MS-JKT-001' }, undefined);
   });
 });
