@@ -96,7 +96,7 @@
           <SfProperty
             :name="$t('Shipping')"
             v-if="chosenShippingMethod && chosenShippingMethod.zoneRates"
-            :value="$n(getShippingMethodPrice(chosenShippingMethod, totals.total), 'currency')"
+            :value="$n(getShippingMethodPrice(chosenShippingMethod), 'currency')"
             class="sf-property--full-width property"
           />
         </div>

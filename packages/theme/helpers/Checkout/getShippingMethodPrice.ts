@@ -1,9 +1,5 @@
 import { ShippingMethod } from '@vue-storefront/kibo-api';
 
-export default (shippingMethod: ShippingMethod, total: number) => {
-  const centAmount = shippingMethod?.zoneRates[0].shippingRates[0].freeAbove?.centAmount;
-  if (centAmount && total >= (centAmount / 100)) {
-    return 0;
-  }
-  return shippingMethod.zoneRates[0].shippingRates[0].price.centAmount / 100;
+export default (shippingMethod: {price: number}): number => {
+  return shippingMethod?.price;
 };

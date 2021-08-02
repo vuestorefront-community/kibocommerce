@@ -33,7 +33,7 @@
       <SfProperty
         :name="$t('Shipping')"
         v-if="selectedShippingMethod && selectedShippingMethod.zoneRates"
-        :value="$n(getShippingMethodPrice(selectedShippingMethod, totals.total), 'currency')"
+        :value="$n(getShippingMethodPrice(selectedShippingMethod), 'currency')"
         class="sf-property--full-width sf-property--large property"
       />
       <SfProperty
