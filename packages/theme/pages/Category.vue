@@ -395,7 +395,7 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted } from '@vue/composition-api';
+import { ref, computed, onMounted, onUpdated } from '@vue/composition-api';
 import {
   useCart,
   useWishlist,
@@ -457,9 +457,7 @@ export default {
     const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
 
-    onMounted(() => {
-      console.log(products);
-      context.root.$scrollTo(context.root.$el, 2000);
+    const setFilterValues = () => {
       if (!facets.value.length) return;
       selectedFilters.value = facets.value.reduce(
         (prev, curr) => ({
@@ -468,10 +466,22 @@ export default {
         }),
         {}
       );
+    };
+
+    onMounted(() => {
+      context.root.$scrollTo(context.root.$el, 2000);
+      setFilterValues();
     });
 
-    const isFilterSelected = (facet, option) =>
-      (selectedFilters.value[facet.id] || []).includes(option.id);
+    onUpdated(() => {
+      if (!Object.keys(selectedFilters.value).length) {
+        setFilterValues();
+      }
+    });
+
+    const isFilterSelected = (facet, option) => {
+      return selectedFilters.value[facet.id]?.includes(option.id) || false;
+    };
 
     const selectFilter = (facet, option) => {
       if (!selectedFilters.value[facet.id]) {
@@ -497,6 +507,7 @@ export default {
     const applyFilters = () => {
       toggleFilterSidebar();
       changeFilters(selectedFilters.value);
+      selectedFilters.value = {};
     };
 
     return {
