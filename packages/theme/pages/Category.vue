@@ -170,7 +170,7 @@
                 productGetters.getPrice(product).special
               "
               :score-rating="productGetters.getAverageRating(product)"
-              :show-add-to-cart-button="true"
+              :show-add-to-cart-button="product.purchasableState.isPurchasable"
               :isOnWishlist="isInWishlist({ product })"
               :isAddedToCart="isInCart({ product })"
               :link="
@@ -234,6 +234,9 @@
                   class="sf-product-card-horizontal__description desktop-only"
                   v-html="productGetters.getDescription(product)"
                 />
+              </template>
+              <template #add-to-cart>
+                <span v-if="!product.purchasableState.isPurchasable"></span>
               </template>
               <template #configuration>
                 <SfProperty
@@ -455,6 +458,7 @@ export default {
     const selectedFilters = ref({});
 
     onMounted(() => {
+      console.log(products);
       context.root.$scrollTo(context.root.$el, 2000);
       if (!facets.value.length) return;
       selectedFilters.value = facets.value.reduce(
