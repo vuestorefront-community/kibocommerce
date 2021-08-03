@@ -479,9 +479,8 @@ export default {
       }
     });
 
-    const isFilterSelected = (facet, option) => {
-      return selectedFilters.value[facet.id]?.includes(option.id) || false;
-    };
+    const isFilterSelected = (facet, option) =>
+      (selectedFilters.value[facet.id] || []).includes(option.id);
 
     const selectFilter = (facet, option) => {
       if (!selectedFilters.value[facet.id]) {
@@ -507,7 +506,6 @@ export default {
     const applyFilters = () => {
       toggleFilterSidebar();
       changeFilters(selectedFilters.value);
-      selectedFilters.value = {};
     };
 
     return {
