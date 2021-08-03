@@ -15,7 +15,7 @@ const params: UseCheckoutFactoryParams<Order> = {
       cartId = context.cart?.cart?.value?.id;
     }
     const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({cartId});
-    return [checkoutResponse.data?.order];
+    return checkoutResponse.data?.order;
   }
 };
 
