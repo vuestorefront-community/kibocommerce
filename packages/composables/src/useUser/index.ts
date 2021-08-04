@@ -3,10 +3,17 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { User } from '../types';
 import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibo-api/lib/types/GraphQL';
 
-const params: UseUserFactoryParams<User, any, any> = {
+import { User } from '../types';
+import useCart from '../useCart';
+
+export const params: UseUserFactoryParams<User, any, any> = {
+  provide() {
+    return {
+      cart: useCart()
+    }
+  },
   load: async (context: Context) => {
     const customerAccountResponse = await context.$kibo.api.getCurrentUser();
     const customerAccount = customerAccountResponse.data?.customerAccount;
@@ -16,7 +23,7 @@ const params: UseUserFactoryParams<User, any, any> = {
   },
   logOut: async (context: Context) => {
     await context.$kibo.api.logOutUser();
-    context.setCart(null);
+    context.cart.setCart(null);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -53,8 +60,8 @@ const params: UseUserFactoryParams<User, any, any> = {
       password
     });
     const customerAccount = registerResponse.data?.account?.customerAccount;
-    // const cart = await context.$kibo.api.getCart()
-    // context.setCart(cart);
+    const cartResponse = await context.$kibo.api.getCart();
+    context.cart.setCart(cartResponse.data?.currentCart);
     return customerAccount;
   },
   logIn: async (context: Context, { username, password }) => {
@@ -62,8 +69,8 @@ const params: UseUserFactoryParams<User, any, any> = {
       username,
       password
     });
-    // const cart = await context.$kibo.api.getCart();
-    // context.setCart(cart);
+    const cartResponse = await context.$kibo.api.getCart();
+    context.cart.setCart(cartResponse.data?.currentCart);
     return customerAccount;
   },
 
