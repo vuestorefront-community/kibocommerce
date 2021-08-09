@@ -125,7 +125,9 @@ import {
   useCart,
   useWishlist,
   useUser,
-  cartGetters
+  cartGetters,
+  categoryGetters,
+  useSearchSuggestions
 } from '@vue-storefront/kibo';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
@@ -138,7 +140,6 @@ import {
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
-import mockedSearchProducts from '../mockedSearchProducts.json';
 
 export default {
   components: {
@@ -160,6 +161,10 @@ export default {
       useUiState();
     const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
     const { load: loadUser, isAuthenticated } = useUser();
+    const {
+      search: loadSearchSuggestions
+    } = useSearchSuggestions();
+
     const { cart, load: loadCart } = useCart();
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().phrase);
@@ -204,7 +209,12 @@ export default {
       } else {
         term.value = paramValue.target.value;
       }
-      result.value = mockedSearchProducts;
+      const searchSuggestions = await loadSearchSuggestions({ term: term.value });
+      result.value = {
+        products: searchSuggestions.value.products,
+        categories: searchSuggestions.value.
+          categories?.map((element) => categoryGetters.getTree(element))
+      };
     }, 1000);
 
     const isMobile = computed(() => mapMobileObserver().isMobile.get());

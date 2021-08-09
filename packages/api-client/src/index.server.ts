@@ -35,6 +35,8 @@ import addUserAddress from './api/addUserAddress';
 import updateUserAddress from './api/updateUserAddress';
 import deleteUserAddress from './api/deleteUserAddress';
 import getUserAddresses from './api/getUserAddresses';
+import getSearchSuggestions from './api/getSearchSuggestions';
+
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -128,7 +130,8 @@ const { createApiClient } = apiClientFactory<any, any>({
     addUserAddress,
     updateUserAddress,
     deleteUserAddress,
-    getUserAddresses
+    getUserAddresses,
+    getSearchSuggestions
   },
   extensions: [
     ticketExtension

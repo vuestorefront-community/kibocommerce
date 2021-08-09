@@ -140,6 +140,13 @@ export type SetShippingAddressResponse = QueryResponse<'updateOrderFulfillmentIn
 export type UpdateCustomerPersonalDataParams = GraphQLTypes.MutationUpdateCustomerAccountArgs 
 export type UpdateCustomerPersonalDataResponse = QueryResponse<'user', GraphQLTypes.CustomerAccount>;
 
+// updateUserAddress
+export type UpdateUserAddressParams = GraphQLTypes.MutationUpdateCustomerAccountContactArgs;
+export type UpdateUserAddressResponse = any;
+
+// getSearchSuggestions
+export type SearchSuggestionResponse = QueryResponse<'suggestionSearch', GraphQLTypes.SearchSuggestionResult>
+export type SearchSuggestionParams = { term: String }
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
   addPaymentToCheckout(params:AddPaymentToCheckoutParams ): Promise<AddPaymentToCheckoutResponse>;
@@ -183,6 +190,9 @@ interface ApiMethods {
 
   updateCustomerPersonalData(params: UpdateCustomerPersonalDataParams): Promise<UpdateCustomerPersonalDataResponse>;
   updateUserAddress(params: UpdateUserAddressParams): Promise<UpdateUserAddressResponse>;  
+
+  // getSearchSuggestions
+  getSearchSuggestions(params: SearchSuggestionParams): Promise<SearchSuggestionResponse>
 }
 
 // ---------------  Export KiboMethods --------------- 

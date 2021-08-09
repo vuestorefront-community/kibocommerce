@@ -15,7 +15,6 @@ export type User = {
   userId?: string;
   isAnonymous?: boolean;
 };
-
 export type UserAddress = Record<string, unknown>;
 
 export type Cart = Record<string, unknown>;
@@ -53,7 +52,6 @@ export type OrdersResponse = {
   data: any[];
   total: number;
 };
-
 export interface FacetResultsData {
   products: Product[];
   categories: ProductCategory[];
@@ -64,6 +62,10 @@ export interface FacetResultsData {
 }
 export type SearchData = FacetSearchResult<FacetResultsData>
 
+export type SearchSuggestions = {
+  products: Product[],
+  categories: Category[]
+}
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getAddresses: (
     shipping: USER_SHIPPING,
