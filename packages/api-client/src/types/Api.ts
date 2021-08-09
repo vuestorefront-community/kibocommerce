@@ -63,7 +63,7 @@ export type GetBillingInfoResponse = QueryResponse<'orderBillingInfo', GraphQLTy
 export type GetCategoryParams =  {slug?: string, id?: string, categoryCode?: string } 
 type Category = Record<string, any>;
 // export type GetCategoryResponse =  QueryResponse<'categories', Category[]> 
-export type GetCategoryResponse =  QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection> | QueryResponse<'categoriesTree', GraphQLTypes.CategoryCollection>; // categoriesTree
+export type GetCategoryResponse =  QueryResponse<'categories', GraphQLTypes.CategoryPagedCollection>; // categoriesTree
 
 // getCheckout
 export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 

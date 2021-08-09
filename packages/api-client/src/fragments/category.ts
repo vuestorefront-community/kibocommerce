@@ -4,6 +4,7 @@ export const CategoryInfo = `
 fragment categoryInfo on PrCategory {
     categoryId
     categoryCode
+    isDisplayed
     content {
         name
         slug

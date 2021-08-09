@@ -9,7 +9,7 @@ export const getCategoryTree = (category: any): AgnosticCategoryTree => {
       id: rootCategory.categoryCode,
       label: rootCategory.content?.name,
       slug: rootCategory.content?.slug,
-      items: rootCategory.childrenCategories.map(itemToTree),
+      items: rootCategory.childrenCategories?.map(itemToTree) || [],
       isCurrent: rootCategory.categoryCode === category.categoryCode
     };
   };

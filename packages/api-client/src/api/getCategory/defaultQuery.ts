@@ -40,6 +40,15 @@ query GetCategoryTree {
                 ...categoryInfo
                 childrenCategories {
                     ...categoryInfo
+                    childrenCategories {
+                        ...categoryInfo
+                        childrenCategories {
+                            ...categoryInfo
+                            childrenCategories {
+                                ...categoryInfo
+                            }
+                        }
+                    }
                 }
             }
         }

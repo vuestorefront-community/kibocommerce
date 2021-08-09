@@ -1,7 +1,15 @@
 import { FacetSearchResult } from '@vue-storefront/core';
 import { ProductCategory } from '@vue-storefront/kibo-api';
+import { ComputedProperty } from '@vue-storefront/core';
+import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
+export interface UseCheckout<CHECKOUT> {
+  load: (params: { cartId: string }) => Promise<CHECKOUT>;
+  checkout: ComputedProperty<CHECKOUT>;
+  error: ComputedProperty<UseCheckoutErrors>;
+  loading: ComputedProperty<boolean>;
+}
 
 export type Address = Record<string, unknown>;
 

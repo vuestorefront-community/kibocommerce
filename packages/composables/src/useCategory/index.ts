@@ -9,17 +9,10 @@ import type {
 } from '../types';
 
 const params: UseCategoryFactoryParams<Category, any> = {
-  categorySearch: async (context: Context, params) => {
-    const { customQuery, ...searchParams } = params;
-
+  categorySearch: async (context: Context, params = { searchParams: undefined, customQuery: undefined}) => {
+    const { searchParams, customQuery } = params;
     const categoryResponse = await context.$kibo.api.getCategory(searchParams, customQuery);
-
-    let categories;
-    if ('categories' in categoryResponse.data) {
-      categories = categoryResponse.data.categories.items;
-    }
-
-    return categories;
+    return categoryResponse.data.categories?.items;
   }
 };
 

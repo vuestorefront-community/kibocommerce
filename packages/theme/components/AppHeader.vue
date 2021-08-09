@@ -16,16 +16,12 @@
       </template>
       <template #navigation>
         <SfHeaderNavigationItem
+          v-for="(category, index) in navigationCategories"
+          :key="index"
+          v-e2e="`app-header-url_${index}`"
           class="nav-item"
-          v-e2e="'app-header-url_women'"
-          label="Skiing"
-          :link="localePath('/c/skiing/31')"
-        />
-        <SfHeaderNavigationItem
-          class="nav-item"
-          v-e2e="'app-header-url_men'"
-          label="Apparel"
-          :link="localePath('/c/apparel/40')"
+          :label="category.label"
+          :link="localePath(getCatLink(category))"
         />
       </template>
       <template #aside>
@@ -127,6 +123,7 @@ import {
   useUser,
   cartGetters,
   categoryGetters,
+  useCategory,
   useSearchSuggestions
 } from '@vue-storefront/kibo';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
@@ -159,13 +156,18 @@ export default {
   setup(props, { root }) {
     const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
       useUiState();
-    const { setTermForUrl, getFacetsFromURL } = useUiHelpers();
+    const { setTermForUrl, getFacetsFromURL, getCatLink } = useUiHelpers();
     const { load: loadUser, isAuthenticated } = useUser();
     const {
       search: loadSearchSuggestions
     } = useSearchSuggestions();
 
     const { cart, load: loadCart } = useCart();
+    const {
+      search: searchCategories,
+      categories
+    } = useCategory('AppHeader:Category');
+
     const { load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
@@ -176,7 +178,12 @@ export default {
       const count = cartGetters.getTotalItems(cart.value);
       return count ? count.toString() : null;
     });
-
+    const navigationCategories = computed(() => {
+      return categories.value?.filter(category =>
+        category.childrenCategories?.length && category.isDisplayed)
+        .map(categoryGetters.getTree)
+        .filter((category, indx) => indx < 4);
+    });
     const accountIcon = computed(() =>
       isAuthenticated.value ? 'profile_fill' : 'profile'
     );
@@ -194,6 +201,7 @@ export default {
       await loadUser();
       await loadCart();
       await loadWishlist();
+      await searchCategories();
     });
 
     const closeSearch = () => {
@@ -265,7 +273,10 @@ export default {
       closeOrFocusSearchBar,
       searchBarRef,
       isMobile,
-      removeSearchResults
+      removeSearchResults,
+      categories,
+      navigationCategories,
+      getCatLink
     };
   }
 };
