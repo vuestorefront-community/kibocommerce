@@ -69,6 +69,10 @@ export type GetCategoryResponse =  QueryResponse<'categories', GraphQLTypes.Cate
 export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs 
 export type GetCheckoutResponse = QueryResponse<'order', GraphQLTypes.Order>;
 
+// getCMSContent
+export type GetCMSContentParams = GraphQLTypes.QueryDocumentListDocumentsArgs 
+export type GetCMSContentResponse = QueryResponse<'documentListDocuments', GraphQLTypes.DocumentCollection>;
+
 // getCurrentUser
 export type GetCurrentUserResponse = QueryResponse<'customerAccount', GraphQLTypes.CustomerAccount>;
 
@@ -167,6 +171,7 @@ interface ApiMethods {
   getBillingInfo(params: GetBillingInfoParams): Promise<GetBillingInfoResponse>;
   getCategory(params: GetCategoryParams): Promise<GetCategoryResponse>;
   getCheckout(params: GetCheckoutParams): Promise<GetCheckoutResponse>;
+  getCMSContent(params: GetCMSContentParams): Promise<GetCMSContentResponse>;
   getCurrentUser(): Promise<GetCurrentUserResponse>;
   getOrCreateCheckoutFromCart(params: GetOrCreateCheckoutFromCartParams): Promise<GetOrCreateCheckoutFromCartResponse>;
   

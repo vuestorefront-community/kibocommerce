@@ -1,4 +1,4 @@
-import { FacetSearchResult } from '@vue-storefront/core';
+import { FacetSearchResult, ComputedProperty } from '@vue-storefront/core';
 import { ProductCategory } from '@vue-storefront/kibo-api';
 import { ComputedProperty } from '@vue-storefront/core';
 import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
@@ -96,4 +96,10 @@ export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getId: (address: USER_SHIPPING_ITEM) => string | number;
   getApartmentNumber: (address: USER_SHIPPING_ITEM) => string | number;
   isDefault: (address: USER_SHIPPING_ITEM) => boolean;
+}
+export interface UseContent<CONTENT> {
+  load: (identifier: string) => Promise<void>;
+  content: ComputedProperty<CONTENT>;
+  loading: ComputedProperty<boolean>;
+  error: ComputedProperty<any>
 }
