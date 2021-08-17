@@ -16,4 +16,3 @@ ngProjectPipeline (
     INGRESS_PATH_MATCH: '/',
     DOCKERFILE: './dev/docker/Dockerfile',
     KUBE_TEMPLATE_FILE : 'com/kibo/kubernetes/ng-web-service.yml');
-q
