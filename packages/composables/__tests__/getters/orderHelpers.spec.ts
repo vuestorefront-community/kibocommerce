@@ -26,6 +26,9 @@ const item: CrOrderItem = {
 const order: Order = {
   id: '645ygdf',
   orderNumber: 1234,
+  auditInfo: {
+    createDate: new Date('8/1/2021').toLocaleDateString()
+  },
   status: 'confirmed',
   total: 12345,
   items: [item]

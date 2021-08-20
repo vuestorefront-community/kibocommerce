@@ -97,7 +97,13 @@ const context = {
           }
         };
       }),
-      getCart: jest.fn(() => {})
+      getCart: jest.fn(() => {
+        return {
+          data: {
+            currentCart: {}
+          }
+        };
+      })
     },
     config: {
       auth: {
@@ -106,7 +112,9 @@ const context = {
       }
     }
   },
-  setCart: jest.fn()
+  cart: {
+    setCart: jest.fn()
+  }
 } as any;
 
 describe('[kibo-composables] factoryParams', () => {
@@ -157,7 +165,7 @@ describe('[kibo-composables] factoryParams', () => {
     expect(response).toEqual(currentUser);
     expect(context.$kibo.api.logInUser).toBeCalled();
     expect(context.$kibo.api.getCart).toBeCalled();
-    expect(context.setCart).toBeCalled();
+    expect(context.cart.setCart).toBeCalled();
   });
 
   describe('changePassword', () => {

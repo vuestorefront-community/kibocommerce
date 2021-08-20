@@ -221,7 +221,7 @@
             @input="email => changeBillingDetails('email', email)"
             label="Email address"
             name="email"
-            class="form__element form__element--half"
+            class="form__element form__element--half form__element--half-even"
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
