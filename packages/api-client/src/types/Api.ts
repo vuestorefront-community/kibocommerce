@@ -1,9 +1,8 @@
 /* eslint-disable */
 import { ApolloQueryResult } from 'apollo-client';
 import { FetchResult } from 'apollo-link';
-import { ApiClientMethods } from '@vue-storefront/core';
+import { ApiClientMethods, CustomQuery } from '@vue-storefront/core';
 import * as GraphQLTypes from './GraphQL';
-import { ProductsSearchParams } from '@vue-storefront/core';
 
 // QueryResponse and MutationResponse
 export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>;
@@ -82,17 +81,29 @@ export type GetOrCreateCheckoutFromCartParams = GraphQLTypes.MutationCreateOrder
 export type GetOrCreateCheckoutFromCartResponse = QueryResponse<'order', GraphQLTypes.Order>; 
 
 // getProduct
-type ProductSearchResponse = QueryResponse<'productSearchResult', GraphQLTypes.ProductSearchResult>; 
-type GetProduct= QueryResponse<'product', GraphQLTypes.Product>; 
-type GetProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
+export type GetProductParams = { id: string; customQuery?: CustomQuery; };
+export type GetProductResponse = QueryResponse<'product', GraphQLTypes.Product>;
 
-export type GetProductParams = ProductsSearchParams
-export type GetProductResponse = any // ProductSearchResponse | GetProduct | GetProductsResponse  // QueryResponse<'products', ProductSearchResponse | GetProduct | GetProductsResponse>; 
+export type GetRelatedProductsParams = { id: string; limit: number; catId: string[]; customQuery?: CustomQuery; };
+export type GetRelatedProductsResponse = QueryResponse<'products', GraphQLTypes.ProductCollection>;
+
+export type ProductSearchParams = { 
+  perPage?: number;
+  page?: number;
+  sort?: any;
+  term?: any;
+  filters?: any;
+  customQuery?: CustomQuery;
+  [x: string]: any;
+};
+export type ProductSearchResponse = QueryResponse<'products', GraphQLTypes.ProductSearchResult>;
+
+export type InternalConfigureProductParams = { product: GraphQLTypes.Product, attributes: { [x: string]: string } };
+export type ConfigureProductResponse = QueryResponse<'configureProduct', GraphQLTypes.ConfiguredProduct>;
 
 // getUserAddresses
 export type GetUserAddressesParams = GraphQLTypes.QueryCustomerAccountContactsArgs;
-export type GetUserAddressesResponse = QueryResponse<'customerContactCollection', GraphQLTypes.CustomerContactCollection>;;
-
+export type GetUserAddressesResponse = QueryResponse<'customerContactCollection', GraphQLTypes.CustomerContactCollection>;
 
 // logInUser
 export type LogInUserParams =  GraphQLTypes.CustomerUserAuthInfoInput  
@@ -177,7 +188,10 @@ interface ApiMethods {
   
   // getProduct
   getProduct(params: GetProductParams): Promise<GetProductResponse>;
-  getUserAddresses(params: GetUserAddressesParams): Promise<GetUserAddressesResponse>;
+  getRelatedProducts(params: GetRelatedProductsParams): Promise<GetRelatedProductsResponse>;
+  searchProducts(params: ProductSearchParams): Promise<ProductSearchResponse>;
+  configureProduct(params: InternalConfigureProductParams): Promise<ConfigureProductResponse>;
+ 
   logInUser(params: LogInUserParams): Promise<LogInUserResponse>;
   logOutUser(): Promise<LogOutUserResponse>;
   makeOrder(params: MakeOrderParams): Promise<MakeOrderResponse>;

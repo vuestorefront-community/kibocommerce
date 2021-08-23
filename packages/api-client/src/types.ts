@@ -1,4 +1,5 @@
 /* eslint-disable */
+import { CustomQuery } from '@vue-storefront/core';
 import { Product } from './types/GraphQL';
 
 export type ProductCategory = {
@@ -37,9 +38,9 @@ export type CategoryFilter = Record<string, unknown>;
 export type ShippingMethod = Record<string, unknown>;
 export type LineItem = Record<string, unknown>;
 export interface ConfigureProductParams {
-  productCode: string;
-  attributes: [{
-    attributeFQN: string;
-    value: string;
-  }]
+  customQuery?: CustomQuery;
+  id: string;
+  attributes: {
+    [x: string]: string;
+  }
 }

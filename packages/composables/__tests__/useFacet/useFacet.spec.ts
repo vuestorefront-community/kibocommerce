@@ -13,9 +13,9 @@ jest.mock('@vue-storefront/kibo-api', () => ({
 const context = {
   $kibo: {
     api: {
-      getProduct: jest.fn(() => ({
+      searchProducts: jest.fn(() => ({
         data: {
-          products: {
+          productSearchResult: {
             items: []
           }
         }
@@ -55,6 +55,6 @@ describe('[kibo-composables] useFacet', () => {
     } as any);
 
     expect(context.$kibo.api.getCategory).toBeCalled();
-    expect(context.$kibo.api.getProduct).toBeCalled();
+    expect(context.$kibo.api.searchProducts).toBeCalled();
   });
 });

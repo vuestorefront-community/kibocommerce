@@ -222,7 +222,7 @@ export default {
       'productReviews'
     );
 
-    const product = computed(() => products.value[0]);
+    const product = computed(() => products.value);
 
     const options = computed(() =>
       productGetters.getOptions(product.value)

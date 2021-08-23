@@ -24,7 +24,7 @@ const factoryParams = {
     const startIndex = (params.input.page - 1) * itemsPerPage;
     const sort = params.input.sort
 
-    const productSearchResponse = await context.$kibo.api.getProduct({
+    const productSearchResponse = await context.$kibo.api.searchProducts({
       categoryCode: params.input.categoryCode,
       pageSize: itemsPerPage,
       startIndex,
@@ -32,12 +32,12 @@ const factoryParams = {
       sort
     });
 
-    let productSearch;
+    let productSearchResult;
     if ('products' in productSearchResponse.data) {
-      productSearch = productSearchResponse.data?.products || {};
+      productSearchResult = productSearchResponse.data?.products || {};
     }
 
-    const { facets, items, totalCount } = productSearch;
+    const { facets, items, totalCount } = productSearchResult;
 
     return {
       categories,

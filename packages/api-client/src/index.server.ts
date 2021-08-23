@@ -5,6 +5,9 @@ import cfg from './mozuConfig';
 import { ApiClientExtension } from '@vue-storefront/core';
 
 import getProduct from './api/getProduct';
+import getRelatedProducts from './api/getRelatedProducts';
+import searchProducts from './api/searchProducts';
+import configureProduct from './api/configureProduct';
 import getCategory from './api/getCategory';
 import registerUser from './api/registerUser';
 import logInUser from './api/logInUser';
@@ -101,6 +104,9 @@ const { createApiClient } = apiClientFactory<any, any>({
   onCreate,
   api: {
     getProduct,
+    getRelatedProducts,
+    configureProduct,
+    searchProducts,
     getCategory,
     logInUser,
     registerUser,
