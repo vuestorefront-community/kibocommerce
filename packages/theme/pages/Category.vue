@@ -188,7 +188,11 @@
                   : removeItemFromWishlist({ product })
               "
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
-            />
+            >
+              <template #wishlist-icon>
+                <span v-if="!isAuthenticated || !product.purchasableState.isPurchasable"></span>
+              </template>
+            </SfProductCard>
           </transition-group>
           <transition-group
             v-else
@@ -234,6 +238,9 @@
                   class="sf-product-card-horizontal__description desktop-only"
                   v-html="productGetters.getDescription(product)"
                 />
+              </template>
+              <template #wishlist-icon>
+                <span v-if="!isAuthenticated || !product.purchasableState.isPurchasable"></span>
               </template>
               <template #add-to-cart>
                 <span v-if="!product.purchasableState.isPurchasable"></span>
@@ -401,6 +408,7 @@ import {
   useWishlist,
   productGetters,
   useFacet,
+  useUser,
   facetGetters
 } from '@vue-storefront/kibo';
 import { useUiHelpers, useUiState } from '~/composables';
@@ -414,8 +422,11 @@ export default {
   setup(props, context) {
     const th = useUiHelpers();
     const uiState = useUiState();
+    const { isAuthenticated } = useUser();
     const { addItem: addItemToCart, isInCart } = useCart();
     const {
+      wishlist,
+      load: loadWishlist,
       addItem: addItemToWishlist,
       isInWishlist,
       removeItem: removeItemFromWishlist
@@ -450,9 +461,8 @@ export default {
     });
 
     onSSR(async () => {
-      await search(th.getFacetsFromURL());
+      await Promise.all([loadWishlist(), search(th.getFacetsFromURL())]);
     });
-
     const { changeFilters, isFacetColor } = useUiHelpers();
     const { toggleFilterSidebar } = useUiState();
     const selectedFilters = ref({});
@@ -530,7 +540,9 @@ export default {
       isFilterSelected,
       selectedFilters,
       clearFilters,
-      applyFilters
+      applyFilters,
+      wishlist,
+      isAuthenticated
     };
   },
   components: {

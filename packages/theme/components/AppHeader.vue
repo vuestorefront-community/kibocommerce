@@ -41,6 +41,11 @@
             @click="toggleWishlistSidebar"
           >
             <SfIcon class="sf-header__icon" icon="heart" size="1.25rem" />
+            <SfBadge
+              v-if="wishlistItemTotals"
+              class="sf-badge--number cart-badge"
+              >{{ wishlistItemTotals }}</SfBadge
+            >
           </SfButton>
           <SfButton
             v-e2e="'app-header-cart'"
@@ -124,7 +129,8 @@ import {
   cartGetters,
   categoryGetters,
   useCategory,
-  useSearchSuggestions
+  useSearchSuggestions,
+  wishlistGetters
 } from '@vue-storefront/kibo';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
@@ -154,33 +160,41 @@ export default {
   },
   directives: { clickOutside },
   setup(props, { root }) {
-    const { toggleCartSidebar, toggleWishlistSidebar, toggleLoginModal } =
-      useUiState();
+    const {
+      toggleCartSidebar,
+      toggleWishlistSidebar,
+      toggleLoginModal
+    } = useUiState();
     const { setTermForUrl, getFacetsFromURL, getCatLink } = useUiHelpers();
     const { load: loadUser, isAuthenticated } = useUser();
-    const {
-      search: loadSearchSuggestions
-    } = useSearchSuggestions();
+    const { search: loadSearchSuggestions } = useSearchSuggestions();
 
     const { cart, load: loadCart } = useCart();
-    const {
-      search: searchCategories,
-      categories
-    } = useCategory('AppHeader:Category');
+    const { search: searchCategories, categories } = useCategory(
+      'AppHeader:Category'
+    );
 
-    const { load: loadWishlist } = useWishlist();
+    const { wishlist, load: loadWishlist } = useWishlist();
     const term = ref(getFacetsFromURL().phrase);
     const isSearchOpen = ref(false);
     const searchBarRef = ref(null);
     const result = ref(null);
+
+    const wishlistItemTotals = computed(() => {
+      const count = wishlistGetters.getTotalItems(wishlist.value);
+      return count;
+    });
 
     const cartTotalItems = computed(() => {
       const count = cartGetters.getTotalItems(cart.value);
       return count ? count.toString() : null;
     });
     const navigationCategories = computed(() => {
-      return categories.value?.filter(category =>
-        category.childrenCategories?.length && category.isDisplayed)
+      return categories.value
+        ?.filter(
+          (category) =>
+            category.childrenCategories?.length && category.isDisplayed
+        )
         .map(categoryGetters.getTree)
         .filter((category, indx) => indx < 4);
     });
@@ -198,10 +212,12 @@ export default {
     };
 
     onSSR(async () => {
-      await loadUser();
-      await loadCart();
-      await loadWishlist();
-      await searchCategories();
+      await Promise.all([
+        loadUser(),
+        loadCart(),
+        loadWishlist(),
+        searchCategories()
+      ]);
     });
 
     const closeSearch = () => {
@@ -217,11 +233,14 @@ export default {
       } else {
         term.value = paramValue.target.value;
       }
-      const searchSuggestions = await loadSearchSuggestions({ term: term.value });
+      const searchSuggestions = await loadSearchSuggestions({
+        term: term.value
+      });
       result.value = {
         products: searchSuggestions.value.products,
-        categories: searchSuggestions.value.
-          categories?.map((element) => categoryGetters.getTree(element))
+        categories: searchSuggestions.value.categories?.map((element) =>
+          categoryGetters.getTree(element)
+        )
       };
     }, 1000);
 
@@ -276,7 +295,8 @@ export default {
       removeSearchResults,
       categories,
       navigationCategories,
-      getCatLink
+      getCatLink,
+      wishlistItemTotals
     };
   }
 };

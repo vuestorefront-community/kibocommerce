@@ -4,54 +4,59 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import type { Wishlist, WishlistItem } from '@vue-storefront/<% INTEGRATION %>-api';
+import type { Wishlist, WishlistItem } from '@vue-storefront/kibo-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItems(wishlist: Wishlist): WishlistItem[] {
-  return [];
-}
+export const getItems = (wishlist: Wishlist): WishlistProduct[] =>
+  wishlist?.items.map((item) => item.product);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getTotals(wishlist: Wishlist): AgnosticTotals {
+export const getItemName = (product: WishlistProduct): string =>
+  product?.name;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getItemImage = (product: WishlistProduct): string =>
+  product?.imageUrl;
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+export const getItemPrice = (
+  product: WishlistProduct
+): AgnosticPrice => {
+  const { price, salePrice } = product.price;
   return {
-    total: 10,
-    subtotal: 10
-  };
-}
+    regular: price as number,
+    special: salePrice as number
+  } as AgnosticPrice;
+};
+
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemName(item: WishlistItem): string {
-  return '';
-}
+export const getItemAttributes = (
+  product: WishlistProduct,
+  filterByAttributeName?: string[]
+) => {
+  const attributes = {};
+  const options = filterByAttributeName
+    ? product?.options?.filter(o => filterByAttributeName.includes(o.name.toLowerCase()))
+    : product?.options || [];
+  options.forEach(opt => {
+    attributes[opt.name] = opt.value;
+  });
+
+  return attributes;
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemImage(item: WishlistItem): string {
-  return '';
-}
+export const getItemSku = (product: any): string =>
+  product?.sku || product?.variationProductCode || product?.productCode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemPrice(item: WishlistItem): AgnosticPrice {
+export const getTotals = (wishlist: Wishlist): AgnosticTotals => {
+  const items = wishlist?.items;
   return {
-    regular: 12,
-    special: 10
+    total: items.reduce((acc, { total }) => acc + total, 0),
+    subtotal: items.reduce((acc, { subtotal }) => acc + subtotal, 0)
   };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemQty(item: WishlistItem): number {
-  return 1;
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemAttributes(item: WishlistItem, filters?: string[]): Record<string, AgnosticAttribute | string> {
-  return {
-    color: 'red'
-  };
-}
-
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemSku(item: WishlistItem): string {
-  return '';
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -60,13 +65,17 @@ function getShippingPrice(wishlist: Wishlist): number {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getTotalItems(wishlist: Wishlist): number {
-  return 1;
-}
+export const getTotalItems = (wishlist: Wishlist): number =>
+  wishlist?.items?.length;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getFormattedPrice(price: number): string {
   return '';
+}
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+function getItemQty(item: WishlistItem): number {
+  return 1;
 }
 
 export const wishlistGetters: WishlistGetters<Wishlist, WishlistItem> = {

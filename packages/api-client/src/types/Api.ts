@@ -69,7 +69,7 @@ export type GetCheckoutParams = GraphQLTypes.QueryOrderArgs
 export type GetCheckoutResponse = QueryResponse<'order', GraphQLTypes.Order>;
 
 // getCMSContent
-export type GetCMSContentParams = GraphQLTypes.QueryDocumentListDocumentsArgs 
+export type GetCMSContentParams = GraphQLTypes.QueryDocumentListDocumentsArgs;
 export type GetCMSContentResponse = QueryResponse<'documentListDocuments', GraphQLTypes.DocumentCollection>;
 
 // getCurrentUser
@@ -162,6 +162,19 @@ export type UpdateUserAddressResponse = any;
 // getSearchSuggestions
 export type SearchSuggestionResponse = QueryResponse<'suggestionSearch', GraphQLTypes.SearchSuggestionResult>
 export type SearchSuggestionParams = { term: String }
+
+// wishList
+export type CreateWishListParams= GraphQLTypes.MutationCreateWishlistArgs;
+export type CreateWishListResponse= QueryResponse<'createWishlist', GraphQLTypes.Wishlist>;
+export type GetWishListResponse = QueryResponse<'wishlists', GraphQLTypes.WishlistCollection>;
+
+// wishListItem
+export type CreateWishListItemParams= GraphQLTypes.MutationCreateWishlistItemArgs;
+export type CreateWishListItemResponse= QueryResponse<'createWishlistItem',GraphQLTypes.WishlistItem>;
+
+export type DeleteWishListItemParams= GraphQLTypes.MutationDeleteWishlistItemArgs;
+export type DeleteWishListItemResponse= QueryResponse<'deleteWishlistItem', boolean>;
+
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
   addPaymentToCheckout(params:AddPaymentToCheckoutParams ): Promise<AddPaymentToCheckoutResponse>;
@@ -182,7 +195,7 @@ interface ApiMethods {
   getBillingInfo(params: GetBillingInfoParams): Promise<GetBillingInfoResponse>;
   getCategory(params: GetCategoryParams): Promise<GetCategoryResponse>;
   getCheckout(params: GetCheckoutParams): Promise<GetCheckoutResponse>;
-  getCMSContent(params: GetCMSContentParams): Promise<GetCMSContentResponse>;
+  getCMSContent(params: GetCMSContentParams): Promise<GetCMSContentResponse>;
   getCurrentUser(): Promise<GetCurrentUserResponse>;
   getOrCreateCheckoutFromCart(params: GetOrCreateCheckoutFromCartParams): Promise<GetOrCreateCheckoutFromCartResponse>;
   
@@ -192,6 +205,9 @@ interface ApiMethods {
   searchProducts(params: ProductSearchParams): Promise<ProductSearchResponse>;
   configureProduct(params: InternalConfigureProductParams): Promise<ConfigureProductResponse>;
  
+  getUserAddresses(
+    params: GetUserAddressesParams
+  ): Promise<GetUserAddressesResponse>;
   logInUser(params: LogInUserParams): Promise<LogInUserResponse>;
   logOutUser(): Promise<LogOutUserResponse>;
   makeOrder(params: MakeOrderParams): Promise<MakeOrderResponse>;
@@ -208,10 +224,21 @@ interface ApiMethods {
   setShippingAddress(params: SetShippingAddressParams): Promise<SetShippingAddressResponse>;
 
   updateCustomerPersonalData(params: UpdateCustomerPersonalDataParams): Promise<UpdateCustomerPersonalDataResponse>;
-  updateUserAddress(params: UpdateUserAddressParams): Promise<UpdateUserAddressResponse>;  
+  updateUserAddress(params: UpdateUserAddressParams): Promise<UpdateUserAddressResponse>; 
 
   // getSearchSuggestions
-  getSearchSuggestions(params: SearchSuggestionParams): Promise<SearchSuggestionResponse>
+  getSearchSuggestions(params: SearchSuggestionParams): Promise<SearchSuggestionResponse>;
+
+  // wishList
+  createWishList(params: CreateWishListParams): Promise<CreateWishListResponse>;
+
+  getWishList(): Promise<GetWishListResponse>;
+
+  // wishListItem
+  createWishListItem(params: CreateWishListItemParams ): Promise<CreateWishListItemResponse>;
+
+  deleteWishListItem(params: DeleteWishListItemParams ): Promise<DeleteWishListItemResponse>;
+
 }
 
 // ---------------  Export KiboMethods --------------- 

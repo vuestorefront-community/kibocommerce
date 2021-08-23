@@ -59,7 +59,7 @@ const getSortOptions = (searchData:SearchData): AgnosticSort => {
     { type: 'sort', value: 'Price: High to Low', id: 'price desc', count: null},
     { type: 'sort', value: 'Latest', id: 'createDate desc', count: null},
     { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null}
-  ].map(option => ({...option, selected: option.id === searchData.input.sort }));
+  ].map(option => ({...option, selected: option.id === searchData.input?.sort }));
 
     const selected = options.find(option => option.selected)?.id || ""
 

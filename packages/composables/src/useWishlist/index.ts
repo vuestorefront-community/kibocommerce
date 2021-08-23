@@ -4,25 +4,87 @@ import {
   useWishlistFactory,
   UseWishlistFactoryParams
 } from '@vue-storefront/core';
-import type { Wishlist, WishlistItem, Product } from '@vue-storefront/<% INTEGRATION %>-api';
+import { ref, Ref } from '@vue/composition-api';
+import { Wishlist, WishlistProduct, Product } from '../types';
+import useUser from '../useUser';
+export const wishlist: Ref<Wishlist> = ref(null);
 
-const params: UseWishlistFactoryParams<Wishlist, WishlistItem, Product> = {
+export const getWishLists = async (context: Context) => {
+  const wishListResponse = await context.$kibo.api.getWishList();
+  return wishListResponse.data.wishlists;
+};
+
+const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
+  provide() {
+    return {
+      user: useUser()
+    };
+  },
+
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   load: async (context: Context) => {
-    console.log('Mocked: useWishlist.load');
-    return {};
+    const currentWishlist = await getWishLists(context);
+    return currentWishlist?.items[0];
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   addItem: async (context: Context, { currentWishlist, product }) => {
-    console.log('Mocked: useWishlist.addItem');
-    return {};
+    if (!currentWishlist) {
+      const user = await context.user.user.value;
+      const wishlistName = user.id + '-' + user.firstName;
+      const params = {
+        wishlistInput: {
+          customerAccountId: user.id,
+          name: wishlistName
+        }
+      };
+      const createWishListResponse = await context.$kibo.api.createWishList(params);
+      currentWishlist = createWishListResponse.data.createWishlist;
+    }
+    const params = {
+      wishlistId: currentWishlist.id,
+      wishlistItemInput: {
+        isAssemblyRequired: false,
+        quantity: 1,
+        product: {
+          isTaxable: true,
+          isRecurring: false,
+          productCode: product.productCode,
+          isPackagedStandAlone: product.isPackagedStandAlone || true,
+          variationProductCode: product.variationProductCode,
+          options: product.options?.map((po) => ({
+            attributeFQN: po.attributeFQN,
+            name: po.attributeDetail.name,
+            value: po.values.find((v) => v.isSelected).value
+          }))
+        }
+      }
+    };
+    await context.$kibo.api.createWishListItem(params);
+    const response = await getWishLists(context);
+    return response?.items[0];
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  removeItem: async (context: Context, { currentWishlist, product }) => {
-    console.log('Mocked: useWishlist.removeItem');
-    return {};
+  removeItem: async (
+    context: Context,
+    { currentWishlist, product }
+  ) => {
+    const removedItem = currentWishlist?.items?.find(
+      (item) => {
+        if (!item?.product?.variationProductCode) {
+          return item.product.productCode === product.productCode;
+        }
+        return item?.product?.variationProductCode === product.variationProductCode;
+      }
+    );
+    const params = {
+      wishlistId: currentWishlist?.id,
+      wishlistItemId: removedItem?.id
+    };
+    await context.$kibo.api.deleteWishListItem(params);
+    const response = await getWishLists(context);
+    return response?.items[0];
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -32,8 +94,21 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistItem, Product> = {
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  isInWishlist: (context: Context, { currentWishlist, product }) => {
-    console.log('Mocked: useWishlist.isInWishlist');
+  isInWishlist: (
+    context: Context,
+    { currentWishlist, product }
+  ) => {
+    if (currentWishlist) {
+      const items = currentWishlist?.items?.some(
+        (wishListItems) =>{
+          if (!wishListItems?.product?.variationProductCode) {
+            return wishListItems?.product?.productCode === product?.productCode;
+          }
+          return wishListItems?.product?.variationProductCode === product?.variationProductCode;
+        }
+      );
+      return items;
+    }
     return false;
   }
 };

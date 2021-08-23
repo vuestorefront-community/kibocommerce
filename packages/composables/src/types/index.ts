@@ -35,7 +35,7 @@ export type Order = Record<string, unknown>;
 
 export type OrderItem = Record<string, unknown>;
 
-export type Product = Record<string, unknown>;
+export type Product = Record<string, any>;
 
 export type Review = Record<string, unknown>;
 
@@ -43,9 +43,9 @@ export type Shipping = Record<string, unknown>;
 
 export type ShippingMethod = Record<string, unknown>;
 
-export type WishlistProduct = Record<string, unknown>;
+export type WishlistProduct = Record<string, any>;
 
-export type Wishlist = Record<string, unknown>;
+export type Wishlist = Record<string, any>;
 
 export type Facet = Record<string, any>;
 

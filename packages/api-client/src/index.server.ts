@@ -40,6 +40,10 @@ import deleteUserAddress from './api/deleteUserAddress';
 import getUserAddresses from './api/getUserAddresses';
 import getSearchSuggestions from './api/getSearchSuggestions';
 import getCMSContent from './api/getCMSContent';
+import getWishList from './api/wishList/getWishList';
+import createWishList from './api/wishList/createWishList';
+import createWishListItem from './api/wishList/createWishListItem';
+import deleteWishListItem from './api/wishList/deleteWishListItem';
 
 const AUTH_COOKIE_NAME = 'vsf-kibo-ticket';
 
@@ -138,7 +142,11 @@ const { createApiClient } = apiClientFactory<any, any>({
     deleteUserAddress,
     getUserAddresses,
     getSearchSuggestions,
-    getCMSContent
+    getCMSContent,
+    getWishList,
+    createWishList,
+    createWishListItem,
+    deleteWishListItem
   },
   extensions: [
     ticketExtension

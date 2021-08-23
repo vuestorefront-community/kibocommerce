@@ -16,6 +16,22 @@
             :level="3"
             class="sf-heading--no-underline sf-heading--left"
           />
+          <SfButton
+            class="sf-button--pure sf-header__action on_wishList"
+            v-if="isAuthenticated && isPurchasable"
+            @click="
+              !isInWishlist({ product })
+                ? addItemToWishlist({ product })
+                : removeItemFromWishlist({ product })
+            "
+          >
+            <SfIcon
+              class="sf-header__icon"
+              :icon="currentWishlistIcon"
+              size="1.25rem"
+              data-test="sf-wishlist-icon"
+            />
+          </SfButton>
           <SfIcon
             icon="drag"
             size="xxl"
@@ -196,10 +212,12 @@ import RelatedProducts from '~/components/RelatedProducts.vue';
 import { ref, computed } from '@vue/composition-api';
 import {
   useProduct,
+  useWishlist,
   useCart,
   productGetters,
   useReview,
-  reviewGetters
+  reviewGetters,
+  useUser
 } from '@vue-storefront/kibo';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
@@ -208,9 +226,29 @@ import LazyHydrate from 'vue-lazy-hydration';
 export default {
   name: 'Product',
   transition: 'fade',
+  props: {
+    wishlistIcon: {
+      type: [String, Array, Boolean],
+
+      default: 'heart'
+    },
+
+    isOnWishlistIcon: {
+      type: [String, Array],
+
+      default: 'heart_fill'
+    }
+  },
   setup(props, context) {
     const qty = ref(1);
     const { id } = context.root.$route.params;
+    const { isAuthenticated } = useUser();
+    const {
+      load: loadWishlist,
+      addItem: addItemToWishlist,
+      isInWishlist,
+      removeItem: removeItemFromWishlist
+    } = useWishlist();
     const { products, search } = useProduct('products');
     const {
       products: relatedProducts,
@@ -224,9 +262,13 @@ export default {
 
     const product = computed(() => products.value);
 
-    const options = computed(() =>
-      productGetters.getOptions(product.value)
-    );
+    const currentWishlistIcon = computed(() => {
+      return isInWishlist({product: product.value})
+        ? props.isOnWishlistIcon
+        : props.wishlistIcon;
+    });
+
+    const options = computed(() => productGetters.getOptions(product.value));
     const configuration = computed(() =>
       productGetters.getConfiguration(product.value)
     );
@@ -256,13 +298,16 @@ export default {
     );
 
     onSSR(async () => {
-      await search({ id, attributes: context.root.$route.query });
-      await searchRelatedProducts({
-        catId: [categories.value[0]],
-        limit: 8,
-        id
-      });
-      await searchReviews({ productId: id });
+      await Promise.all([
+        loadWishlist(),
+        search({ id, attributes: context.root.$route.query }),
+        searchRelatedProducts({
+          catId: [categories.value[0]],
+          limit: 8,
+          id
+        }),
+        searchReviews({ productId: id })
+      ]);
     });
 
     const updateFilter = (filter) => {
@@ -278,6 +323,7 @@ export default {
     return {
       updateFilter,
       configuration,
+      isInWishlist,
       product,
       reviews,
       reviewGetters,
@@ -300,12 +346,14 @@ export default {
       description,
       properties,
       breadcrumbs,
+      isAuthenticated,
       isPurchasable: computed(() =>
         productGetters.getPurchasable(product.value)
       ),
-      stock: computed(() =>
-        productGetters.getInventory(product.value)
-      )
+      stock: computed(() => productGetters.getInventory(product.value)),
+      addItemToWishlist,
+      removeItemFromWishlist,
+      currentWishlistIcon
     };
   },
   components: {
@@ -487,6 +535,16 @@ export default {
   }
   &__gallery {
     flex: 1;
+    ::v-deep .sf-image {
+      object-fit: contain;
+      height: 80vh;
+    }
+    @include for-mobile {
+      ::v-deep .sf-image {
+        object-fit: contain;
+        height: 50vh;
+      }
+    }
   }
 }
 .breadcrumbs {
