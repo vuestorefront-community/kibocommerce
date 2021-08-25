@@ -106,7 +106,7 @@ import {
 } from '@storefront-ui/vue';
 import { useContent, contentGetters } from '@vue-storefront/kibo';
 import { onSSR } from '@vue-storefront/core';
-import { ref, onMounted } from '@vue/composition-api';
+import { computed} from '@vue/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -132,18 +132,13 @@ export default {
   setup() {
     const { search: loadBanners, content: contentBanners} = useContent('Banners');
     const { search: loadHeros, content: contentHeroes} = useContent('Heros');
-    const heroes = ref();
-    const banners = ref();
 
     onSSR(async () => {
       await loadHeros({ documentType: 'hero_images@mozu', slug: 'home'});
       await loadBanners({ documentType: 'banners@mozu', slug: 'home'});
     });
-
-    onMounted(async () => {
-      heroes.value = getContent(contentHeroes.value, 'hero_images');
-      banners.value = getContent(contentBanners.value, 'banners');
-    });
+    const heroes = computed(() => getContent(contentHeroes.value, 'hero_images'));
+    const banners = computed(() => getContent(contentBanners.value, 'banners'));
 
     function toggleWishlist(index) {
       this.products[index].isInWishlist = !this.products[index].isInWishlist;
