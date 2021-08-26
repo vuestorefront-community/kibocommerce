@@ -3,8 +3,8 @@ import { Order, CrOrderItem } from '../../../api-client/src';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: Order): string =>
-  order?.auditInfo?.createDate
-    ? new Date(order?.auditInfo?.createDate).toLocaleDateString()
+  order?.submittedDate
+    ? new Date(order?.submittedDate).toLocaleDateString()
     : '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
