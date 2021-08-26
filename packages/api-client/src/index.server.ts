@@ -69,7 +69,7 @@ const ticketExtension: ApiClientExtension = {
   name: 'ticketExtension',
   hooks: (req, res) => {
     const rawTicket = req.cookies[AUTH_COOKIE_NAME];
-    let currentTicket = tryParse(rawTicket);
+    let currentTicket = rawTicket !== undefined ? tryParse(Buffer.from(rawTicket, 'base64').toString('ascii')) : undefined;
 
     return {
       beforeCreate: ({ configuration }) => ({
@@ -80,7 +80,7 @@ const ticketExtension: ApiClientExtension = {
               currentTicket = authTicket;
               res.cookie(
                 AUTH_COOKIE_NAME,
-                JSON.stringify(currentTicket),
+                Buffer.from(JSON.stringify(currentTicket)).toString('base64'),
                 currentTicket?.accessTokenExpiration ? { expires: new Date(currentTicket.accessTokenExpiration) } : {}
               );
             }
