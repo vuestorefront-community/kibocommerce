@@ -17,7 +17,7 @@ function mergeProducts(product: Product, configuredProduct: ConfiguredProduct): 
   // Merge properties from existing options into returned options before merging objects
   // have to do it this way because it's an array of objects, not string keyed
   // for each of the options returned from the configure call
-  configuredProduct.options.forEach(opt => {
+  configuredProduct.options?.forEach(opt => {
     // find an associated record in the record returned from getProduct
     const existingOpt = product.options.find(o => o.attributeFQN === opt.attributeFQN);
     // if we found it
@@ -25,7 +25,7 @@ function mergeProducts(product: Product, configuredProduct: ConfiguredProduct): 
     // copy over any properties from the full product option that don't exist on the configured
     copyProps(existingOpt, opt);
     // loop through the values in the configured option
-    opt.values.forEach(configuredOptionValue => {
+    opt.values?.forEach(configuredOptionValue => {
       // find the associated value from the full product
       const existingOptionValue = existingOpt.values.find(v => configuredOptionValue.value === v.value);
       if (!existingOptionValue) return;
