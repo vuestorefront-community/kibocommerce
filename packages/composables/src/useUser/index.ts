@@ -41,7 +41,6 @@ export const params: UseUserFactoryParams<User, any, any> = {
         acceptsMarketing: false,
         hasExternalPassword: false,
         id: currentUser.id,
-        taxExempt: false
       }
     };
     const response = await context.$kibo.api.updateCustomerPersonalData(

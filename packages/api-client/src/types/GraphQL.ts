@@ -2837,7 +2837,7 @@ export type CustomerAccountInput = {
   notes?: Maybe<Array<Maybe<CustomerNoteInput>>>;
   attributes?: Maybe<Array<Maybe<CustomerAttributeInput>>>;
   segments?: Maybe<Array<Maybe<CustomerSegmentInput>>>;
-  taxExempt: Scalars['Boolean'];
+  taxExempt?: Scalars['Boolean'];
   taxId?: Maybe<Scalars['String']>;
   externalId?: Maybe<Scalars['String']>;
   auditInfo?: Maybe<CuAuditInfoInput>;
