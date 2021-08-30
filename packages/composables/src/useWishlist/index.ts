@@ -44,11 +44,8 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
     const params = {
       wishlistId: currentWishlist.id,
       wishlistItemInput: {
-        isAssemblyRequired: false,
         quantity: 1,
         product: {
-          isTaxable: true,
-          isRecurring: false,
           productCode: product.productCode,
           isPackagedStandAlone: product.isPackagedStandAlone || true,
           variationProductCode: product.variationProductCode,

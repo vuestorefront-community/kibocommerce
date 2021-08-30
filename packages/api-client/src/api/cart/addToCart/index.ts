@@ -10,8 +10,6 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
   return {
     productToAdd: {
       product: {
-        isTaxable: true,
-        isRecurring: false,
         productCode: product.productCode,
         isPackagedStandAlone: product.isPackagedStandAlone || true,
         variationProductCode: product.variationProductCode,
@@ -22,8 +20,7 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
         }))
       },
       quantity,
-      fulfillmentMethod: 'Ship',
-      isAssemblyRequired: true
+      fulfillmentMethod: 'Ship'
     }
   };
 }

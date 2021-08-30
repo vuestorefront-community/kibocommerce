@@ -12,12 +12,8 @@ function getCreateAccountVars(account) {
       firstName,
       lastName,
       acceptsMarketing: true,
-      isAnonymous: false,
-      isLocked: false,
       isActive: true,
-      id: 0,
-      hasExternalPassword: false,
-      taxExempt: false
+      id: 0
     }
   };
 }
@@ -29,8 +25,7 @@ function getCreateAccountLoginVars(id, password, account) {
     createAccountLoginInput: {
       emailAddress,
       username: emailAddress,
-      password,
-      isImport: false
+      password
     }
   };
 }

@@ -12079,7 +12079,7 @@ export type WishlistItemInput = {
   totalWithWeightedShippingAndHandling?: Maybe<Scalars['Float']>;
   weightedOrderHandlingAdjustment?: Maybe<Scalars['Float']>;
   autoAddDiscountId?: Maybe<Scalars['Int']>;
-  isAssemblyRequired: Scalars['Boolean'];
+  isAssemblyRequired?: Scalars['Boolean'];
   childItemIds?: Maybe<Array<Scalars['String']>>;
   parentItemId?: Maybe<Scalars['String']>;
 };
