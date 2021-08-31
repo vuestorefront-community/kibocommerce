@@ -14,7 +14,8 @@
     "prepublish": "yarn build",
     "test": "jest",
     "update:check": "ncu",
-    "update:update": "ncu -u"
+    "update:update": "ncu -u",
+    "generate-types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
@@ -23,7 +24,9 @@
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",
-    "@rollup/plugin-node-resolve": "^13.0.0" 
+    "@rollup/plugin-node-resolve": "^13.0.0",
+    "@graphql-codegen/cli": "2.1.1",
+    "@graphql-codegen/typescript": "2.1.2"
   },
   "files": [
     "lib/**/*"
