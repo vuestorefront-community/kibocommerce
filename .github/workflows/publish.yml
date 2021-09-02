@@ -1,4 +1,4 @@
-name: Publish Packages on NPM
+name: Gitflow Merge & Publish Packages on NPM
 on:
   workflow_dispatch:
     inputs:
@@ -19,7 +19,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: "14"
           registry-url: "https://registry.npmjs.org/"
           scope: "@vue-storefront"
       - run: echo "" >> .npmrc && echo "@vue-storefront:registry=https://registry.npmjs.org/" >> .npmrc

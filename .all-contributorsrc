@@ -1,14 +1,14 @@
 {
-  "projectName": "<% INTEGRATION %>",
+  "projectName": "kibocommerce",
   "projectOwner": "vuestorefront",
   "repoType": "github",
   "repoHost": "https://github.com",
   "files": [
     "README.md"
   ],
-  "imageSize": 80,
-  "commit": false,
+  "imageSize": 100,
+  "commit": true,
   "commitConvention": "angular",
   "contributors": [],
-  "contributorsPerLine": 5
+  "contributorsPerLine": 6
 }

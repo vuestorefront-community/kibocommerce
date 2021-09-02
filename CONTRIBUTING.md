@@ -1,11 +1,11 @@
 # Contributing
 
-Yeay! You want to contribute to @vuestorefront/<% INTEGRATION %>. That's amazing! To smoothen everyone's experience involved with the project please take note of the following guidelines and rules.
+Yeay! You want to contribute to @vuestorefront/kibocommerce. That's amazing! To smoothen everyone's experience involved with the project please take note of the following guidelines and rules.
 
 
 ## Found an Issue?
 
-Thank you for reporting any issues you find. We do our best to test and make @vuestorefront/<% INTEGRATION %> as solid as possible, but any reported issue is a real help.
+Thank you for reporting any issues you find. We do our best to test and make @vuestorefront/kibocommerce as solid as possible, but any reported issue is a real help.
 
 Please follow these guidelines when reporting issues:
 
@@ -13,14 +13,15 @@ Please follow these guidelines when reporting issues:
 - Tag your issue with the tag `bug`
 - Provide a short summary of what you are trying to do
 - Provide the log of the encountered error if applicable
-- Provide the exact version of @vuestorefront/<% INTEGRATION %>.
+- Provide the exact version of @vuestorefront/kibocommerce.
 - Be awesome and consider contributing a [pull request](#want-to-contribute)
 
 ## Want to contribute?
 
+You consider contributing changes to @vuestorefront/kibocommerce – we dig that!
 Please consider these guidelines when filing a pull request:
 
-> @vuestorefront/<% INTEGRATION %> pull requests
+> @vuestorefront/kibocommerce pull requests
 
 - Follow the [Coding Rules](#coding-rules)
 - Follow the [Commit Rules](#commit-rules)
@@ -35,7 +36,7 @@ Please consider these guidelines when filing a pull request:
 
 ## Coding Rules
 
-To keep the code base of @vuestorefront/<% INTEGRATION %> neat and tidy the following rules apply to every change
+To keep the code base of @vuestorefront/kibocommerce neat and tidy the following rules apply to every change
 
 > Coding standards
 
