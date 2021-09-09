@@ -1,8 +1,6 @@
-import { CreateApolloClient } from 'kibo.apollo.typescript.client'
-import { apiClientFactory } from '@vue-storefront/core';
-import { UserAuthTicket } from 'kibo.apollo.typescript.client/src/lib/AuthClient';
-import cfg from './mozuConfig';
-import { ApiClientExtension } from '@vue-storefront/core';
+import { CreateApolloClient } from '@kibocommerce/graphql-client';
+import { UserAuthTicket } from '@kibocommerce/graphql-client/dist/lib/AuthClient';
+import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
 
 import getProduct from './api/getProduct';
 import getRelatedProducts from './api/getRelatedProducts';
@@ -52,7 +50,7 @@ const onCreate = (settings) => ({
     ...settings
   },
   client: CreateApolloClient({
-    api: cfg.api,
+    api: settings.api,
     clientAuthHooks: settings.clientAuthHooks
   })
 });
