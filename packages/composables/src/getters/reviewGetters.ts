@@ -1,5 +1,10 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
-import type { Review, ReviewItem } from '@vue-storefront/<% INTEGRATION %>-api';
+// import type { Review, ReviewItem } from '@vue-storefront/kibo-api';
+import type { TODO } from '../types'
+
+type Review = TODO;
+
+type ReviewItem = TODO;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getItems (review: Review): ReviewItem[] {

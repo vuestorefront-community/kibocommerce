@@ -226,7 +226,7 @@ export const getProductInventory = (product: Product): number => {
   return 100;
 };
 
-const productGetters: ProductGetters<Product, ProductFilters> = {
+export const productGetters: ProductGetters<Product, ProductFilters> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

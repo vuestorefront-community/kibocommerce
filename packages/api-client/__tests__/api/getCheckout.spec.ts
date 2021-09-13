@@ -22,7 +22,8 @@ describe('[kibo-api-client] getCheckout', () => {
           expect(query).toEqual(defaultQuery);
           return { data: 'checkout response' };
         }
-      }
+      },
+      extendQuery: (_, args) => args
     };
     const { data } = await getCheckout(context, givenVariables);
     expect(data).toBe('checkout response');

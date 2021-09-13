@@ -21,8 +21,8 @@ export const getCategoryTree = (category: any): AgnosticCategoryTree => {
   return {} as AgnosticCategoryTree;
 };
 
-const categoryGetters: CategoryGetters<ProductCategory> = {
+export const categoryGetters: CategoryGetters<ProductCategory> = {
   getTree: getCategoryTree
 };
 
-export default categoryGetters;
+// export default categoryGetters

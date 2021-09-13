@@ -1,7 +1,7 @@
 import { useShippingFactory, UseShippingParams, Context } from '@vue-storefront/core';
 import { Address } from '../types';
-import useCart from '../useCart';
-import useCheckout from '../useCheckout';
+import { useCart } from '../useCart';
+import { useCheckout } from '../useCheckout';
 
 const params: UseShippingParams<Address, any> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -54,4 +54,4 @@ const params: UseShippingParams<Address, any> = {
   }
 };
 
-export const useShipping = useShippingFactory<ShippingAddress, AddParams>(params);
+export const useShipping = useShippingFactory<Address, any>(params);

@@ -2,7 +2,7 @@ import {
   useUserShippingFactory,
   UseUserShippingFactoryParams
 } from '@vue-storefront/core';
-import {useUser} from '../useUser';
+import { useUser } from '../useUser';
 import {
   UserAddressContext,
   loadUserAddresses,
@@ -40,4 +40,4 @@ const params: UseUserShippingFactoryParams<any, any> = {
   }
 };
 
-export const useUserShipping = useUserShippingFactory<Address, AddressItem>(params);
+export const useUserShipping = useUserShippingFactory<any, any>(params);

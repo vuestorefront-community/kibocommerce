@@ -1,6 +1,6 @@
 import { Context } from '@vue-storefront/core';
 import { useCheckoutFactory, UseCheckoutFactoryParams } from '../factories/useCheckoutFactory';
-import useCart from '../useCart';
+import { useCart } from '../useCart';
 import { Order } from '@vue-storefront/kibo-api';
 
 const params: UseCheckoutFactoryParams<Order> = {
@@ -19,4 +19,4 @@ const params: UseCheckoutFactoryParams<Order> = {
   }
 };
 
-export default useCheckoutFactory<Order>(params);
+export const useCheckout = useCheckoutFactory<Order>(params);

@@ -10,7 +10,7 @@ export const getUserFullName = (user: User): string => user ? `${user.firstName}
 
 export const getUserEmailAddress = (user: User): string => user?.emailAddress || '';
 
-const userGetters: UserGetters<User> = {
+export const userGetters: UserGetters<User> = {
   getFirstName: getUserFirstName,
   getLastName: getUserLastName,
   getFullName: getUserFullName,

@@ -1,5 +1,5 @@
 import { CustomQuery, Context } from '@vue-storefront/core';
-import { Product } from 'packages/api-client/src/types/GraphQL';
+import type { Product } from '../../../types/GraphQL';
 import addToCurrentCartQuery from './defaultMutation';
 import { AddToCartParams, AddToCartResponse} from '../../../types/Api';
 

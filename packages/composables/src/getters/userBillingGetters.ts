@@ -1,6 +1,6 @@
 import { UserBillingGetters } from '@vue-storefront/core';
 
-const userBillingGetters: UserBillingGetters<any, any> = {
+export const userBillingGetters: UserBillingGetters<any, any> = {
   getAddresses: (billing, criteria?: Record<string, any>) => {
     if (!criteria || !Object.keys(criteria).length) {
       return billing;

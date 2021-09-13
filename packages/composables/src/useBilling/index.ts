@@ -1,7 +1,7 @@
 import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/core';
 import { Address } from '../types';
-import useCart from '../useCart';
-import useCheckout from '../useCheckout';
+import { useCart } from '../useCart';
+import { useCheckout } from '../useCheckout';
 
 const params: UseBillingParams<Address, any> = {
   provide() {
@@ -38,4 +38,4 @@ const params: UseBillingParams<Address, any> = {
   }
 };
 
-export const useBilling = useBillingFactory<BillingAddress, AddParams>(params);
+export const useBilling = useBillingFactory<Address, any>(params);

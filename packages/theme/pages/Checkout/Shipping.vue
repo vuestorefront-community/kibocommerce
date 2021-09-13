@@ -346,6 +346,9 @@ export default {
       const addressList = ['address1', 'address2', 'addressType', 'cityOrTown', 'stateOrProvince', 'postalOrZipCode', 'countryCode', 'isValidated'];
       const phoneList = ['home'];
 
+      if (!shippingDetails.value.address) shippingDetails.value.address = {};
+      if (!shippingDetails.value.phoneNumbers) shippingDetails.value.phoneNumbers = {};
+
       if (addressList.includes(field)) {
         shippingDetails.value = {
           ...shippingDetails.value

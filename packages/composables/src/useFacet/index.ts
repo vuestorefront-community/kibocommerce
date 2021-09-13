@@ -51,4 +51,4 @@ const factoryParams = {
   }
 };
 
-export const useFacet = useFacetFactory<SearchParams>(factoryParams);
+export const useFacet = useFacetFactory<any>(factoryParams);

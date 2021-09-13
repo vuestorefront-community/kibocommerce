@@ -1,6 +1,6 @@
 import { Address } from './../../../theme/tests/e2e/types/address';
 import { CustomQuery } from '@vue-storefront/core';
-import useShipping from '../../src/useShipping';
+import { useShipping } from '../../src/useShipping';
 
 jest.mock('@vue-storefront/core', () => ({
   useShippingFactory: (params) => () => params

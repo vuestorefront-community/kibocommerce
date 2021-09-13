@@ -2,7 +2,7 @@ import {
   useUserBillingFactory,
   UseUserBillingFactoryParams
 } from '@vue-storefront/core';
-import useUser from '../useUser';
+import { useUser } from '../useUser';
 import {
   UserAddressContext,
   loadUserAddresses,
@@ -40,4 +40,4 @@ const params: UseUserBillingFactoryParams<any, any> = {
   }
 };
 
-export const useUserBilling = useUserBillingFactory<Address, AddressItem>(params);
+export const useUserBilling = useUserBillingFactory<any, any>(params);

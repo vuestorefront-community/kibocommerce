@@ -1,5 +1,5 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
-import { Cart, CartItem } from '../../../api-client/src/types/GraphQL';
+import type { Cart, CartItem } from '@vue-storefront/kibo-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItems = (cart: Cart): CartItem[] => cart?.items || [];
@@ -51,10 +51,7 @@ export const getCartShippingPrice = (cart: Cart): number => cart?.shippingTotal;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartTotalItems = (cart: Cart): number => cart?.items?.length || 0;
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFormattedPrice(price: number): string {
-  return '';
-}
+export const getFormattedPrice = (price: number) => String(price);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCoupons = (cart: Cart): AgnosticCoupon[] =>
@@ -75,8 +72,8 @@ export const getDiscounts = (cart: Cart): AgnosticDiscount[] =>
     code: d.couponCode
   }));
 
-const cartGetters: CartGetters<Cart, CartItem> = {
-  getTotals: getCartTotals,
+export const cartGetters: CartGetters<Cart, CartItem> = {
+  getTotals: getTotals,
   getShippingPrice: getCartShippingPrice,
   getItems: getCartItems,
   getItemName: getCartItemName,

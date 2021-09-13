@@ -30,7 +30,7 @@
     "core-js": "^3.16.1",
     "nuxt": "^2.15.7",
     "test": "jest",
-   "@vue-storefront/kibo": "^2.3.0",
+   "@vue-storefront/kibo": "^2.4.1",
     "awesome-phonenumber": "^2.51.2",
     "convict": "^6.1.0",
     "convict-format-with-validator": "^6.0.1",

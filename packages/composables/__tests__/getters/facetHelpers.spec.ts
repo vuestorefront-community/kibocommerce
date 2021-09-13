@@ -1,4 +1,4 @@
-import facetGetters from './../../src/getters/facetGetters';
+import { facetGetters } from './../../src/getters/facetGetters';
 // import { getProductFiltered } from './../../src/getters/productGetters';
 import categoryGetters from './../../src/getters/categoryGetters';
 

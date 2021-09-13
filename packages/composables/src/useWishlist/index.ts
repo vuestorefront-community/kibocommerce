@@ -6,7 +6,7 @@ import {
 } from '@vue-storefront/core';
 import { ref, Ref } from '@vue/composition-api';
 import { Wishlist, WishlistProduct, Product } from '../types';
-import useUser from '../useUser';
+import { useUser } from '../useUser';
 export const wishlist: Ref<Wishlist> = ref(null);
 
 export const getWishLists = async (context: Context) => {
@@ -110,4 +110,4 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
   }
 };
 
-export const useWishlist = useWishlistFactory<Wishlist, WishlistItem, Product>(params);
+export const useWishlist = useWishlistFactory<Wishlist, WishlistProduct, Product>(params);

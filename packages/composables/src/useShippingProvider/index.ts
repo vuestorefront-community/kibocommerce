@@ -1,7 +1,7 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
 import { Shipping, ShippingMethod } from '../types';
-import { FulfillmentInfoInput } from '@vue-storefront/kibo-api/lib/types/GraphQL';
-import useCheckout from '../useCheckout';
+import type { FulfillmentInfoInput } from '@vue-storefront/kibo-api';
+import { useCheckout } from '../useCheckout';
 
 const getShippingAddress = async (orderId, context) =>{
 
@@ -36,13 +36,6 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
     const orderId = context.order.checkout.value.id;
     const fulfillmentContact = await getShippingAddress(orderId, context);
 
-    // Delete __typename
-    if (fulfillmentContact) {
-      if (fulfillmentContact.__typename) delete fulfillmentContact.__typename;
-      if (fulfillmentContact.address.__typename) delete fulfillmentContact.address.__typename;
-      if (fulfillmentContact.phoneNumbers.__typename) delete fulfillmentContact.phoneNumbers.__typename;
-    }
-
     const fulfillmentInfoInput: FulfillmentInfoInput = {
       shippingMethodCode: shippingMethod.shippingMethodCode as string,
       shippingMethodName: shippingMethod.shippingMethodName as string,
@@ -57,4 +50,4 @@ const params: UseShippingProviderParams<Shipping, ShippingMethod> = {
   }
 };
 
-export const useShippingProvider = useShippingProviderFactory<ShippingProvider, ShippingMethod>(params);
+export const useShippingProvider = useShippingProviderFactory<Shipping, ShippingMethod>(params);

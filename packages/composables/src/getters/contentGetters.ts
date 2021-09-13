@@ -24,7 +24,7 @@ const transformBanners = (content)=>{
 };
 
 // UseContent<any, any>
-const contentGetters: any = {
+export const contentGetters: any = {
   getContent: (content, type: string, criteria?: Record<string, any>) => {
 
     if (type?.toLowerCase() === 'hero_images' || type?.toLowerCase() === 'banners') {

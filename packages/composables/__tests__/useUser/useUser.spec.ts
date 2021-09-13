@@ -1,5 +1,5 @@
 import { User } from '../../src/types';
-import useUser from '../../src/useUser';
+import { useUser } from '../../src/useUser';
 
 jest.mock('@vue-storefront/core', () => ({
   useUserFactory: (params) => () => params

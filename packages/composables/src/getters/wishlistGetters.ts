@@ -4,7 +4,11 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import type { Wishlist, WishlistItem } from '@vue-storefront/kibo-api';
+import type { 
+  Wishlist, 
+  WishlistItem, 
+  WishlistProduct 
+} from '@vue-storefront/kibo-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (wishlist: Wishlist): WishlistProduct[] =>

@@ -5,7 +5,7 @@ import contentGetters from '../getters/contentGetters';
 
 const params: UseContentFactoryParams<any, any> = {
   search: async (context: Context, params : {documentType: string, slug: string}) => {
-    const searchParams = {documentListName: params.documentType, filter: `properties.tags eq ${params.slug}`};
+    const searchParams = { documentListName: params.documentType, filter: `properties.tags eq ${params.slug}`};
 
     const response = await context.$kibo.api.getCMSContent(searchParams);
     const items = response.data.documentListDocuments.items;
@@ -14,4 +14,4 @@ const params: UseContentFactoryParams<any, any> = {
   }
 };
 
-export default useContentFactory<any, any>(params);
+export const useContent = useContentFactory<any, any>(params);

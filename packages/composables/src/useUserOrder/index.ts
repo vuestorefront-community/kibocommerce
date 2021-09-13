@@ -4,9 +4,11 @@ import {
   UseUserOrderFactoryParams
 } from '@vue-storefront/core';
 import type { Order } from '@vue-storefront/kibo-api';
-import type {
-  useUserOrderSearchParams as SearchParams
+import type { 
+  OrdersResponse, 
+  OrderSearchParams 
 } from '../types';
+
 
 export const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams> = {
   searchOrders: async (context: Context, params: OrderSearchParams): Promise<any> => {
@@ -21,4 +23,4 @@ export const params: UseUserOrderFactoryParams<OrdersResponse, OrderSearchParams
   }
 };
 
-export const useUserOrder = useUserOrderFactory<Order, SearchParams>(params);
+export const useUserOrder = useUserOrderFactory<OrdersResponse, OrderSearchParams>(params);

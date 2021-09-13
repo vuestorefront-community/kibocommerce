@@ -10,8 +10,8 @@ import {
 } from '@vue-storefront/core';
 import { SearchData } from '../types';
 
-import buildCategoryTree from './categoryGetters';
-import {buildBreadcrumbs} from '../useFacet/_utils';
+import { categoryGetters } from './categoryGetters';
+import { buildBreadcrumbs } from '../useFacet/_utils';
 
 
 const normalizeFacet = (facet) => {
@@ -70,7 +70,7 @@ const getCategoryTree = (searchData:SearchData): AgnosticCategoryTree => {
   if (!searchData.data) {
     return {} as AgnosticCategoryTree;
   }
-  return buildCategoryTree.getTree(searchData.data.categories[0]);
+  return categoryGetters.getTree(searchData.data.categories[0]);
 };
 
 const getProducts = (searchData:SearchData): any => {
@@ -108,7 +108,7 @@ const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => {
   return bcs;
 };
 
-export const facetGetters: FacetsGetters<Facet, FacetSearchCriteria> = {
+export const facetGetters: FacetsGetters<any, any> = {
   getSortOptions,
   getGrouped,
   getAll,

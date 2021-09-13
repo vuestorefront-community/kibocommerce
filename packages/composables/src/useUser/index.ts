@@ -3,16 +3,16 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibo-api/lib/types/GraphQL';
+import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibo-api';
 
 import { User } from '../types';
-import useCart from '../useCart';
+import { useCart } from '../useCart';
 
 export const params: UseUserFactoryParams<User, any, any> = {
   provide() {
     return {
       cart: useCart()
-    }
+    };
   },
   load: async (context: Context) => {
     const customerAccountResponse = await context.$kibo.api.getCurrentUser();
@@ -40,7 +40,7 @@ export const params: UseUserFactoryParams<User, any, any> = {
         isActive: true,
         acceptsMarketing: false,
         hasExternalPassword: false,
-        id: currentUser.id,
+        id: currentUser.id
       }
     };
     const response = await context.$kibo.api.updateCustomerPersonalData(
@@ -96,4 +96,4 @@ export const params: UseUserFactoryParams<User, any, any> = {
   }
 };
 
-export const useUser = useUserFactory<User, UpdateParams, RegisterParams>(params);
+export const useUser = useUserFactory<User, any, any>(params);

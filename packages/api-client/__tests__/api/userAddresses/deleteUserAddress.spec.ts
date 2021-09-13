@@ -15,7 +15,7 @@ describe('[kibo-api-client] deleteUserAddress', () => {
         currency: 'USD'
       },
       client: {
-        query: ({ variables, mutation }) => {
+        mutate: ({ variables, mutation }) => {
           expect(mutation).toEqual(defaultMutation);
           expect(variables).toEqual(params);
 

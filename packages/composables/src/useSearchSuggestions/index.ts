@@ -18,4 +18,4 @@ const params: UseSearchSuggestionsFactoryParams<SearchSuggestions> = {
     return response;
   }
 };
-export default useSearchSuggestionsFactory<SearchSuggestions>(params);
+export const useSearchSuggestions = useSearchSuggestionsFactory<SearchSuggestions>(params);

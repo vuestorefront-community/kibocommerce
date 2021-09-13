@@ -32,27 +32,31 @@ export type AddUserAddressResponse  = QueryResponse<'customerContact', GraphQLTy
 
 // cart
 export type AddToCartParams = { product: any, quantity: number } // { product: GraphQLTypes.CrProduct, quantity: number } 
-export type AddToCartParamsResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
+export type AddToCartResponse = QueryResponse<'cartItem', GraphQLTypes.CartItem>; 
 
 export type ApplyCouponParams =  GraphQLTypes.MutationUpdateCartCouponArgs;
 export type ApplyCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
-export type ClearCartResponse =  QueryResponse<'deleteCurrentCartItems', any>; // QueryResponse<'cart', GraphQLTypes.Cart>;
+export type ClearCartResponse =  QueryResponse<'deleteCurrentCartItems', GraphQLTypes.Cart>; 
 
 export type GetCartResponse = QueryResponse<'currentCart', GraphQLTypes.Cart>;
 
-export type RemoveCouponParams = { cartId: string, couponCode: GraphQLTypes.CrAppliedDiscount } 
+export type RemoveCouponParams =  GraphQLTypes.MutationDeleteCartCouponArgs 
 export type RemoveCouponResponse = QueryResponse<'cart', GraphQLTypes.Cart>;
 
 export type RemoveFromCartParams = { product: any} // { product: GraphQLTypes.CartItem}
-export type RemoveFromCartResponse = boolean;
+export type RemoveFromCartResponse = QueryResponse<'deleteCurrentCartItem', boolean>;
 
 export type UpdateItemQuantityParams = { product: GraphQLTypes.CartItem, quantity } 
-export type UpdateItemQuantityResponse = QueryResponse<'cuAttribute', GraphQLTypes.CuAttribute>;
+export type UpdateItemQuantityResponse = QueryResponse<'updateCurrentCartItemQuantity', GraphQLTypes.CartItem>;
 
 // changePassword
 export type ChangePasswordParams = GraphQLTypes.MutationChangeCustomerAccountPasswordArgs 
-export type ChangePasswordResponse = { data: {user: boolean}}
+export type ChangePasswordResponse = QueryResponse<'user', boolean>
+
+// deleteUserAddress
+export type DeleteUserAddressParams = GraphQLTypes.MutationDeleteCustomerAccountContactArgs;
+export type DeleteUserAddressResponse  = QueryResponse<'user', boolean>
 
 // getBillingInfo
 export type GetBillingInfoParams =  GraphQLTypes.QueryOrderBillingInfoArgs 

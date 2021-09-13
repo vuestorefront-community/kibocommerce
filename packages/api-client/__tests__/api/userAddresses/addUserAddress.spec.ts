@@ -39,7 +39,7 @@ describe('[kibo-api-client] addUserAddress', () => {
       },
       client: {
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        query: ({ variables, mutation }) => {
+        mutate: ({ variables, mutation }) => {
           expect(mutation).toEqual(defaultMutation);
           expect(variables).toEqual(params);
 

@@ -8,14 +8,14 @@ import {
   Cart,
   CartItem,
   CrProduct
-} from '../../../api-client/src/types/GraphQL';
+} from '@vue-storefront/kibo-api';
 
-const getCart = async (context: Context, customQuery): Promise<Cart> => {
+export const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);
   return response.data.currentCart;
 };
 
-const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
+const params: UseCartFactoryParams<Cart, CartItem, CrProduct, any> = {
   load: async (context: Context, { customQuery }) => {
     return await getCart(context, customQuery);
   },
@@ -53,11 +53,11 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
 
   removeCoupon: async (
     context: Context,
-    { currentCart, coupon, customQuery }
+    { currentCart, couponCode, customQuery }
   ) => {
     await context.$kibo.api.removeCoupon({
       cartId: currentCart.id,
-      couponCode: coupon
+      couponCode: couponCode
     });
     return { updatedCart: await getCart(context, customQuery) };
   },
@@ -68,4 +68,4 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, string> = {
   }
 };
 
-export default useCartFactory<Cart, CartItem, CrProduct, string>(params);
+export const useCart = useCartFactory<Cart, CartItem, CrProduct, any>(params);

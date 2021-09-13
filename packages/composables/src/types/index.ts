@@ -1,6 +1,10 @@
-import { FacetSearchResult, ComputedProperty } from '@vue-storefront/core';
+import { 
+  FacetSearchResult, 
+  ComputedProperty, 
+  ProductsSearchParams 
+} from '@vue-storefront/core';
+
 import { ProductCategory } from '@vue-storefront/kibo-api';
-import { ComputedProperty } from '@vue-storefront/core';
 import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
@@ -103,3 +107,25 @@ export interface UseContent<CONTENT> {
   loading: ComputedProperty<boolean>;
   error: ComputedProperty<any>
 }
+
+export type TODO = any;
+
+export type UseBillingAddParams = TODO;
+
+export type UseCategorySearchParams = TODO;
+
+export type UseFacetSearchParams = TODO;
+
+export type UseProductSearchParams = ProductsSearchParams;
+
+export type UseReviewSearchParams = TODO;
+
+export type UseReviewAddParams = TODO;
+
+export type UseShippingAddParams = TODO;
+
+export type UseUserUpdateParams = TODO;
+
+export type UseUserRegisterParams = TODO;
+
+export type useUserOrderSearchParams = TODO;

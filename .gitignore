@@ -29,3 +29,5 @@ coverage
 *.nuxt
 *.layer0
 *.vscode
+
+*.env*

@@ -16,4 +16,4 @@ const params: UseCategoryFactoryParams<Category, any> = {
   }
 };
 
-export const useCategory = useCategoryFactory<Category, SearchParams>(params);
+export const useCategory = useCategoryFactory<Category, any>(params);
