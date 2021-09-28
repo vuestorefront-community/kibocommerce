@@ -441,9 +441,11 @@ export default {
       facetGetters.getBreadcrumbs(result.value)
     );
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
-    const facets = computed(() =>
-      facetGetters.getGrouped(result.value, ['tenant~color', 'tenant~size'])
-    );
+    const facets = computed(() => {
+      if (!loading.value) {
+        return facetGetters.getGrouped(result.value, ['tenant~color', 'tenant~size']);
+      }
+    });
     const pagination = computed(() => facetGetters.getPagination(result.value));
     const activeCategory = computed(() => {
       const items = categoryTree.value.items;
@@ -468,8 +470,8 @@ export default {
     const selectedFilters = ref({});
 
     const setFilterValues = () => {
-      if (!facets.value.length) return;
-      selectedFilters.value = facets.value.reduce(
+      if (!facets.value?.length) return;
+      selectedFilters.value = facets.value?.reduce(
         (prev, curr) => ({
           ...prev,
           [curr.id]: curr.options.filter((o) => o.selected).map((o) => o.id)
