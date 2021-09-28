@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/kibo-theme",
-  "version": "2.4.1",
+  "version": "1.0.0-beta.0",
   "private": true,
   "scripts": {
     "dev": "nuxt",
@@ -30,7 +30,7 @@
     "core-js": "^3.16.1",
     "nuxt": "^2.15.7",
     "test": "jest",
-   "@vue-storefront/kibo": "^2.4.1",
+    "@vue-storefront/kibo": "^1.0.0-beta.0",
     "awesome-phonenumber": "^2.51.2",
     "convict": "^6.1.0",
     "convict-format-with-validator": "^6.0.1",

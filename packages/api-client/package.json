@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/kibo-api",
-  "version": "2.4.1",
+  "version": "1.0.0-beta.0",
   "private": true,
   "sideEffects": false,
   "server": "server/index.js",
@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
-    "@kibocommerce/graphql-client": "^1.0.1-beta1.7",
+    "@kibocommerce/graphql-client": "^1.0.2",
     "graphql-tag": "^2.12.4"
   },
   "devDependencies": {

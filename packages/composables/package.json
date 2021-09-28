@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/kibo",
-  "version": "2.4.1",
+  "version": "1.0.0-beta.0",
   "private": true,
   "sideEffects": false,
   "main": "lib/index.cjs.js",
@@ -17,7 +17,7 @@
   },
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
-    "@vue-storefront/kibo-api": "^2.4.1",
+    "@vue-storefront/kibo-api": "^1.0.0-beta.0",
     "tslib": "^2.2.0"
   },
   "devDependencies": {
