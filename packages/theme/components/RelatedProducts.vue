@@ -21,6 +21,12 @@
               productGetters.getPrice(product).special &&
               $n(productGetters.getPrice(product).special, 'currency')
             "
+            :isOnWishlist="isInWishlist({ product })"
+            @click:wishlist="
+              !isInWishlist({ product })
+                ? addItemToWishlist({ product })
+                : removeItemFromWishlist({ product })
+            "
             :link="
               localePath(
                 `/p/${productGetters.getId(product)}/${productGetters.getSlug(
@@ -28,7 +34,15 @@
                 )}`
               )
             "
-          />
+          >
+            <template #wishlist-icon>
+              <span
+                v-if="
+                  !isAuthenticated || !product.purchasableState.isPurchasable
+                "
+              ></span>
+            </template>
+          </SfProductCard>  
         </SfCarouselItem>
       </SfCarousel>
     </SfLoader>
@@ -43,12 +57,24 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 
-import { productGetters } from '@vue-storefront/kibo';
+import { productGetters, useUser, useWishlist } from '@vue-storefront/kibo';
 
 export default {
   name: 'RelatedProducts',
   setup() {
-    return { productGetters };
+    const { isAuthenticated } = useUser();
+    const {
+      addItem: addItemToWishlist,
+      isInWishlist,
+      removeItem: removeItemFromWishlist
+    } = useWishlist();
+    return { 
+      productGetters, 
+      isAuthenticated,
+      addItemToWishlist, 
+      isInWishlist, 
+      removeItemFromWishlist 
+      };
   },
   components: {
     SfCarousel,
