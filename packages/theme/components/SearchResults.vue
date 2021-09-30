@@ -150,7 +150,7 @@ import {
   computed,
   defineComponent
 } from '@vue/composition-api';
-import { productGetters } from '@vue-storefront/kibo';
+import { productGetters } from '@vue-storefront/kibocommerce';
 import { useUiHelpers } from '~/composables';
 
 export default defineComponent({

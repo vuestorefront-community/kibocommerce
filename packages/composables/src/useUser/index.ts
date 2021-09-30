@@ -3,7 +3,7 @@ import {
   useUserFactory,
   UseUserFactoryParams
 } from '@vue-storefront/core';
-import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibo-api';
+import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibocommerce-api';
 
 import { User } from '../types';
 import { useCart } from '../useCart';

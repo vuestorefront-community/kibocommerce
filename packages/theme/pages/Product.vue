@@ -218,7 +218,7 @@ import {
   useReview,
   reviewGetters,
   useUser
-} from '@vue-storefront/kibo';
+} from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';

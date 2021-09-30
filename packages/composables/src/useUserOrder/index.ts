@@ -3,7 +3,7 @@ import {
   useUserOrderFactory,
   UseUserOrderFactoryParams
 } from '@vue-storefront/core';
-import type { Order } from '@vue-storefront/kibo-api';
+import type { Order } from '@vue-storefront/kibocommerce-api';
 import type { 
   OrdersResponse, 
   OrderSearchParams 

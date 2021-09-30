@@ -265,7 +265,7 @@ import {
   SfRadio,
   SfCheckbox
 } from '@storefront-ui/vue';
-import { useUserBilling, userBillingGetters, useUser, useBilling, useShipping } from '@vue-storefront/kibo';
+import { useUserBilling, userBillingGetters, useUser, useBilling, useShipping } from '@vue-storefront/kibocommerce';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';

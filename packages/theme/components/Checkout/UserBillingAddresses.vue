@@ -42,7 +42,7 @@ import {
   SfCheckbox,
   SfAddressPicker
 } from '@storefront-ui/vue';
-import { useUserBilling, userBillingGetters } from '@vue-storefront/kibo';
+import { useUserBilling, userBillingGetters } from '@vue-storefront/kibocommerce';
 export default {
   name: 'UserBillingAddresses',
   props: {

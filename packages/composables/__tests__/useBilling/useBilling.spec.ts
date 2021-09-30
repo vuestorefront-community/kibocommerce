@@ -1,6 +1,6 @@
 import useBilling from '../../src/useBilling';
 
-jest.mock('@vue-storefront/kibo-api', () => ({
+jest.mock('@vue-storefront/kibocommerce-api', () => ({
   setBillingInfo: () => {}
 }));
 

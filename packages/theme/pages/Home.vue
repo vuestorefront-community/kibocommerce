@@ -104,7 +104,7 @@ import {
   SfArrow,
   SfButton
 } from '@storefront-ui/vue';
-import { useContent, contentGetters } from '@vue-storefront/kibo';
+import { useContent, contentGetters } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import { computed} from '@vue/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';

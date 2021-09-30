@@ -11,7 +11,7 @@ import {
   Product,
   ProductSearchParams,
   ProductSearchResult
-} from '@vue-storefront/kibo-api';
+} from '@vue-storefront/kibocommerce-api';
 
 const copyProps = (source: any, target: any): void => {
   for (const p in source) {

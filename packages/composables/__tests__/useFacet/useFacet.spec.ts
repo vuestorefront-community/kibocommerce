@@ -4,7 +4,7 @@ import useFacet from '../../src/useFacet';
 //   getFiltersFromProductsAttributes: jest.fn()
 // }));
 
-jest.mock('@vue-storefront/kibo-api', () => ({
+jest.mock('@vue-storefront/kibocommerce-api', () => ({
   AttributeType: {
     STRING: 1
   }

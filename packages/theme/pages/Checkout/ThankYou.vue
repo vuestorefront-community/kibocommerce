@@ -84,7 +84,7 @@
 <script>
 import { SfHeading, SfButton, SfCallToAction } from '@storefront-ui/vue';
 import { ref } from '@vue/composition-api';
-import { useMakeOrder } from '@vue-storefront/kibo';
+import { useMakeOrder } from '@vue-storefront/kibocommerce';
 
 export default {
   components: {

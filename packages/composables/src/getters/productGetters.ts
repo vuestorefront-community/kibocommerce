@@ -5,7 +5,7 @@ import {
   ProductGetters,
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
-import { PrCategory, Product } from '@vue-storefront/kibo-api/src/types/GraphQL';
+import type { PrCategory, Product } from '@vue-storefront/kibocommerce-api';
 
 type ProductFilters = any
 

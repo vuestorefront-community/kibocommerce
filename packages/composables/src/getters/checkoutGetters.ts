@@ -1,5 +1,5 @@
 import { CheckoutGetters} from '@vue-storefront/core';
-import { ShippingMethod } from '@vue-storefront/kibo-api/src/types';
+import type { ShippingMethod } from '@vue-storefront/kibocommerce-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 function getShippingMethodId(method: ShippingMethod): string {

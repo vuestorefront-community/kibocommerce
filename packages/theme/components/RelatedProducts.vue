@@ -57,7 +57,7 @@ import {
   SfLoader
 } from '@storefront-ui/vue';
 
-import { productGetters, useUser, useWishlist } from '@vue-storefront/kibo';
+import { productGetters, useUser, useWishlist } from '@vue-storefront/kibocommerce';
 
 export default {
   name: 'RelatedProducts',

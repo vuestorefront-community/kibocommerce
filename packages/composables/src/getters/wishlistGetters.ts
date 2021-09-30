@@ -8,7 +8,7 @@ import type {
   Wishlist, 
   WishlistItem, 
   WishlistProduct 
-} from '@vue-storefront/kibo-api';
+} from '@vue-storefront/kibocommerce-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (wishlist: Wishlist): WishlistProduct[] =>

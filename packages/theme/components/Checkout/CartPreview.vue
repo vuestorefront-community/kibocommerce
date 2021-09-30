@@ -75,7 +75,7 @@ import {
   SfCircleIcon
 } from '@storefront-ui/vue';
 import { computed, ref } from '@vue/composition-api';
-import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/kibo';
+import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/kibocommerce';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 
 export default {

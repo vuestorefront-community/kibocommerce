@@ -50,7 +50,7 @@
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useUser } from '@vue-storefront/kibo';
+import { useUser } from '@vue-storefront/kibocommerce';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';

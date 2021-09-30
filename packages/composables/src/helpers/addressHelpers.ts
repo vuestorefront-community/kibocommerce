@@ -1,5 +1,5 @@
 import { Context } from '@vue-storefront/core';
-import { MutationUpdateCustomerAccountContactArgs } from '@vue-storefront/kibo-api';
+import { MutationUpdateCustomerAccountContactArgs } from '@vue-storefront/kibocommerce-api';
 import { removeTypename } from '../helpers';
 
 export const loadUserAddresses = async (context, typeName) => {

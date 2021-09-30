@@ -1,6 +1,6 @@
 import { useShippingProviderFactory, UseShippingProviderParams, Context } from '@vue-storefront/core';
 import { Shipping, ShippingMethod } from '../types';
-import type { FulfillmentInfoInput } from '@vue-storefront/kibo-api';
+import type { FulfillmentInfoInput } from '@vue-storefront/kibocommerce-api';
 import { useCheckout } from '../useCheckout';
 
 const getShippingAddress = async (orderId, context) =>{

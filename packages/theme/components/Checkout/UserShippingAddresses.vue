@@ -32,7 +32,7 @@ import {
   SfAddressPicker
 } from '@storefront-ui/vue';
 import UserShippingAddress from '~/components/UserShippingAddress';
-import { useUserShipping, userShippingGetters } from '@vue-storefront/kibo';
+import { useUserShipping, userShippingGetters } from '@vue-storefront/kibocommerce';
 
 export default {
   name: 'UserShippingAddresses',

@@ -10,14 +10,14 @@ Kibo Commerce configuration is located in two places:
 
 ```js
 // nuxt.config.js
-['@vue-storefront/kibo/nuxt', {
+['@vue-storefront/kibocommerce/nuxt', {
   i18n: {
     useNuxtI18nConfig: true
   }
 }]
 ```
 
-- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/kibo/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
+- `useNuxtI18nConfig` - when this property is set to true, `@vue-storefront/kibocommerce/nuxt` package will use `i18n` config object provided in `nuxt.config.js`. When set to false, `i18n` config should be declared directly inside this package configuration. You can read more about `i18n` config in Vue Storefront [here](../advanced/internationalization.md)
 
 ## Middleware kibo configuration
 
@@ -28,7 +28,7 @@ You can read more about middleware configuration in Vue Storefront [here](../adv
 module.exports = {
   integrations: {
     kibo: {
-      location: '@vue-storefront/kibo-api/server',
+      location: '@vue-storefront/kibocommerce-api/server',
       configuration: {
         api: {
             accessTokenUrl:  "https://home.mozu.com/api/platform/applications/authtickets/oauth",
@@ -59,7 +59,7 @@ By default, the internationalization settings, such as `currency`, `locale`, and
 module.exports = {
   integrations: {
     kibo: {
-      location: '@vue-storefront/kibo-api/server',
+      location: '@vue-storefront/kibocommerce-api/server',
       configuration: {
         api: { /* ... */}
         currency: 'EUR',

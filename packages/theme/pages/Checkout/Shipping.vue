@@ -246,7 +246,7 @@ import {
   SfButton,
   SfSelect
 } from '@storefront-ui/vue';
-import { useShippingProvider, useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/kibo';
+import { useShippingProvider, useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/kibocommerce';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';

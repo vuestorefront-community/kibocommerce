@@ -4,7 +4,7 @@ import {
   ProductsSearchParams 
 } from '@vue-storefront/core';
 
-import { ProductCategory } from '@vue-storefront/kibo-api';
+import { ProductCategory } from '@vue-storefront/kibocommerce-api';
 import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';

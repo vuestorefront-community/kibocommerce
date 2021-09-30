@@ -1,5 +1,5 @@
 import { ReviewGetters, AgnosticRateCount } from '@vue-storefront/core';
-// import type { Review, ReviewItem } from '@vue-storefront/kibo-api';
+// import type { Review, ReviewItem } from '@vue-storefront/kibocommerce-api';
 import type { TODO } from '../types'
 
 type Review = TODO;

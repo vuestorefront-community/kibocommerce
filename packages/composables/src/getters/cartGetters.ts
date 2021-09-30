@@ -1,5 +1,5 @@
 import { CartGetters, AgnosticPrice, AgnosticTotals, AgnosticCoupon, AgnosticDiscount } from '@vue-storefront/core';
-import type { Cart, CartItem } from '@vue-storefront/kibo-api';
+import type { Cart, CartItem } from '@vue-storefront/kibocommerce-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItems = (cart: Cart): CartItem[] => cart?.items || [];

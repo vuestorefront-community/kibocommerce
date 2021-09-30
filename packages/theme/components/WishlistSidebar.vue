@@ -85,7 +85,7 @@ import {
   SfImage
 } from '@storefront-ui/vue';
 import { computed } from '@vue/composition-api';
-import { useWishlist, useUser, wishlistGetters } from '@vue-storefront/kibo';
+import { useWishlist, useUser, wishlistGetters } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import { useUiState } from '~/composables';
 

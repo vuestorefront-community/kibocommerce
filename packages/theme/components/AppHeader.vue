@@ -131,7 +131,7 @@ import {
   useCategory,
   useSearchSuggestions,
   wishlistGetters
-} from '@vue-storefront/kibo';
+} from '@vue-storefront/kibocommerce';
 import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';

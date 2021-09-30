@@ -3,7 +3,7 @@ const config = require('./config.js');
 module.exports = {
   integrations: {
     kibo: {
-      location: '@vue-storefront/kibo-api/server',
+      location: '@vue-storefront/kibocommerce-api/server',
       configuration: {
         api: {
           accessTokenUrl: config.get('accessTokenUrl'),

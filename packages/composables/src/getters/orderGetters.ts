@@ -1,5 +1,5 @@
 import { UserOrderGetters } from '@vue-storefront/core';
-import { Order, CrOrderItem } from '@vue-storefront/kibo-api';
+import { Order, CrOrderItem } from '@vue-storefront/kibocommerce-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: Order): string =>

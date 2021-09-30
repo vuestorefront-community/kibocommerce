@@ -410,7 +410,7 @@ import {
   useFacet,
   useUser,
   facetGetters
-} from '@vue-storefront/kibo';
+} from '@vue-storefront/kibocommerce';
 import { useUiHelpers, useUiState } from '~/composables';
 import { onSSR } from '@vue-storefront/core';
 import LazyHydrate from 'vue-lazy-hydration';

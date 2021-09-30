@@ -1,5 +1,5 @@
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
-import { ProductCategory } from '@vue-storefront/kibo-api/src/types';
+import type { ProductCategory } from '@vue-storefront/kibocommerce-api';
 
 export const getCategoryTree = (category: any): AgnosticCategoryTree => {
 

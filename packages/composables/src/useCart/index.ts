@@ -8,7 +8,7 @@ import {
   Cart,
   CartItem,
   CrProduct
-} from '@vue-storefront/kibo-api';
+} from '@vue-storefront/kibocommerce-api';
 
 export const getCart = async (context: Context, customQuery): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);

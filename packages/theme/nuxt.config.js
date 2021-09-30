@@ -45,11 +45,11 @@ export default {
       // @core-development-only-end
       useRawSource: {
         dev: [
-          '@vue-storefront/kibo',
+          '@vue-storefront/kibocommerce',
           '@vue-storefront/core'
         ],
         prod: [
-          '@vue-storefront/kibo',
+          '@vue-storefront/kibocommerce',
           '@vue-storefront/core'
         ]
       }
@@ -58,8 +58,8 @@ export default {
     ['@vue-storefront/nuxt-theme', {
       generate: {
         replace: {
-          apiClient: '@vue-storefront/kibo-api',
-          composables: '@vue-storefront/kibo'
+          apiClient: '@vue-storefront/kibocommerce-api',
+          composables: '@vue-storefront/kibocommerce'
         }
       }
     }],
@@ -67,7 +67,7 @@ export default {
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/kibo/nuxt', {}]
+    ['@vue-storefront/kibocommerce/nuxt', {}]
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [

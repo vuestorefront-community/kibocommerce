@@ -51,7 +51,7 @@
 </template>
 
 <script>
-import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/kibo';
+import { useCart, useShippingProvider, cartGetters } from '@vue-storefront/kibocommerce';
 import {
   SfHeading,
   SfButton,

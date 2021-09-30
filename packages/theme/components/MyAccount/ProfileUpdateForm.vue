@@ -42,7 +42,7 @@
 <script>
 import { ref } from '@vue/composition-api';
 import { ValidationProvider, ValidationObserver } from 'vee-validate';
-import { useUser, userGetters } from '@vue-storefront/kibo';
+import { useUser, userGetters } from '@vue-storefront/kibocommerce';
 import { SfInput, SfButton } from '@storefront-ui/vue';
 
 export default {
