@@ -154,6 +154,13 @@ export default {
     }
   },
   router: {
+      extendRoutes(routes, resolve) {
+      routes.push({
+        name: 'product_search',
+        path: '/p/:id',
+        component: resolve(__dirname, 'pages/Product.vue')
+      });
+    },
     middleware: ['checkout'],
     scrollBehavior (_to, _from, savedPosition) {
       if (savedPosition) {

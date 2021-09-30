@@ -76,7 +76,8 @@
                   :image="productGetters.getCoverImage(product)"
                   :alt="productGetters.getName(product)"
                   :title="productGetters.getName(product)"
-                  :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                  :wishlist-icon="false"
+                  :link="`/p/${productGetters.getId(product)}`"
                 />
               </div>
             </SfScrollable>
@@ -91,7 +92,8 @@
                 :image="productGetters.getCoverImage(product)"
                 :alt="productGetters.getName(product)"
                 :title="productGetters.getName(product)"
-                :link="`/p/${productGetters.getId(product)}/${productGetters.getSlug(product)}`"
+                :wishlist-icon="false"
+                :link="`/p/${productGetters.getId(product)}`"
                 />
             </div>
           </SfMegaMenuColumn>
