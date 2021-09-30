@@ -15,6 +15,7 @@ fragment cartDetails on Cart {
     couponCode
   }
   subtotal
+  discountedSubtotal
   shippingTotal
   total
   items {

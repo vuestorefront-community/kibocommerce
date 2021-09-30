@@ -36,7 +36,12 @@ const registerUser = async (context:Context, params: RegisterUserParams): Promis
   const customerAccountResponse = await context.client.mutate({
     mutation: createAccountMutation,
     variables: getCreateAccountVars(params.account),
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    context: {
+      headers: {
+        'x-vol-user-claims': null
+      }
+    }
   }) as any;
 
   const id = customerAccountResponse.data?.account?.id;
@@ -44,7 +49,12 @@ const registerUser = async (context:Context, params: RegisterUserParams): Promis
   const customerAccountLoginResponse = await context.client.mutate({
     mutation: createAccountLoginMutation,
     variables: getCreateAccountLoginVars(id, params.password, params.account),
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    context: {
+      headers: {
+        'x-vol-user-claims': null
+      }
+    }
   }) as any;
 
   return customerAccountLoginResponse;

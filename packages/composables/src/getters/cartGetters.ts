@@ -41,7 +41,8 @@ export const getCartItemSku = (item: CartItem): string => item?.product?.sku || 
 function getTotals(cart: Cart): AgnosticTotals {
   return {
     total: cart.total,
-    subtotal: cart.subtotal
+    subtotal: cart.subtotal,
+    special: cart?.orderDiscounts?.length > 0 ? cart.discountedSubtotal : cart.subtotal
   };
 }
 
