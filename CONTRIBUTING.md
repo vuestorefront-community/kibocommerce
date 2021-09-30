@@ -47,7 +47,7 @@ To keep the code base of @vuestorefront/kibocommerce neat and tidy the following
 ## Commit Rules
 
 To help everyone with understanding the commit history of commitlint the following commit rules are enforced.
-To make your life easier @vuestorefront/<% INTEGRATION %> is commitizen-friendly and provides the npm run-script `commit`.
+To make your life easier @vuestorefront/kibocommerce is commitizen-friendly and provides the npm run-script `commit`.
 
 > Commit standards
 
