@@ -11,7 +11,7 @@ import {
 import { SearchData } from '../types';
 
 import { categoryGetters } from './categoryGetters';
-import { buildBreadcrumbs } from '../useFacet/_utils';
+import { buildBreadcrumbs } from '../helpers/buildBreadcrumbs';
 
 
 const normalizeFacet = (facet) => {
@@ -103,7 +103,7 @@ const getBreadcrumbs = (searchData): AgnosticBreadcrumb[] => {
   }
   const bcs = [
     { text: 'Home', link: '/'},
-    ...buildBreadcrumbs(searchData.data.categories[0]).map(b => ({...b, link: `c/${b.link}` }))
+    ...buildBreadcrumbs(searchData.data.categories[0]).map(b => ({...b, link: `/c/${b.link}` }))
   ];
   return bcs;
 };
