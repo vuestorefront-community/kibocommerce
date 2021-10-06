@@ -18,6 +18,22 @@
         :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
       />
+      <div v-if="currentOrderShippingAddress && Object.keys(currentOrderShippingAddress).length">
+        <div class="deliveryCard">
+            <span style="color:green">Delivery Address :</span>
+            <hr/>
+              <p>{{ currentOrderShippingAddress.firstName }} {{ currentOrderShippingAddress.lastNameOrSurname }}</p>
+              <p>{{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.address1:'' }} {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.address2:'' }}</p>
+              <p>{{ currentOrderShippingAddress.address ? currentOrderShippingAddress.address.postalOrZipCode :'' }}</p>
+              <p>
+                {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.cityOrTown :'' }},
+                {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.stateOrProvince:'' }}
+              </p>
+              <p>{{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.countryCode:'' }}</p>
+              <p v-if="currentOrderShippingAddress.phoneNumbers && currentOrderShippingAddress.phoneNumbers.home" class="phone">{{ currentOrderShippingAddress.phoneNumbers.home }}</p>
+        </div>
+        <br/>
+      </div>
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider
           name="firstName"
@@ -206,7 +222,8 @@
         type="submit"
         @click="handleAddNewAddressBtnClick"
       >
-        {{ $t('Add new address') }}
+
+        {{ currentAddressId ? $t('Edit address') :$t('Add new address')}}
       </SfButton>
       <div class="form">
         <div class="form__action">
@@ -254,6 +271,7 @@ import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
 
+
 const NOT_SELECTED_ADDRESS = '';
 
 extend('required', {
@@ -294,6 +312,7 @@ export default {
     const canAddNewAddress = ref(false);
 
     const isShippingDetailsStepCompleted = ref(false);
+    const currentOrderShippingAddress = ref({});
 
     const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
 
@@ -306,8 +325,8 @@ export default {
       if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
-      const addresses = userShippingGetters.getAddresses(userShipping.value);
-      return Boolean(addresses?.length);
+      const userShippingAddressess = userShippingGetters.getAddresses(userShipping.value);
+      return Boolean(userShippingAddressess?.length);
     });
 
     const statesInSelectedCountry = computed(() => {
@@ -322,11 +341,26 @@ export default {
     });
 
     const handleAddressSubmit = (reset) => async () => {
-      await save({ shippingDetails: shippingDetails.value });
+      const fulfillmentShippingDetails = {
+        address: shippingDetails.value.address,
+        companyOrOrganization : shippingDetails.value.companyOrOrganization,
+        email : shippingDetails.value.email,
+        firstName : shippingDetails.value.firstName,
+        id : shippingDetails.value.id,
+        lastNameOrSurname : shippingDetails.value.lastNameOrSurname,
+        middleNameOrInitial : shippingDetails.value.middleNameOrInitial,
+        phoneNumbers: shippingDetails.value.phoneNumbers
+      }
+
+      await save({ shippingDetails: fulfillmentShippingDetails})
 
       isShippingDetailsStepCompleted.value = true;
       canAddNewAddress.value = false;
       load();
+      // show the saved current order's address as delivery address
+      currentOrderShippingAddress.value = address.value.addresses[0]  
+      canAddNewAddress.value = false;
+
     };
 
     const handleAddNewAddressBtnClick = () => {
@@ -335,9 +369,9 @@ export default {
       isShippingDetailsStepCompleted.value = false;
     };
 
-    const handleSetCurrentAddress = address => {
-      shippingDetails.value = {...address};
-      currentAddressId.value = address.id.toString();
+    const handleSetCurrentAddress = addr => {
+      shippingDetails.value = {...addr};
+      currentAddressId.value = addr.id.toString();
       canAddNewAddress.value = false;
       isShippingDetailsStepCompleted.value = false;
     };
@@ -375,9 +409,9 @@ export default {
     };
 
     const selectDefaultAddress = () => {
-      const defaultAddress = userShippingGetters.getAddresses(userShipping.value, { isDefault: true });
-      if (defaultAddress && defaultAddress.length) {
-        handleSetCurrentAddress(defaultAddress[0]);
+      const defaultAddress = userShippingGetters.getDefault(userShipping.value);
+      if (defaultAddress && Object.keys(defaultAddress).length) {
+        handleSetCurrentAddress(defaultAddress);
       }
     };
 
@@ -394,27 +428,34 @@ export default {
     });
 
     onSSR(async () => {
-      await load();
+      await load(); 
       if (isAuthenticated.value) {
-        await loadUserShipping();
+        await loadUserShipping(); 
       }
+
     });
 
     onMounted(async () => {
       if (!userShipping.value?.addresses && isAuthenticated.value) {
         await loadUserShipping();
       }
-
+      const hasEmptyShippingDetails = !shippingDetails.value || Object.keys(shippingDetails.value).length === 0;
+      if(!hasEmptyShippingDetails){
+        currentOrderShippingAddress.value = shippingDetails.value
+        return
+      }
       const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
+      
       if (!shippingAddresses || !shippingAddresses.length) {
+        canAddNewAddress.value = true;
         return;
       }
-      const hasEmptyShippingDetails = !shippingDetails.value || Object.keys(shippingDetails.value).length === 0;
       if (hasEmptyShippingDetails) {
         selectDefaultAddress();
+        currentOrderShippingAddress.value = shippingDetails.value
         return;
       }
-      canAddNewAddress.value = false;
+        canAddNewAddress.value = false;
     });
 
     return {
@@ -442,7 +483,8 @@ export default {
       canMoveForward,
 
       isShippingMethodStepCompleted: computed(() => state.value && state.value._status),
-      loadingShippingProvider
+      loadingShippingProvider,
+      currentOrderShippingAddress
     };
   }
 };
@@ -538,4 +580,22 @@ export default {
   margin: var(--spacer-xl) 0 var(--spacer-base) 0;
   --heading-title-font-weight: var(--font-weight--bold);
 }
+</style>
+
+
+<style lang="scss" scoped>
+  p {
+    margin: 0;
+  }
+  .phone {
+    margin-top: var(--spacer-base);
+  }
+  .deliveryCard{
+    display: flexbox;
+    padding-left: 10px;
+    width:40%;
+    justify-content: center;
+    border-width: 1px; 
+    border-color: rgb(160,160,255)
+  }
 </style>

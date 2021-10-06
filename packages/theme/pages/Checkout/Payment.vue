@@ -1,6 +1,5 @@
 <template>
   <div>
-      <h1></h1>
     <SfHeading
       :level="3"
       :title="$t('Payment')"

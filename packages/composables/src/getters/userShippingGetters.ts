@@ -7,7 +7,7 @@ export const userShippingGetters: UserShippingGetters<any, any> = {
     }
     const entries = Object.entries(criteria);
     return shipping.filter(
-      address => entries.every(([key, value]) => address[key] === value)
+      address => entries.every(([key, value]) => address[key] === +value)
     );
   },
   getDefault: shipping => shipping.find(address => address.types.find(t => t.name === 'Shipping').isPrimary),
