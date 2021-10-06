@@ -3,6 +3,7 @@
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{ 'header-on-top': isSearchOpen }"
+      :isNavVisible = "isMobileMenuOpen"
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
@@ -15,14 +16,7 @@
         </nuxt-link>
       </template>
       <template #navigation>
-        <SfHeaderNavigationItem
-          v-for="(category, index) in navigationCategories"
-          :key="index"
-          v-e2e="`app-header-url_${index}`"
-          class="nav-item"
-          :label="category.label"
-          :link="localePath(getCatLink(category))"
-        />
+        <HeaderNavigation :isMobile="isMobile" />
       </template>
       <template #aside>
         <LocaleSelector class="smartphone-only" />
@@ -87,10 +81,7 @@
             <SfButton
               v-else
               class="sf-search-bar__button sf-button--pure"
-              @click="
-                isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
-              "
-            >
+              @click="isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)">
               <span class="sf-search-bar__icon">
                 <SfIcon color="var(--c-text)" size="20px" icon="search" />
               </span>
@@ -143,6 +134,7 @@ import {
   unMapMobileObserver
 } from '@storefront-ui/vue/src/utilities/mobile-observer.js';
 import debounce from 'lodash.debounce';
+import HeaderNavigation from './HeaderNavigation';
 
 export default {
   components: {
@@ -156,14 +148,15 @@ export default {
     SearchResults,
     SfOverlay,
     SfMenuItem,
-    SfLink
+    SfLink,
+    HeaderNavigation
   },
   directives: { clickOutside },
   setup(props, { root }) {
     const {
       toggleCartSidebar,
       toggleWishlistSidebar,
-      toggleLoginModal
+      toggleLoginModal, isMobileMenuOpen
     } = useUiState();
     const { setTermForUrl, getFacetsFromURL, getCatLink } = useUiHelpers();
     const { load: loadUser, isAuthenticated } = useUser();
@@ -296,7 +289,8 @@ export default {
       categories,
       navigationCategories,
       getCatLink,
-      wishlistItemTotals
+      wishlistItemTotals,
+      isMobileMenuOpen
     };
   }
 };
