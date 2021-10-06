@@ -1,6 +1,6 @@
 <template>
   <div>
-      <h1>M=</h1>
+      <h1></h1>
     <SfHeading
       :level="3"
       :title="$t('Payment')"
@@ -70,7 +70,7 @@
           <div class="product-sku">{{ cartGetters.getItemSku(product) }}</div>
         </SfTableData>
         <SfTableData
-          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['size', 'color'])"
+          class="table__data" v-for="(value, key) in cartGetters.getItemAttributes(product, ['color', 'size'])"
           :key="key"
         >
           {{ value }}
@@ -255,6 +255,7 @@ export default {
 }
 .product-price {
   --price-font-size: var(--font-size--base);
+  justify-content: flex-end;
 }
 .property {
   margin: 0 0 var(--spacer-sm) 0;

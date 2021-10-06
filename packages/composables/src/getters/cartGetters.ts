@@ -23,13 +23,25 @@ export const getCartItemQty = (item: CartItem): number => item?.quantity;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartItemAttributes = (item: CartItem, filterByAttributeName?: Array<string>) => {
-  const attributes = {};
-  const options = filterByAttributeName
-    ? item.product?.options?.filter(o => filterByAttributeName.includes(o.name.toLowerCase()))
-    : item.product?.options || [];
-  options.forEach(opt => {
-    attributes[opt.name] = opt.value;
-  });
+  const attributes= {};
+  if(Array.isArray(filterByAttributeName) && filterByAttributeName.length)
+  {
+    filterByAttributeName.forEach(attr => {
+      attributes[attr] = 'N/A';
+      item.product?.options?.filter(o => {
+        if(filterByAttributeName.includes(o.name.toLowerCase()) && (attr ==o.name.toLowerCase())){
+          attributes[attr] =o.value;
+          return true
+        }
+        return false;
+      })
+    })
+  }else{
+    const options = item.product?.options || [];
+    options.forEach(opt => {
+      attributes[opt.name] = opt.value;
+    });
+  }
 
   return attributes;
 };
