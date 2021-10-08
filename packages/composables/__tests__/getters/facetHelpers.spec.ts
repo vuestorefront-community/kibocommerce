@@ -15,22 +15,22 @@ describe('[kibo-getters] facet getters', () => {
   it('returns sorting options', () => {
     expect(facetGetters.getSortOptions({ input: { sort: null } } as any)).toEqual({
       options: [
-            { type:'sort', value: "Default", id: "", count: null, selected: false },
-            { type:'sort', value: "Price: Low to High", id: "price asc" , count: null, selected: false},
-            { type:'sort', value: "Price: High to Low", id: "price desc" , count: null, selected: false},
-            { type:'sort', value: "Latest", id: "createDate desc" , count: null, selected: false },
-            { type:'sort', value: "Oldest", id: "createDate asc" , count: null, selected: false }
+        { type: 'sort', value: 'Default', id: '', count: null, selected: false },
+        { type: 'sort', value: 'Price: Low to High', id: 'price asc', count: null, selected: false},
+        { type: 'sort', value: 'Price: High to Low', id: 'price desc', count: null, selected: false},
+        { type: 'sort', value: 'Latest', id: 'createDate desc', count: null, selected: false },
+        { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null, selected: false }
       ],
       selected: ''
     });
 
     expect(facetGetters.getSortOptions({ input: { sort: 'price asc' } } as any)).toEqual({
-        options: [
-            { type:'sort', value: "Default", id: "", count: null, selected: false },
-            { type:'sort', value: "Price: Low to High", id: "price asc" , count: null, selected: true},
-            { type:'sort', value: "Price: High to Low", id: "price desc" , count: null, selected: false},
-            { type:'sort', value: "Latest", id: "createDate desc" , count: null, selected: false },
-            { type:'sort', value: "Oldest", id: "createDate asc" , count: null, selected: false }
+      options: [
+        { type: 'sort', value: 'Default', id: '', count: null, selected: false },
+        { type: 'sort', value: 'Price: Low to High', id: 'price asc', count: null, selected: true},
+        { type: 'sort', value: 'Price: High to Low', id: 'price desc', count: null, selected: false},
+        { type: 'sort', value: 'Latest', id: 'createDate desc', count: null, selected: false },
+        { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null, selected: false }
       ],
       selected: 'price asc'
     });
@@ -160,14 +160,14 @@ describe('[kibo-getters] facet getters', () => {
         categories: [{
           categoryCode: 'cat3code',
           content: {
-                name: 'cat3',
-                slug: 'cat-3'
+            name: 'cat3',
+            slug: 'cat-3'
           },
           parentCategory: {
             categoryCode: 'cat2code',
             content: {
-                  name: 'cat2',
-                  slug: 'cat-2'
+              name: 'cat2',
+              slug: 'cat-2'
             },
             parentCategory: {
               categoryCode: 'cat1code',
@@ -176,7 +176,7 @@ describe('[kibo-getters] facet getters', () => {
                 slug: 'cat-1'
               }
             }
-        }
+          }
         }]
       }
     } as any;

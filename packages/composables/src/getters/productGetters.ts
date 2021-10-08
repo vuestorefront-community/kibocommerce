@@ -27,7 +27,7 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
     regular: product?.price?.price || 0,
     special: product?.price?.salePrice || 0
   };
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {

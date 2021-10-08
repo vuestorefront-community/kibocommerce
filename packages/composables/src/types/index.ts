@@ -1,7 +1,7 @@
-import { 
-  FacetSearchResult, 
-  ComputedProperty, 
-  ProductsSearchParams 
+import {
+  FacetSearchResult,
+  ComputedProperty,
+  ProductsSearchParams
 } from '@vue-storefront/core';
 
 import { ProductCategory } from '@vue-storefront/kibocommerce-api';

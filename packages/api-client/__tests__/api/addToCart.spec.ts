@@ -8,24 +8,24 @@ describe('[kibo-api-client] addToCart', () => {
 
   it('adds item to cart', async () => {
     const params = {
-        product: { productCode: "UPC-123"},
-        quantity: 1
-    }
+      product: { productCode: 'UPC-123'},
+      quantity: 1
+    };
     const expectedVariables = {
-        productToAdd: {
-            product: {
-              isTaxable: true,
-              isRecurring: false,
-              productCode: "UPC-123",
-              isPackagedStandAlone: true,
-              variationProductCode: undefined,
-              options: undefined
-            },
-            quantity: 1,
-            fulfillmentMethod: 'Ship',
-            isAssemblyRequired: true
-          }
-    }
+      productToAdd: {
+        product: {
+          isTaxable: true,
+          isRecurring: false,
+          productCode: 'UPC-123',
+          isPackagedStandAlone: true,
+          variationProductCode: undefined,
+          options: undefined
+        },
+        quantity: 1,
+        fulfillmentMethod: 'Ship',
+        isAssemblyRequired: true
+      }
+    };
     const context = {
       config: {
         locale: 'en',
@@ -34,9 +34,9 @@ describe('[kibo-api-client] addToCart', () => {
       },
       client: {
         mutate: ({ mutation, variables }) => {
-            expect(mutation).toEqual(defaultMutation);
-            expect(variables).toEqual(expectedVariables);
-            return { data: 'add to cart response' };
+          expect(mutation).toEqual(defaultMutation);
+          expect(variables).toEqual(expectedVariables);
+          return { data: 'add to cart response' };
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

@@ -8,12 +8,12 @@ describe('[kibo-api-client] searchOrders', () => {
 
   it('gets order list', async () => {
     const params = {
-        page: 1,
-        pageSize: 5
-    }
+      page: 1,
+      pageSize: 5
+    };
     const expectedVariables = {
-        startIndex: 0,
-        pageSize: 5
+      startIndex: 0,
+      pageSize: 5
     };
 
     const context = {
@@ -40,14 +40,14 @@ describe('[kibo-api-client] searchOrders', () => {
 
   it('searchs for a single order', async () => {
     const params = {
-        page: 1,
-        pageSize: 1,
-        id: "123"
-    }
+      page: 1,
+      pageSize: 1,
+      id: '123'
+    };
     const expectedVariables = {
-        startIndex: 0,
-        pageSize: 1,
-        filter: `orderId eq 123`
+      startIndex: 0,
+      pageSize: 1,
+      filter: 'orderId eq 123'
     };
 
     const context = {

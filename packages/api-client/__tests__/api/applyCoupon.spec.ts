@@ -8,9 +8,9 @@ describe('[kibo-api-client] applyCoupon', () => {
 
   it('apply coupon to cart', async () => {
     const params = {
-        cartId: "123",
-        couponCode: "FREE"
-    }
+      cartId: '123',
+      couponCode: 'FREE'
+    };
     const context = {
       config: {
         locale: 'en',
@@ -19,9 +19,9 @@ describe('[kibo-api-client] applyCoupon', () => {
       },
       client: {
         mutate: ({ mutation, variables }) => {
-            expect(mutation).toEqual(defaultMutation);
-            expect(variables).toEqual(params);
-            return { data: 'apply coupon cart' };
+          expect(mutation).toEqual(defaultMutation);
+          expect(variables).toEqual(params);
+          return { data: 'apply coupon cart' };
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

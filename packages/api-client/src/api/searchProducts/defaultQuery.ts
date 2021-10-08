@@ -1,5 +1,5 @@
-import gql from 'graphql-tag'
-import { searchResults } from '../../fragments'
+import gql from 'graphql-tag';
+import { searchResults } from '../../fragments';
 
 const query = gql`
 query ProductSearch($query:String, $startIndex:Int,
@@ -17,5 +17,5 @@ query ProductSearch($query:String, $startIndex:Int,
         }
     }
     ${searchResults}
-`
-export default query
+`;
+export default query;

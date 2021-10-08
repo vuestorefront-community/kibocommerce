@@ -6,11 +6,7 @@
       :title="$t('Shipping details')"
       class="sf-heading--left sf-heading--no-underline title"
     />
-    <form
-      @submit.prevent="
-        handleSubmit(handleAddressSubmit(reset))
-      "
-    >
+    <form @submit.prevent="handleSubmit(handleAddressSubmit(reset))">
       <UserShippingAddresses
         v-e2e="'shipping-addresses'"
         v-if="isAuthenticated && hasSavedShippingAddress"
@@ -18,21 +14,68 @@
         :currentAddressId="currentAddressId || NOT_SELECTED_ADDRESS"
         @setCurrentAddress="handleSetCurrentAddress"
       />
-      <div v-if="currentOrderShippingAddress && Object.keys(currentOrderShippingAddress).length">
+      <div
+        v-if="
+          currentOrderShippingAddress &&
+          Object.keys(currentOrderShippingAddress).length
+        "
+      >
         <div class="deliveryCard">
-            <span style="color:green">Delivery Address :</span>
-            <hr/>
-              <p>{{ currentOrderShippingAddress.firstName }} {{ currentOrderShippingAddress.lastNameOrSurname }}</p>
-              <p>{{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.address1:'' }} {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.address2:'' }}</p>
-              <p>{{ currentOrderShippingAddress.address ? currentOrderShippingAddress.address.postalOrZipCode :'' }}</p>
-              <p>
-                {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.cityOrTown :'' }},
-                {{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.stateOrProvince:'' }}
-              </p>
-              <p>{{ currentOrderShippingAddress.address? currentOrderShippingAddress.address.countryCode:'' }}</p>
-              <p v-if="currentOrderShippingAddress.phoneNumbers && currentOrderShippingAddress.phoneNumbers.home" class="phone">{{ currentOrderShippingAddress.phoneNumbers.home }}</p>
+          <span style="color: green">Delivery Address :</span>
+          <hr />
+          <p>
+            {{ currentOrderShippingAddress.firstName }}
+            {{ currentOrderShippingAddress.lastNameOrSurname }}
+          </p>
+          <p>
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.address1
+                : ''
+            }}
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.address2
+                : ''
+            }}
+          </p>
+          <p>
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.postalOrZipCode
+                : ''
+            }}
+          </p>
+          <p>
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.cityOrTown
+                : ''
+            }},
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.stateOrProvince
+                : ''
+            }}
+          </p>
+          <p>
+            {{
+              currentOrderShippingAddress.address
+                ? currentOrderShippingAddress.address.countryCode
+                : ''
+            }}
+          </p>
+          <p
+            v-if="
+              currentOrderShippingAddress.phoneNumbers &&
+              currentOrderShippingAddress.phoneNumbers.home
+            "
+            class="phone"
+          >
+            {{ currentOrderShippingAddress.phoneNumbers.home }}
+          </p>
         </div>
-        <br/>
+        <br />
       </div>
       <div class="form" v-if="canAddNewAddress">
         <ValidationProvider
@@ -41,10 +84,12 @@
           v-slot="{ errors }"
           slim
         >
-           <SfInput
+          <SfInput
             v-e2e="'firstName'"
             :value="shippingDetails.firstName"
-            @input="firstName => changeShippingDetails('firstName', firstName)"
+            @input="
+              (firstName) => changeShippingDetails('firstName', firstName)
+            "
             label="First name"
             name="firstName"
             class="form__element form__element--half"
@@ -62,7 +107,9 @@
           <SfInput
             v-e2e="'lastName'"
             :value="shippingDetails.lastNameOrSurname"
-            @input="lastName => changeShippingDetails('lastNameOrSurname', lastName)"
+            @input="
+              (lastName) => changeShippingDetails('lastNameOrSurname', lastName)
+            "
             label="Last name"
             name="lastName"
             class="form__element form__element--half form__element--half-even"
@@ -77,11 +124,12 @@
           v-slot="{ errors }"
           slim
         >
-
           <SfInput
             v-e2e="'streetName'"
             :value="shippingDetails.address && shippingDetails.address.address1"
-            @input="streetName => changeShippingDetails('address1', streetName)"
+            @input="
+              (streetName) => changeShippingDetails('address1', streetName)
+            "
             label="Street name"
             name="streetName"
             class="form__element form__element--half"
@@ -99,7 +147,7 @@
           <SfInput
             v-e2e="'apartment'"
             :value="shippingDetails.address && shippingDetails.address.address2"
-            @input="apartment => changeShippingDetails('address2', apartment)"
+            @input="(apartment) => changeShippingDetails('address2', apartment)"
             label="House/Apartment number"
             name="apartment"
             class="form__element form__element--half form__element--half-even"
@@ -116,8 +164,10 @@
         >
           <SfInput
             v-e2e="'city'"
-            :value="shippingDetails.address && shippingDetails.address.cityOrTown"
-            @input="city => changeShippingDetails('cityOrTown', city)"
+            :value="
+              shippingDetails.address && shippingDetails.address.cityOrTown
+            "
+            @input="(city) => changeShippingDetails('cityOrTown', city)"
             label="City"
             name="city"
             class="form__element form__element--half"
@@ -134,11 +184,19 @@
         >
           <SfSelect
             v-e2e="'state'"
-            :value="shippingDetails.address && shippingDetails.address.stateOrProvince"
-            @input="state => changeShippingDetails('stateOrProvince', state)"
+            :value="
+              shippingDetails.address && shippingDetails.address.stateOrProvince
+            "
+            @input="(state) => changeShippingDetails('stateOrProvince', state)"
             label="State/Province"
             name="state"
-            class="form__element form__element--half form__element--half-even form__select sf-select--underlined"
+            class="
+              form__element
+              form__element--half
+              form__element--half-even
+              form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -161,11 +219,16 @@
         >
           <SfSelect
             v-e2e="'country'"
-            :value="shippingDetails.address && shippingDetails.address.countryCode"
-            @input="country => changeShippingDetails('countryCode', country)"
+            :value="
+              shippingDetails.address && shippingDetails.address.countryCode
+            "
+            @input="(country) => changeShippingDetails('countryCode', country)"
             label="Country"
             name="country"
-            class="form__element form__element--half form__select sf-select--underlined"
+            class="
+              form__element form__element--half form__select
+              sf-select--underlined
+            "
             required
             :valid="!errors[0]"
             :errorMessage="errors[0]"
@@ -187,8 +250,13 @@
         >
           <SfInput
             v-e2e="'zipcode'"
-            :value="shippingDetails.address && shippingDetails.address.postalOrZipCode"
-            @input="postalCode => changeShippingDetails('postalOrZipCode', postalCode)"
+            :value="
+              shippingDetails.address && shippingDetails.address.postalOrZipCode
+            "
+            @input="
+              (postalCode) =>
+                changeShippingDetails('postalOrZipCode', postalCode)
+            "
             label="Zip-code"
             name="zipCode"
             class="form__element form__element--half form__element--half-even"
@@ -205,8 +273,10 @@
         >
           <SfInput
             v-e2e="'phone'"
-            :value="shippingDetails.address && shippingDetails.phoneNumbers.home"
-            @input="phone => changeShippingDetails('home', phone)"
+            :value="
+              shippingDetails.address && shippingDetails.phoneNumbers.home
+            "
+            @input="(phone) => changeShippingDetails('home', phone)"
             label="Phone number"
             name="phone"
             class="form__element form__element--half"
@@ -222,8 +292,7 @@
         type="submit"
         @click="handleAddNewAddressBtnClick"
       >
-
-        {{ currentAddressId ? $t('Edit address') :$t('Add new address')}}
+        {{ currentAddressId ? $t('Edit address') : $t('Add new address') }}
       </SfButton>
       <div class="form">
         <div class="form__action">
@@ -246,7 +315,9 @@
             class="form__action-button"
             type="button"
             @click="$router.push('/checkout/billing')"
-            :disabled="!isShippingMethodStepCompleted || loadingShippingProvider"
+            :disabled="
+              !isShippingMethodStepCompleted || loadingShippingProvider
+            "
           >
             {{ $t('Continue to billing') }}
           </SfButton>
@@ -257,20 +328,20 @@
 </template>
 
 <script>
+import { SfHeading, SfInput, SfButton, SfSelect } from '@storefront-ui/vue';
 import {
-  SfHeading,
-  SfInput,
-  SfButton,
-  SfSelect
-} from '@storefront-ui/vue';
-import { useShippingProvider, useUserShipping, userShippingGetters, useUser, useShipping } from '@vue-storefront/kibocommerce';
+  useShippingProvider,
+  useUserShipping,
+  userShippingGetters,
+  useUser,
+  useShipping
+} from '@vue-storefront/kibocommerce';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min, digits } from 'vee-validate/dist/rules';
 import { useVSFContext } from '@vue-storefront/core';
 import { ref, watch, computed, onMounted } from '@vue/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import '@/helpers/validators/phone';
-
 
 const NOT_SELECTED_ADDRESS = '';
 
@@ -296,14 +367,19 @@ export default {
     SfSelect,
     ValidationProvider,
     ValidationObserver,
-    UserShippingAddresses: () => import('@/components/Checkout/UserShippingAddresses'),
-    VsfShippingProvider: () => import('@/components/Checkout/VsfShippingProvider')
+    UserShippingAddresses: () =>
+      import('@/components/Checkout/UserShippingAddresses'),
+    VsfShippingProvider: () =>
+      import('@/components/Checkout/VsfShippingProvider')
   },
-  setup () {
-    const { $kibo: { config } } = useVSFContext();
+  setup() {
+    const {
+      $kibo: { config }
+    } = useVSFContext();
     const { shipping: address, loading, load, save } = useShipping();
     const { isAuthenticated } = useUser();
-    const { shipping: userShipping, load: loadUserShipping, setDefaultAddress } = useUserShipping();
+    const { shipping: userShipping, load: loadUserShipping } =
+      useUserShipping();
 
     const shippingDetails = ref(address.value || {});
     const currentAddressId = ref(NOT_SELECTED_ADDRESS);
@@ -314,53 +390,57 @@ export default {
     const isShippingDetailsStepCompleted = ref(false);
     const currentOrderShippingAddress = ref({});
 
-    const canMoveForward = computed(() => !loading.value && shippingDetails.value && Object.keys(shippingDetails.value).length);
+    const canMoveForward = computed(
+      () =>
+        !loading.value &&
+        shippingDetails.value &&
+        Object.keys(shippingDetails.value).length
+    );
 
-    const {
-      state,
-      loading: loadingShippingProvider
-    } = useShippingProvider();
+    const { state, loading: loadingShippingProvider } = useShippingProvider();
 
     const hasSavedShippingAddress = computed(() => {
       if (!isAuthenticated.value || !userShipping.value) {
         return false;
       }
-      const userShippingAddressess = userShippingGetters.getAddresses(userShipping.value);
+      const userShippingAddressess = userShippingGetters.getAddresses(
+        userShipping.value
+      );
       return Boolean(userShippingAddressess?.length);
     });
 
     const statesInSelectedCountry = computed(() => {
-
       if (!shippingDetails.value.address?.countryCode) {
         return null;
       }
 
-      const selectedCountry = config.countries.find(country => country.name === shippingDetails.value.address?.countryCode);
+      const selectedCountry = config.countries.find(
+        (country) => country.name === shippingDetails.value.address?.countryCode
+      );
 
       return selectedCountry && selectedCountry.states;
     });
 
-    const handleAddressSubmit = (reset) => async () => {
+    const handleAddressSubmit = () => async () => {
       const fulfillmentShippingDetails = {
         address: shippingDetails.value.address,
-        companyOrOrganization : shippingDetails.value.companyOrOrganization,
-        email : shippingDetails.value.email,
-        firstName : shippingDetails.value.firstName,
-        id : shippingDetails.value.id,
-        lastNameOrSurname : shippingDetails.value.lastNameOrSurname,
-        middleNameOrInitial : shippingDetails.value.middleNameOrInitial,
+        companyOrOrganization: shippingDetails.value.companyOrOrganization,
+        email: shippingDetails.value.email,
+        firstName: shippingDetails.value.firstName,
+        id: shippingDetails.value.id,
+        lastNameOrSurname: shippingDetails.value.lastNameOrSurname,
+        middleNameOrInitial: shippingDetails.value.middleNameOrInitial,
         phoneNumbers: shippingDetails.value.phoneNumbers
-      }
+      };
 
-      await save({ shippingDetails: fulfillmentShippingDetails})
+      await save({ shippingDetails: fulfillmentShippingDetails });
 
       isShippingDetailsStepCompleted.value = true;
       canAddNewAddress.value = false;
       load();
       // show the saved current order's address as delivery address
-      currentOrderShippingAddress.value = address.value.addresses[0]  
+      currentOrderShippingAddress.value = address.value.addresses[0];
       canAddNewAddress.value = false;
-
     };
 
     const handleAddNewAddressBtnClick = () => {
@@ -369,19 +449,29 @@ export default {
       isShippingDetailsStepCompleted.value = false;
     };
 
-    const handleSetCurrentAddress = addr => {
-      shippingDetails.value = {...addr};
+    const handleSetCurrentAddress = (addr) => {
+      shippingDetails.value = { ...addr };
       currentAddressId.value = addr.id.toString();
       canAddNewAddress.value = false;
       isShippingDetailsStepCompleted.value = false;
     };
 
     const changeShippingDetails = (field, value) => {
-      const addressList = ['address1', 'address2', 'addressType', 'cityOrTown', 'stateOrProvince', 'postalOrZipCode', 'countryCode', 'isValidated'];
+      const addressList = [
+        'address1',
+        'address2',
+        'addressType',
+        'cityOrTown',
+        'stateOrProvince',
+        'postalOrZipCode',
+        'countryCode',
+        'isValidated'
+      ];
       const phoneList = ['home'];
 
       if (!shippingDetails.value.address) shippingDetails.value.address = {};
-      if (!shippingDetails.value.phoneNumbers) shippingDetails.value.phoneNumbers = {};
+      if (!shippingDetails.value.phoneNumbers)
+        shippingDetails.value.phoneNumbers = {};
 
       if (addressList.includes(field)) {
         shippingDetails.value = {
@@ -389,7 +479,6 @@ export default {
         };
 
         shippingDetails.value.address[field] = value;
-
       } else if (phoneList.includes(field)) {
         shippingDetails.value = {
           ...shippingDetails.value
@@ -397,7 +486,6 @@ export default {
 
         shippingDetails.value.phoneNumbers[field] = value;
       } else {
-
         shippingDetails.value = {
           ...shippingDetails.value,
           [field]: value
@@ -416,46 +504,50 @@ export default {
     };
 
     // Update local state if we have new address' response from the backend
-    watch(address, addr => {
+    watch(address, (addr) => {
       shippingDetails.value = addr || {};
     });
 
-    watch(statesInSelectedCountry, statesInSelectedCountry => {
-      const countryHasStates = statesInSelectedCountry && statesInSelectedCountry.length;
+    watch(statesInSelectedCountry, (statesInSelectedCountry) => {
+      const countryHasStates =
+        statesInSelectedCountry && statesInSelectedCountry.length;
       if (!countryHasStates && shippingDetails.value.state) {
         shippingDetails.value.state = null;
       }
     });
 
     onSSR(async () => {
-      await load(); 
+      await load();
       if (isAuthenticated.value) {
-        await loadUserShipping(); 
+        await loadUserShipping();
       }
-
     });
 
     onMounted(async () => {
       if (!userShipping.value?.addresses && isAuthenticated.value) {
         await loadUserShipping();
       }
-      const hasEmptyShippingDetails = !shippingDetails.value || Object.keys(shippingDetails.value).length === 0;
-      if(!hasEmptyShippingDetails){
-        currentOrderShippingAddress.value = shippingDetails.value
-        return
+      const hasEmptyShippingDetails =
+        !shippingDetails.value ||
+        Object.keys(shippingDetails.value).length === 0;
+      if (!hasEmptyShippingDetails) {
+        currentOrderShippingAddress.value = shippingDetails.value;
+        return;
       }
-      const shippingAddresses = userShippingGetters.getAddresses(userShipping.value);
-      
+      const shippingAddresses = userShippingGetters.getAddresses(
+        userShipping.value
+      );
+
       if (!shippingAddresses || !shippingAddresses.length) {
         canAddNewAddress.value = true;
         return;
       }
       if (hasEmptyShippingDetails) {
         selectDefaultAddress();
-        currentOrderShippingAddress.value = shippingDetails.value
+        currentOrderShippingAddress.value = shippingDetails.value;
         return;
       }
-        canAddNewAddress.value = false;
+      canAddNewAddress.value = false;
     });
 
     return {
@@ -482,7 +574,9 @@ export default {
       isShippingDetailsStepCompleted,
       canMoveForward,
 
-      isShippingMethodStepCompleted: computed(() => state.value && state.value._status),
+      isShippingMethodStepCompleted: computed(
+        () => state.value && state.value._status
+      ),
       loadingShippingProvider,
       currentOrderShippingAddress
     };
@@ -557,7 +651,7 @@ export default {
   &__back-button {
     margin: var(--spacer-xl) 0 var(--spacer-sm);
     &:hover {
-      color:  var(--c-white);
+      color: var(--c-white);
     }
     @include for-desktop {
       margin: 0 var(--spacer-xl) 0 0;
@@ -582,20 +676,19 @@ export default {
 }
 </style>
 
-
 <style lang="scss" scoped>
-  p {
-    margin: 0;
-  }
-  .phone {
-    margin-top: var(--spacer-base);
-  }
-  .deliveryCard{
-    display: flexbox;
-    padding-left: 10px;
-    width:40%;
-    justify-content: center;
-    border-width: 1px; 
-    border-color: rgb(160,160,255)
-  }
+p {
+  margin: 0;
+}
+.phone {
+  margin-top: var(--spacer-base);
+}
+.deliveryCard {
+  display: flexbox;
+  padding-left: 10px;
+  width: 40%;
+  justify-content: center;
+  border-width: 1px;
+  border-color: rgb(160, 160, 255);
+}
 </style>

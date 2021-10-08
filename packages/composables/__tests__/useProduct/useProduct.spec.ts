@@ -16,7 +16,6 @@ const productResponse = {
   }
 };
 
-
 jest.mock('@vue-storefront/core', () => ({
   useProductFactory: (params) => () => params
 }));

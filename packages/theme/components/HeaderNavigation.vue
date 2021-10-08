@@ -24,7 +24,7 @@
           @click="toggleMobileMenu"
         />
       </template>
-      
+
     </SfHeaderNavigationItem>
   </SfModal>
 </template>
@@ -34,7 +34,6 @@ import { SfMenuItem, SfModal } from '@storefront-ui/vue';
 import { useUiState, useUiHelpers} from '~/composables';
 import {categoryGetters, useCategory} from '@vue-storefront/kibocommerce';
 import { computed } from '@vue/composition-api';
-
 
 export default {
   name: 'HeaderNavigationBar',
@@ -50,12 +49,12 @@ export default {
   },
   setup() {
     const { isMobileMenuOpen, toggleMobileMenu } = useUiState();
-     const { categories } = useCategory(
+    const { categories } = useCategory(
       'AppHeader:Category'
     );
     const { getCatLink } = useUiHelpers();
     const navigationCategories = computed(() => {
-           return categories.value
+      return categories.value
         ?.filter(
           (category) =>
             category.childrenCategories?.length && category.isDisplayed

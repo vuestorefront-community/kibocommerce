@@ -4,28 +4,31 @@ import {
   Context,
   FactoryParams,
   Logger,
-  sharedRef
+  sharedRef,
 } from '@vue-storefront/core';
 
 export interface UseCheckoutErrors {
-    load: Error;
+  load: Error;
 }
 export interface UseCheckoutFactoryParams<CHECKOUT> extends FactoryParams {
-    load: (context: Context, params: { cartId: string }) => Promise<CHECKOUT>;
+  load: (context: Context, params: { cartId: string }) => Promise<CHECKOUT>;
 }
 
 export function useCheckoutFactory<CHECKOUT>(
   factoryParams: UseCheckoutFactoryParams<CHECKOUT>
 ) {
-  return function useCheckout() {
+  return function useCheckout(): any {
     const loading = sharedRef(false, 'useCheckout-loading');
     const checkout = sharedRef(null, 'useCheckout-checkout');
-    const error = sharedRef({
-      load: null
-    }, 'useCheckout-error');
+    const error = sharedRef(
+      {
+        load: null,
+      },
+      'useCheckout-error'
+    );
     const _factoryParams = configureFactoryParams(factoryParams);
 
-    const load = async (params: {cartId: string}) => {
+    const load = async (params: { cartId: string }) => {
       Logger.debug('useCheckout/load', params);
 
       try {
@@ -44,7 +47,7 @@ export function useCheckoutFactory<CHECKOUT>(
       load,
       checkout: computed(() => checkout.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error.value),
     };
   };
 }

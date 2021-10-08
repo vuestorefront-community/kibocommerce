@@ -2,6 +2,18 @@ import { getCurrentInstance } from '@vue/composition-api';
 
 const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
 
+interface uiHelpersReturnType {
+  getFacetsFromURL: any;
+  getCatLink: any;
+  changeSorting: any;
+  changeFilters: any;
+  changeItemsPerPage: any;
+  setTermForUrl: any;
+  isFacetColor: any;
+  isFacetCheckbox: any;
+  getSearchTermFromUrl: any;
+}
+
 const getInstance = () => {
   const vm = getCurrentInstance();
   return vm.$root as any;
@@ -12,37 +24,42 @@ const reduceFilters = (query) => (prev, curr) => {
 
   return {
     ...prev,
-    [curr]: makeArray ? query[curr] : [query[curr]]
+    [curr]: makeArray ? query[curr] : [query[curr]],
   };
 };
 
 const getFiltersDataFromUrl = (context, onlyFilters) => {
   const { query } = context.$router.history.current;
   return Object.keys(query)
-    .filter(f => onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f))
+    .filter((f) =>
+      onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f)
+    )
     .reduce(reduceFilters(query), {});
 };
 
-const useUiHelpers = () => {
+const useUiHelpers = (): uiHelpersReturnType => {
   const instance = getInstance();
 
   const getFacetsFromURL = () => {
     // eslint-disable-next-line
     const { query, params } = instance.$router.history.current;
-    const categoryCode = Object.keys(params).reduce((prev, curr) => params[curr] || prev, params.slug_1);
-    const filters = getFiltersDataFromUrl(instance, true)
-    
+    const categoryCode = Object.keys(params).reduce(
+      (prev, curr) => params[curr] || prev,
+      params.slug_1
+    );
+    const filters = getFiltersDataFromUrl(instance, true);
+
     return {
       categoryCode,
       page: parseInt(query.page, 10) || 1,
       itemsPerPage: parseInt(query.itemsPerPage, 10) || 20,
       phrase: query.phrase,
       filters,
-      sort: query.sort
+      sort: query.sort,
     } as any;
   };
 
-    // eslint-disable-next-line
+  // eslint-disable-next-line
   const getCatLink = (category): string => {
     return `/c/${category.slug}/${category.id}`;
   };
@@ -56,8 +73,8 @@ const useUiHelpers = () => {
     instance.$router.push({
       query: {
         ...getFiltersDataFromUrl(instance, false),
-        ...filters
-      }
+        ...filters,
+      },
     });
   };
 
@@ -65,8 +82,8 @@ const useUiHelpers = () => {
     instance.$router.push({
       query: {
         ...getFiltersDataFromUrl(instance, false),
-        itemsPerPage
-      }
+        itemsPerPage,
+      },
     });
   };
 
@@ -74,13 +91,14 @@ const useUiHelpers = () => {
     instance.$router.push({
       query: {
         ...getFiltersDataFromUrl(instance, false),
-        phrase: term || undefined
-      }
+        phrase: term || undefined,
+      },
     });
   };
 
-  const isFacetColor = (facet): boolean => facet.field && facet.field.includes('color')
-  
+  const isFacetColor = (facet): boolean =>
+    facet.field && facet.field.includes('color');
+
   // eslint-disable-next-line
   const isFacetCheckbox = (facet): boolean => false;
 
@@ -97,7 +115,7 @@ const useUiHelpers = () => {
     setTermForUrl,
     isFacetColor,
     isFacetCheckbox,
-    getSearchTermFromUrl
+    getSearchTermFromUrl,
   };
 };
 

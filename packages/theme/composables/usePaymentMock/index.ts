@@ -1,8 +1,7 @@
 import { computed } from '@vue/composition-api';
 import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
 
-export const usePaymentMock = () => {
-
+export const usePaymentMock = (): any => {
   const context = useVSFContext();
   const status = sharedRef(null, 'usePaymentMock-status');
   const loading = sharedRef(false, 'usePaymentMock-loading');
@@ -14,12 +13,18 @@ export const usePaymentMock = () => {
     if (!cartId) {
       return '';
     }
-    const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart({ cartId });
+    const checkoutResponse = await context.$kibo.api.getOrCreateCheckoutFromCart(
+      { cartId }
+    );
     return checkoutResponse.data?.order?.id;
   };
 
-  const buildMockPaymentParams = ({ billingDetails, orderId, amount = 1000 }) => {
-    const billingContact = {...billingDetails.value};
+  const buildMockPaymentParams = ({
+    billingDetails,
+    orderId,
+    amount = 1000,
+  }) => {
+    const billingContact = { ...billingDetails.value };
     if (billingContact) {
       delete billingContact.__typename;
       delete billingContact.phoneNumbers.__typename;
@@ -29,14 +34,14 @@ export const usePaymentMock = () => {
       currencyCode: 'USD',
       amount: amount,
       newBillingInfo: {
-        billingContact: {...billingContact },
+        billingContact: { ...billingContact },
         check: { checkNumber: 'VSF123123' },
         paymentWorkflow: 'Mozu',
         paymentType: 'Check',
-        isSameBillingShippingAddress: false
-      }
+        isSameBillingShippingAddress: false,
+      },
     };
-    return { orderId, paymentAction};
+    return { orderId, paymentAction };
   };
 
   const mockPay = async (params) => {
@@ -45,8 +50,13 @@ export const usePaymentMock = () => {
       loading.value = true;
       console.log(params);
       const orderId = await getOrderId(context);
-      const addPaymentMethodAction = buildMockPaymentParams({ ...params, orderId });
-      status.value = await context.$kibo.api.addPaymentMethodToCheckout(addPaymentMethodAction);
+      const addPaymentMethodAction = buildMockPaymentParams({
+        ...params,
+        orderId,
+      });
+      status.value = await context.$kibo.api.addPaymentMethodToCheckout(
+        addPaymentMethodAction
+      );
       error.value.mockPay = null;
     } catch (err) {
       error.value.search = err;
@@ -60,6 +70,6 @@ export const usePaymentMock = () => {
     mockPay,
     status: computed(() => status.value),
     loading: computed(() => loading.value),
-    error: computed(() => error.value)
+    error: computed(() => error.value),
   };
 };

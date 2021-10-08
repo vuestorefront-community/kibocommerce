@@ -11,10 +11,28 @@ const state = reactive({
   isNewsletterModalOpen: false,
   isCategoryGridView: true,
   isFilterSidebarOpen: false,
-  isMobileMenuOpen: false
+  isMobileMenuOpen: false,
 });
 
-const useUiState = () => {
+interface uiStateReturnType {
+  isCartSidebarOpen: any;
+  isWishlistSidebarOpen: any;
+  isLoginModalOpen: any;
+  isNewsletterModalOpen: any;
+  isCategoryGridView: any;
+  isFilterSidebarOpen: any;
+  isMobileMenuOpen: any;
+  toggleCartSidebar: any;
+  toggleWishlistSidebar: any;
+  toggleLoginModal: any;
+  toggleNewsletterModal: any;
+  changeToCategoryGridView: any;
+  changeToCategoryListView: any;
+  toggleFilterSidebar: any;
+  toggleMobileMenu: any;
+}
+
+const useUiState = (): uiStateReturnType => {
   const isMobileMenuOpen = computed(() => state.isMobileMenuOpen);
   const toggleMobileMenu = () => {
     state.isMobileMenuOpen = !state.isMobileMenuOpen;
@@ -71,7 +89,7 @@ const useUiState = () => {
     changeToCategoryGridView,
     changeToCategoryListView,
     toggleFilterSidebar,
-    toggleMobileMenu
+    toggleMobileMenu,
   };
 };
 
