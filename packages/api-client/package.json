@@ -29,7 +29,9 @@
     "@graphql-codegen/typescript": "2.1.2"
   },
   "files": [
-    "lib/**/*"
+    "lib/**/*",
+    "server/**/*",
+    "types/**/*"
   ],
   "publishConfig": {
     "access": "public"
