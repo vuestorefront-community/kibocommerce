@@ -13,7 +13,12 @@ export default async function resetPassword(context:Context, params:ResetPasswor
   const request = await context.client.mutate({
     mutation: resetUserPassword.mutation,
     variables: resetUserPassword.variables,
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    context: {
+      headers: {
+        'x-vol-user-claims': null
+      }
+    }
   });
 
   return request;

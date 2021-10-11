@@ -13,7 +13,12 @@ export default async function updatePassword(context:Context, params:UpdatePassw
   const request = await context.client.mutate({
     mutation: updateUserPassword.mutation,
     variables: updateUserPassword.variables,
-    fetchPolicy: 'no-cache'
+    fetchPolicy: 'no-cache',
+    context: {
+      headers: {
+        'x-vol-user-claims': null
+      }
+    }
   });
 
   return request;
