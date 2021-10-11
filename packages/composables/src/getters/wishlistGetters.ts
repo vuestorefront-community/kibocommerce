@@ -2,37 +2,32 @@
 import {
   WishlistGetters,
   AgnosticPrice,
-  AgnosticTotals,
+  AgnosticTotals
 } from '@vue-storefront/core';
-import type {
-  Wishlist,
-  WishlistItem,
-  WishlistProduct,
-} from '@vue-storefront/kibocommerce-api';
+import type { Wishlist, WishlistItem } from '@vue-storefront/kibocommerce-api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItems = (wishlist: Wishlist): WishlistProduct[] =>
+export const getItems = (wishlist: Wishlist): any[] =>
   wishlist?.items.map((item) => item.product);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemName = (product: WishlistProduct): string => product?.name;
+export const getItemName = (product: any): string => product?.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemImage = (product: WishlistProduct): string =>
-  product?.imageUrl;
+export const getItemImage = (product: any): string => product?.imageUrl;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemPrice = (product: WishlistProduct): AgnosticPrice => {
+export const getItemPrice = (product: any): AgnosticPrice => {
   const { price, salePrice } = product.price;
   return {
     regular: price as number,
-    special: salePrice as number,
+    special: salePrice as number
   } as AgnosticPrice;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItemAttributes = (
-  product: WishlistProduct,
+  product: any,
   filterByAttributeName?: string[]
 ): any => {
   const attributes = {};
@@ -57,7 +52,7 @@ export const getTotals = (wishlist: Wishlist): AgnosticTotals => {
   const items = wishlist?.items;
   return {
     total: items.reduce((acc, { total }) => acc + total, 0),
-    subtotal: items.reduce((acc, { subtotal }) => acc + subtotal, 0),
+    subtotal: items.reduce((acc, { subtotal }) => acc + subtotal, 0)
   };
 };
 
@@ -91,5 +86,5 @@ export const wishlistGetters: WishlistGetters<Wishlist, WishlistItem> = {
   getShippingPrice,
   getItemSku,
   getTotalItems,
-  getFormattedPrice,
+  getFormattedPrice
 };

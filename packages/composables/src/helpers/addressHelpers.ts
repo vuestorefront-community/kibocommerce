@@ -11,8 +11,8 @@ export const loadUserAddresses = async (
   context: UserAddressContext,
   typeName: string
 ): Promise<any[]> => {
-  const response = await context.$kibo.api.getUserAddresses({
-    accountId: context.user.value.id,
+  const response: any = await context.$kibo.api.getUserAddresses({
+    accountId: context.user.value.id
   });
 
   return response.data?.customerAccountContacts?.items?.filter(
@@ -45,7 +45,7 @@ export const mapInputToKiboDataFormat = (
     firstName: inputObj.firstName,
     lastNameOrSurname: inputObj.lastName,
     phoneNumbers: {
-      home: inputObj.phone,
+      home: inputObj.phone
     },
     address: {
       address1: inputObj.streetName,
@@ -54,15 +54,15 @@ export const mapInputToKiboDataFormat = (
       stateOrProvince: inputObj.state,
       postalOrZipCode: inputObj.postalCode,
       countryCode: inputObj.country,
-      addressType: 'Residential',
+      addressType: 'Residential'
     },
     types: [
       {
         name: typeName,
-        isPrimary: inputObj.isDefault,
-      },
-    ],
-  },
+        isPrimary: inputObj.isDefault
+      }
+    ]
+  }
 });
 
 export const addAddress = async (
@@ -88,7 +88,7 @@ export const deleteAddress = async (
 
   await context.$kibo.api.deleteUserAddress({
     accountId: user.id,
-    contactId: params.address.id,
+    contactId: params.address.id
   });
 
   return await loadUserAddresses(context, typeName);
@@ -153,7 +153,7 @@ export const setDefaultAddress = async (
   const updateObj = {
     accountId: user.id,
     contactId: params.address.id,
-    customerContactInput: addressToUpdate,
+    customerContactInput: addressToUpdate
   };
 
   removeTypename(updateObj as any);

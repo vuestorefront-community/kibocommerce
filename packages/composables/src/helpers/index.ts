@@ -1,6 +1,9 @@
+import { MutationUpdateCustomerAccountContactArgs } from '@vue-storefront/kibocommerce-api';
 export { default as selectCategoryRootByCode } from './selectCategoryRootByCode';
 
-export const removeTypename = (obj: any[]): void => {
+export const removeTypename = (
+  obj: MutationUpdateCustomerAccountContactArgs
+): void => {
   try {
     if (Array.isArray(obj)) {
       obj.forEach((v) => {
