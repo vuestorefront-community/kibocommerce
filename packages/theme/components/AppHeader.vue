@@ -268,6 +268,11 @@ export default {
         }
       }
     );
+    watch(isAuthenticated, (isAuthenticated,prevIsAuthenticated) => {
+      if(isAuthenticated) {
+        loadWishlist();
+      }
+    });
 
     const removeSearchResults = () => {
       result.value = null;
