@@ -278,7 +278,7 @@
           </LazyHydrate>
 
           <div
-            v-show="pagination.totalPages > 1"
+            v-show="pagination.totalItems > 0"
             class="products__show-on-page"
           >
             <span class="products__show-on-page__label">{{

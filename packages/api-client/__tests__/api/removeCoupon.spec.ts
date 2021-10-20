@@ -8,9 +8,9 @@ describe('[kibo-api-client] removeCoupon', () => {
 
   it('removes a coupon from cart', async () => {
     const params = {
-        cartId: "123",
-        couponCode: "FREE"
-    }
+      cartId: '123',
+      couponCode: 'FREE'
+    };
     const context = {
       config: {
         locale: 'en',

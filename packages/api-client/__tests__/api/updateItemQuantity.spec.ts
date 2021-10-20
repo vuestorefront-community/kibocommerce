@@ -8,10 +8,10 @@ describe('[kibo-api-client] updateItemQuantity', () => {
 
   it('updates cart item quantity ', async () => {
     const params = {
-        product: { id: "123", quantity: 1, isAssemblyRequired: false},
-        quantity: 2
-    }
-    const expectedVariables = {itemId: "123", quantity: 2}
+      product: { id: '123', quantity: 1, isAssemblyRequired: false},
+      quantity: 2
+    };
+    const expectedVariables = {itemId: '123', quantity: 2};
     const context = {
       config: {
         locale: 'en',
@@ -20,9 +20,9 @@ describe('[kibo-api-client] updateItemQuantity', () => {
       },
       client: {
         mutate: ({ mutation, variables }) => {
-            expect(mutation).toEqual(defaultMutation);
-            expect(variables).toEqual(expectedVariables);
-            return { data: 'updated cart item' };
+          expect(mutation).toEqual(defaultMutation);
+          expect(variables).toEqual(expectedVariables);
+          return { data: 'updated cart item' };
         }
       },
       // eslint-disable-next-line @typescript-eslint/no-unused-vars

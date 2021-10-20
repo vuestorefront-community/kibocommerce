@@ -1,16 +1,16 @@
 import {
   Context,
+  CustomQuery,
   useCartFactory,
-  UseCartFactoryParams
+  UseCartFactoryParams,
 } from '@vue-storefront/core';
 
-import {
-  Cart,
-  CartItem,
-  CrProduct
-} from '@vue-storefront/kibocommerce-api';
+import { Cart, CartItem, CrProduct } from '@vue-storefront/kibocommerce-api';
 
-export const getCart = async (context: Context, customQuery): Promise<Cart> => {
+export const getCart = async (
+  context: Context,
+  customQuery: CustomQuery
+): Promise<Cart> => {
   const response = await context.$kibo.api.getCart(customQuery);
   return response.data.currentCart;
 };
@@ -57,15 +57,19 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, any> = {
   ) => {
     await context.$kibo.api.removeCoupon({
       cartId: currentCart.id,
-      couponCode: couponCode
+      couponCode: couponCode,
     });
     return { updatedCart: await getCart(context, customQuery) };
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   isInCart: (context: Context, { currentCart, product }) => {
-    return currentCart?.items?.find(i => i.product.productCode === product.productCode) !== undefined;
-  }
+    return (
+      currentCart?.items?.find(
+        (i) => i.product.productCode === product.productCode
+      ) !== undefined
+    );
+  },
 };
 
 export const useCart = useCartFactory<Cart, CartItem, CrProduct, any>(params);

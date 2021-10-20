@@ -5,7 +5,10 @@ import {
   ProductGetters,
   AgnosticBreadcrumb
 } from '@vue-storefront/core';
-import type { PrCategory, Product } from '@vue-storefront/kibocommerce-api';
+
+import type { Product } from '@vue-storefront/kibocommerce-api';
+
+import { buildBreadcrumbs } from '../helpers/buildBreadcrumbs';
 
 type ProductFilters = any
 
@@ -24,7 +27,7 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
     regular: product?.price?.price || 0,
     special: product?.price?.salePrice || 0
   };
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {
@@ -184,29 +187,14 @@ export const getProductTotalReviews = (product: Product): number => 0;
 export const getProductAverageRating = (product: Product): number => 0;
 
 export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
-  const breadcrumbs: AgnosticBreadcrumb[] = [];
-  const categories: PrCategory[] = [];
-  let tlc = product?.categories?.filter(c => c.isDisplayed).sort((a, b) => a.sequence - b.sequence)[0];
-  if (tlc !== undefined) {
-    let count = 0;
-    while (tlc !== undefined && tlc !== null) {
-      categories[count] = tlc;
-      count++;
-      tlc = tlc.parentCategory;
-    }
-    count--;
-    const total = count;
-    while (count >= 0) {
-      const c = categories[count];
-      breadcrumbs[total - count] = {
-        text: c.content.name,
-        link: `/c/${c.content.slug}`
-      };
-      count--;
-    }
-    return breadcrumbs;
+  if (!product) {
+    return [];
   }
-  return [];
+  const bcs = [
+    { text: 'Home', link: '/'},
+    ...buildBreadcrumbs(product.categories[0]).map(b => ({...b, link: `/c/${b.link}` }))
+  ];
+  return bcs;
 };
 
 export const getIsPurchasable = (product: Product): boolean => {

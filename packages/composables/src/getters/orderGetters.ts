@@ -34,9 +34,9 @@ export const getItemQty = (item: CrOrderItem): number => item?.quantity;
 export const getItemPrice = (item: CrOrderItem): number => item?.total || 0;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getFormattedPrice = (price: number) =>
+export const getFormattedPrice = (price: number): string =>
   price ? String(price) : '0';
-  
+
 // eslint-disable-next-line
 function getOrdersTotal(orders: any): number {
   return 1;
@@ -52,5 +52,5 @@ export const orderGetters: UserOrderGetters<Order, CrOrderItem> = {
   getItemQty,
   getItemPrice,
   getFormattedPrice,
-  getOrdersTotal
+  getOrdersTotal,
 };

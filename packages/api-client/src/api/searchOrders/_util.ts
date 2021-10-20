@@ -1,8 +1,10 @@
 import { SearchOrdersParams, SearchOrderInput } from '../../types/Api';
 
-export const buildSearchOrderVariables = (params: SearchOrdersParams) => {
+export const buildSearchOrderVariables = (
+  params: SearchOrdersParams
+): SearchOrderInput => {
   const variables: SearchOrderInput = {
-    filter: ''
+    filter: '',
   };
   if (params.id) {
     variables.filter = `orderId eq ${params.id} and `;

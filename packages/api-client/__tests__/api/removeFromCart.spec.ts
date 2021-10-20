@@ -8,9 +8,9 @@ describe('[kibo-api-client] removeFromCart', () => {
 
   it('removes an item from cart', async () => {
     const params = {
-       product: {
-           id: '1111'
-       }
+      product: {
+        id: '1111'
+      }
     };
     const expectedVariables = { id: '1111' };
     const context = {

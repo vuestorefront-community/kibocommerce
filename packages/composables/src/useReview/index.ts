@@ -3,13 +3,13 @@ import {
   useReviewFactory,
   UseReviewFactoryParams
 } from '@vue-storefront/core';
-//import type { Review } from '@vue-storefront/kibocommerce-api';
+// import type { Review } from '@vue-storefront/kibocommerce-api';
 import type {
   UseReviewSearchParams as SearchParams,
   UseReviewAddParams as AddParams,
   TODO
 } from '../types';
-type Review = TODO; 
+type Review = TODO;
 const params: UseReviewFactoryParams<Review, SearchParams, AddParams> = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   searchReviews: async (context: Context, params) => {

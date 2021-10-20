@@ -16,6 +16,6 @@ export { useUserOrder } from './useUserOrder';
 export { useUserShipping } from './useUserShipping';
 export { useWishlist } from './useWishlist';
 export { useSearchSuggestions } from './useSearchSuggestions';
-export { useForgotPassword } from './useForgotPassword'; 
+export { useForgotPassword } from './useForgotPassword';
 export * from './getters';
 

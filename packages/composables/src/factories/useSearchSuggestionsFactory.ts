@@ -4,28 +4,38 @@ import {
   Context,
   FactoryParams,
   Logger,
-  sharedRef
+  sharedRef,
 } from '@vue-storefront/core';
 
 export interface UseSearchSuggestionsErrors {
-    search: Error;
+  search: Error;
 }
-export interface UseSearchSuggestionsFactoryParams<SEARCH_SUGGESTIONS> extends FactoryParams {
-    search: (context: Context, params: { term: string }) => Promise<SEARCH_SUGGESTIONS>;
+export interface UseSearchSuggestionsFactoryParams<SEARCH_SUGGESTIONS>
+  extends FactoryParams {
+  search: (
+    context: Context,
+    params: { term: string }
+  ) => Promise<SEARCH_SUGGESTIONS>;
 }
 
 export function useSearchSuggestionsFactory<SEARCH_SUGGESTIONS>(
   factoryParams: UseSearchSuggestionsFactoryParams<SEARCH_SUGGESTIONS>
 ) {
-  return function useSearchSuggestions() {
+  return function useSearchSuggestions(): any {
     const loading = sharedRef(false, 'useSearchSuggestions-loading');
-    const searchSuggestions = sharedRef(null, 'useSearchSuggestions-searchSuggestions');
-    const error = sharedRef({
-      load: null
-    }, 'useSearchSuggestions-error');
+    const searchSuggestions = sharedRef(
+      null,
+      'useSearchSuggestions-searchSuggestions'
+    );
+    const error = sharedRef(
+      {
+        load: null,
+      },
+      'useSearchSuggestions-error'
+    );
     const _factoryParams = configureFactoryParams(factoryParams);
 
-    const search = async (params: {term: string}) => {
+    const search = async (params: { term: string }) => {
       Logger.debug('useSearchSuggestions/search', params);
 
       try {
@@ -45,7 +55,7 @@ export function useSearchSuggestionsFactory<SEARCH_SUGGESTIONS>(
       search,
       searchSuggestions: computed(() => searchSuggestions.value),
       loading: computed(() => loading.value),
-      error: computed(() => error.value)
+      error: computed(() => error.value),
     };
   };
 }

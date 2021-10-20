@@ -67,6 +67,17 @@ fragment productInfo on Product {
         categories {
           categoryCode
           categoryId
+          isDisplayed
+          parentCategory{
+            categoryId
+            categoryCode
+            categoryId
+            isDisplayed
+            content {
+              name 
+              slug
+            }
+          }
           content { 
             name 
             slug

@@ -120,6 +120,18 @@ export type LogOutUserResponse = void;
 export type MakeOrderParams = GraphQLTypes.MutationCreateOrderActionArgs 
 export type MakeOrderResponse = QueryResponse<'createOrderAction', GraphQLTypes.Order>;
 
+// password-getUserName
+export type GetUserNameParams =  GraphQLTypes.QueryCustomerAccountsArgs 
+export type GetUserNameResponse = QueryResponse<'customerAccounts', GraphQLTypes.CustomerAccountCollection>;
+
+// password-reset
+export type ResetPasswordParams =  GraphQLTypes.MutationResetCustomerAccountPasswordArgs 
+export type ResetPasswordResponse = QueryResponse<'resetPassword', boolean>;
+
+// password-update
+export type UpdatePasswordParams = {confirmationInfoInput?: {userName: string, confirmationCode: string, newPassword: string}} //GraphQLTypes.MutationUpdateForgottenCustomerAccountPasswordArgs;
+export type UpdatePasswordResponse = QueryResponse<'updatePassword', boolean>;
+
 // registerUser
 export type RegisterUserParams =  { account?: { emailAddress: string, firstName: string, lastName: string }; password?: any} //GraphQLTypes.CustomerAccountAndAuthInfoInput 
 export type RegisterUserResponse = QueryResponse<'account', GraphQLTypes.CustomerAuthTicket>;
@@ -215,7 +227,10 @@ interface ApiMethods {
   logInUser(params: LogInUserParams): Promise<LogInUserResponse>;
   logOutUser(): Promise<LogOutUserResponse>;
   makeOrder(params: MakeOrderParams): Promise<MakeOrderResponse>;
-  registerUser(params: RegisterUserParams): Promise<RegisterUserResponse>;
+  getUserName(params: GetUserNameParams): Promise<GetUserNameResponse>;
+  resetPassword(params: ResetPasswordParams): Promise<ResetPasswordResponse>;
+  updatePassword(params: UpdatePasswordParams): Promise<UpdatePasswordResponse>;
+  registerUser(params: RegisterUserParams): Promise<RegisterUserResponse>;  
   searchOrders(params: SearchOrdersParams): Promise<SearchOrdersResponse>;
   setBillingInfo(params: SetBillingInfoParams): Promise<SetBillingInfoResponse>;
 

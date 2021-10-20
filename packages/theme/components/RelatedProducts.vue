@@ -42,7 +42,7 @@
                 "
               ></span>
             </template>
-          </SfProductCard>  
+          </SfProductCard>
         </SfCarouselItem>
       </SfCarousel>
     </SfLoader>
@@ -68,13 +68,13 @@ export default {
       isInWishlist,
       removeItem: removeItemFromWishlist
     } = useWishlist();
-    return { 
-      productGetters, 
+    return {
+      productGetters,
       isAuthenticated,
-      addItemToWishlist, 
-      isInWishlist, 
-      removeItemFromWishlist 
-      };
+      addItemToWishlist,
+      isInWishlist,
+      removeItemFromWishlist
+    };
   },
   components: {
     SfCarousel,

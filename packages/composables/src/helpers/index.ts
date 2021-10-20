@@ -1,14 +1,21 @@
+import { MutationUpdateCustomerAccountContactArgs } from '@vue-storefront/kibocommerce-api';
 export { default as selectCategoryRootByCode } from './selectCategoryRootByCode';
 
-export const removeTypename = (obj) => {
+export const removeTypename = (
+  obj: MutationUpdateCustomerAccountContactArgs
+): void => {
   try {
     if (Array.isArray(obj)) {
-      obj.forEach(v => {
+      obj.forEach((v) => {
         removeTypename(v);
       });
     } else if (typeof obj === 'object') {
-      Object.keys(obj).forEach(k => {
-        if (k === '__typename' || typeof obj[k] === 'undefined' || obj[k] === null) {
+      Object.keys(obj).forEach((k) => {
+        if (
+          k === '__typename' ||
+          typeof obj[k] === 'undefined' ||
+          obj[k] === null
+        ) {
           delete obj[k];
         } else {
           removeTypename(obj[k]);
