@@ -65,12 +65,12 @@ export const getCartItemSku = (item: CartItem): string =>
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getTotals = (cart: Cart): AgnosticTotals => {
   return {
-    total: cart.total,
-    subtotal: cart.subtotal,
+    total: cart?.total,
+    subtotal: cart?.subtotal,
     special:
       cart?.orderDiscounts?.length > 0
-        ? cart.discountedSubtotal
-        : cart.subtotal,
+        ? cart?.discountedSubtotal
+        : cart?.subtotal,
   };
 };
 

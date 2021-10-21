@@ -1,7 +1,7 @@
 export const context = {
   $kibo: {
     api: {
-      addPaymentToCheckout: jest.fn(),
+      addPaymentMethodToCheckout: jest.fn(),
       addUserAddress: jest.fn(),
       addToCart: jest.fn(),
       applyCoupon: jest.fn(),

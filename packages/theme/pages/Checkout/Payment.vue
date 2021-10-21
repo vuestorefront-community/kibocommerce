@@ -105,7 +105,12 @@
           :value="$n(totals.total, 'currency')"
           class="sf-property--full-width sf-property--large property summary__property-total"
         />
-        <VsfPaymentProviderMock />
+        <VsfPaymentProviderMock
+          @emitSelectedPaymentMethod="getSelectedPaymentMethodFromChild"
+          @submitCardDataWithPaymentMethod="
+            submitCardDataAndPaymentForOrder($event)
+          "
+        />
         <SfCheckbox v-e2e="'terms'" v-model="terms" name="terms" class="summary__terms">
           <template #label>
             <div class="sf-checkbox__label">
@@ -114,7 +119,7 @@
           </template>
         </SfCheckbox>
           <div class="summary__action">
-          <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !paymentReady || !terms">
+          <SfButton v-e2e="'make-an-order'" class="summary__action-button" @click="processOrder" :disabled="loading || !terms">
             {{ $t('Make an order') }}
           </SfButton>
           <nuxt-link to="/checkout/billing" class="sf-button sf-button--underlined summary__back-button smartphone-only">
@@ -141,11 +146,10 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters } from '@vue-storefront/kibocommerce';
+import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters, usePaymentProvider  } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
-import { usePaymentProviderMock } from '@/composables/usePaymentProviderMock';
 import { usePaymentMock } from '@/composables/usePaymentMock';
 
 export default {
@@ -165,7 +169,7 @@ export default {
     VsfPaymentProviderMock
   },
   setup(_, context) {
-    const { status: paymentReady } = usePaymentProviderMock();
+    const { save: savePaymentProvider } = usePaymentProvider();
     const { mockPay: pay } = usePaymentMock();
     const { cart, removeItem, load, setCart } = useCart();
     const { shipping: shippingDetails, load: loadShippingDetails } = useShipping();
@@ -177,6 +181,9 @@ export default {
     const { order, make, loading } = useMakeOrder();
 
     const terms = ref(false);
+    const ccPaymentReadyToProcessRef = ref(false);
+    const creditCardFormDataRef = ref({});
+    const selectedPaymentMethodRef = ref(0);
 
     onSSR(async () => {
       await load();
@@ -185,12 +192,51 @@ export default {
       await loadShippingProvider();
     });
 
-    const processOrder = async () => {
-      await pay({ billingDetails });
-      await make();
-      context.root.$router.push(`/checkout/thank-you?order=${order.value.id}`);
-      setCart(null);
+    const getSelectedPaymentMethodFromChild = (paymentMethodSelected) => {
+      selectedPaymentMethodRef.value = paymentMethodSelected;
     };
+
+    const submitCardDataAndPaymentForOrder = ({
+      ccFormData,
+      selectedPaymentProcessMethod,
+    }) => {
+      creditCardFormDataRef.value = ccFormData;
+      ccPaymentReadyToProcessRef.value = true;
+      selectedPaymentMethodRef.value = selectedPaymentProcessMethod;
+    };
+
+    const processOrder = async () => {
+      if (
+        ccPaymentReadyToProcessRef &&
+        selectedPaymentMethodRef.value === 'creditCard'
+      ) {
+        try {
+          await savePaymentProvider({
+            paymentMethod: {
+              code: selectedPaymentMethodRef.value,
+              creditCardFormData: creditCardFormDataRef.value,
+              cartTotal: totals.value.total
+            },
+          });
+          await make();
+          context.root.$router.push(
+            `/checkout/thank-you?order=${order.value.id}`
+          );
+          setCart(null);
+        } catch (e) {
+          console.error(e);
+        }
+      }
+      if (selectedPaymentMethodRef.value === 'checkByMail') {
+        await pay({ billingDetails });
+        await make();
+        context.root.$router.push(
+          `/checkout/thank-you?order=${order.value.id}`
+        );
+        setCart(null);
+      }
+    };
+
     return {
       loading,
       products,
@@ -206,7 +252,8 @@ export default {
       tableHeaders: ['Description', 'Colour', 'Size', 'Quantity', 'Amount'],
       cartGetters,
       getShippingMethodPrice,
-      paymentReady
+      submitCardDataAndPaymentForOrder,
+      getSelectedPaymentMethodFromChild
     };
   }
 };

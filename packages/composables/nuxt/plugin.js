@@ -42,6 +42,10 @@ export default integrationPlugin(({ app, integration }) => {
         name: 'NL',
         label: 'Netherlands'
       }
-    ]
+    ],
+    paymentConfig: {
+      hostUrl: 'https://t17194-s21127.dev10.kubedev.kibo-dev.com',
+      tokenizationUrl: 'https://payment.dev10.dev.kibocommerce.com',
+    }
   });
 });

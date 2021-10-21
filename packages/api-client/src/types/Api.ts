@@ -9,7 +9,7 @@ export type QueryResponse<K extends string, V> = ApolloQueryResult<Record<K, V>>
 export type MutationResponse<K extends string, V> = FetchResult<Record<K, V>>;
 
 // --------------- Define Params and ReturnTypes --------------- 
-export type AddPaymentToCheckoutParams = {
+export type AddPaymentMethodToCheckoutParams = {
   orderId: any;
   paymentAction: {
       currencyCode: string;
@@ -25,7 +25,7 @@ export type AddPaymentToCheckoutParams = {
       };
   };
 };
-export type AddPaymentToCheckoutResponse  = QueryResponse<'order', GraphQLTypes.Order>;;
+export type AddPaymentMethodToCheckoutResponse  = QueryResponse<'order', GraphQLTypes.Order>;;
 
 export type AddUserAddressParams  =  GraphQLTypes.MutationCreateCustomerAccountContactArgs;
 export type AddUserAddressResponse  = QueryResponse<'customerContact', GraphQLTypes.CustomerContact>;
@@ -193,7 +193,7 @@ export type DeleteWishListItemResponse= QueryResponse<'deleteWishlistItem', bool
 
 // --------------- Create ApiMethods --------------- 
 interface ApiMethods {
-  addPaymentToCheckout(params:AddPaymentToCheckoutParams ): Promise<AddPaymentToCheckoutResponse>;
+  addPaymentMethodToCheckout(params:AddPaymentMethodToCheckoutParams ): Promise<AddPaymentMethodToCheckoutResponse>;
   addUserAddress(params: AddUserAddressParams): Promise<AddUserAddressResponse>;
 
   // cart

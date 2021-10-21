@@ -5,7 +5,7 @@ import {
 } from '@vue-storefront/core';
 
 import { ProductCategory } from '@vue-storefront/kibocommerce-api';
-import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
+import { UseCheckoutErrors } from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 export interface UseCheckout<CHECKOUT> {
@@ -52,6 +52,25 @@ export type WishlistProduct = Record<string, any>;
 export type Wishlist = Record<string, any>;
 
 export type Facet = Record<string, any>;
+
+export interface UsePaymentProviderErrors {
+  load: Error;
+  save: Error;
+}
+
+export interface UsePaymentProvider<STATE, PAYMENT_METHOD, API> {
+  error: ComputedProperty<UsePaymentProviderErrors>;
+  loading: ComputedProperty<boolean>;
+  state: ComputedProperty<STATE>;
+
+  setState(state: STATE): void;
+
+  load(): Promise<void>;
+
+  load(params: { customQuery?: any }): Promise<void>;
+
+  save(params: { paymentMethod: PAYMENT_METHOD, customQuery?: any }): Promise<void>;
+}
 
 export type ProductsResponse = {
   data: Product[];
