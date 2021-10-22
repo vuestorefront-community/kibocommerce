@@ -17,14 +17,17 @@
   },
   "dependencies": {
     "@vue-storefront/core": "~2.4.1",
-    "@vue-storefront/kibocommerce-api": "^1.0.0-beta.0"
+    "@vue-storefront/kibocommerce-api": "^1.0.0-beta.0",
+    "vue": "^2.6.12",
+    "@vue/composition-api": "1.0.0-beta.21"
   },
   "devDependencies": {
     "rollup-plugin-typescript2": "^0.30.0",
     "@rollup/plugin-node-resolve": "^13.0.0"
   },
   "peerDependencies": {
-    "@vue/composition-api": "1.0.0-beta.21"
+    "@vue/composition-api": "1.0.0-beta.21",
+    "vue": "^2.0.0 || >=3.0.0-rc.0"
   },
   "files": [
     "lib/**/*",
