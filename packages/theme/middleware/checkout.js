@@ -8,7 +8,7 @@ export default async ({ app, $vsf }) => {
 
   if (!currentPath) return;
 
-  const { data } = await $vsf.$kibo.api?.getCart();
+  const { data } = await $vsf.$kibo.api.getCart();
 
   const { activeCart } = data?.currentCart;
 
