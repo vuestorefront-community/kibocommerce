@@ -6,6 +6,9 @@ import {
 } from '@vue-storefront/core';
 import type { Wishlist, WishlistItem } from '@vue-storefront/kibocommerce-api';
 
+// ##AddedNewType## import { WishlistProductParams, WishlistItemAttributesResponse } from '../types';
+import { WishlistItemAttributesResponse } from '../types';
+
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (wishlist: Wishlist): any[] =>
   wishlist?.items.map((item) => item.product);
@@ -29,7 +32,8 @@ export const getItemPrice = (product: any): AgnosticPrice => {
 export const getItemAttributes = (
   product: any,
   filterByAttributeName?: string[]
-): any => {
+):WishlistItemAttributesResponse => {
+
   const attributes = {};
   const options = filterByAttributeName
     ? product?.options?.filter((o) =>
@@ -44,8 +48,7 @@ export const getItemAttributes = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemSku = (product: any): string =>
-  product?.sku || product?.variationProductCode || product?.productCode;
+export const getItemSku = (product: any): string =>product?.sku || product?.variationProductCode || product?.productCode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getTotals = (wishlist: Wishlist): AgnosticTotals => {

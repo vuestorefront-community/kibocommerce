@@ -263,7 +263,7 @@ export default {
     const product = computed(() => products.value);
 
     const currentWishlistIcon = computed(() => {
-      return isInWishlist({product: product.value})
+      return isInWishlist({ product: product.value })
         ? props.isOnWishlistIcon
         : props.wishlistIcon;
     });

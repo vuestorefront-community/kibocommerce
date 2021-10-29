@@ -33,42 +33,51 @@
 
     <LazyHydrate when-visible>
       <div class="similar-products">
-        <SfHeading title="Match with it" :level="3"/>
-        <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
+        <SfHeading title="Match with it" :level="3" />
+        <nuxt-link :to="localePath('/c/women')" class="smartphone-only"
+          >See all</nuxt-link
+        >
       </div>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-        <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
-          <template #prev="{go}">
-            <SfArrow
-              aria-label="prev"
-              class="sf-arrow--left sf-arrow--long"
-              @click="go('prev')"
-            />
-          </template>
-          <template #next="{go}">
-            <SfArrow
-              aria-label="next"
-              class="sf-arrow--right sf-arrow--long"
-              @click="go('next')"
-            />
-          </template>
-          <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
-            <SfProductCard
-              :title="product.title"
-              :image="product.image"
-              :regular-price="product.price.regular"
-              :max-rating="product.rating.max"
-              :score-rating="product.rating.score"
-              :show-add-to-cart-button="true"
-              :is-on-wishlist="product.isInWishlist"
-              link="/"
-              class="carousel__item__product"
-              @click:wishlist="toggleWishlist(i)"
-            />
-          </SfCarouselItem>
-        </SfCarousel>
+      <SfCarousel
+        class="carousel"
+        :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }"
+      >
+        <template #prev="{go}">
+          <SfArrow
+            aria-label="prev"
+            class="sf-arrow--left sf-arrow--long"
+            @click="go('prev')"
+          />
+        </template>
+        <template #next="{go}">
+          <SfArrow
+            aria-label="next"
+            class="sf-arrow--right sf-arrow--long"
+            @click="go('next')"
+          />
+        </template>
+        <SfCarouselItem
+          class="carousel__item"
+          v-for="(product, i) in products"
+          :key="i"
+        >
+          <SfProductCard
+            :title="product.title"
+            :image="product.image"
+            :regular-price="product.price.regular"
+            :max-rating="product.rating.max"
+            :score-rating="product.rating.score"
+            :show-add-to-cart-button="true"
+            :is-on-wishlist="product.isInWishlist"
+            link="/"
+            class="carousel__item__product"
+            @click:wishlist="toggleWishlist(i)"
+          />
+        </SfCarouselItem>
+      </SfCarousel>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -86,7 +95,7 @@
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <MobileStoreBanner/>
+      <MobileStoreBanner />
     </LazyHydrate>
   </div>
 </template>
@@ -106,7 +115,7 @@ import {
 } from '@storefront-ui/vue';
 import { useContent, contentGetters } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
-import { computed} from '@vue/composition-api';
+import { computed } from '@vue/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
@@ -130,14 +139,18 @@ export default {
     LazyHydrate
   },
   setup() {
-    const { search: loadBanners, content: contentBanners} = useContent('Banners');
-    const { search: loadHeros, content: contentHeroes} = useContent('Heros');
+    const { search: loadBanners, content: contentBanners } = useContent(
+      'Banners'
+    );
+    const { search: loadHeros, content: contentHeroes } = useContent('Heros');
 
     onSSR(async () => {
-      await loadHeros({ documentType: 'hero_images@mozu', slug: 'home'});
-      await loadBanners({ documentType: 'banners@mozu', slug: 'home'});
+      await loadHeros({ documentType: 'hero_images@mozu', slug: 'home' });
+      await loadBanners({ documentType: 'banners@mozu', slug: 'home' });
     });
-    const heroes = computed(() => getContent(contentHeroes.value, 'hero_images'));
+    const heroes = computed(() =>
+      getContent(contentHeroes.value, 'hero_images')
+    );
     const banners = computed(() => getContent(contentBanners.value, 'banners'));
 
     function toggleWishlist(index) {
@@ -240,12 +253,13 @@ export default {
       --hero-item-background-position: left;
       @include for-mobile {
         --hero-item-background-position: 30%;
-       ::v-deep .sf-hero-item__wrapper {
-         &.sf-button {
+        ::v-deep .sf-hero-item__wrapper {
+          &.sf-button {
             align-items: flex-end;
             text-align: right;
-            padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm) var(--spacer-2xl);
-         }
+            padding: var(--spacer-sm) var(--spacer-sm) var(--spacer-sm)
+              var(--spacer-2xl);
+          }
         }
         ::v-deep .sf-hero-item__subtitle,
         ::v-deep .sf-hero-item__title {
@@ -255,7 +269,8 @@ export default {
     }
   }
   ::v-deep .sf-hero__control {
-    &--right, &--left {
+    &--right,
+    &--left {
       display: none;
     }
   }
@@ -309,7 +324,7 @@ export default {
 }
 
 .carousel {
-    margin: 0 calc(var(--spacer-sm) * -1) 0 0;
+  margin: 0 calc(var(--spacer-sm) * -1) 0 0;
   @include for-desktop {
     margin: 0;
   }
@@ -324,9 +339,8 @@ export default {
   }
   ::v-deep .sf-arrow--long .sf-arrow--right {
     --arrow-icon-transform: rotate(180deg);
-     -webkit-transform-origin: center;
-     transform-origin: center;
+    -webkit-transform-origin: center;
+    transform-origin: center;
   }
 }
-
 </style>

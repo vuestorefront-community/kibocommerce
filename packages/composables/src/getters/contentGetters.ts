@@ -1,3 +1,8 @@
+import {
+  BannersHeroesContentParams,
+  BannersHeroesContentResponse
+} from '../types';
+
 const transformHeroes = (content) => {
   return content.map((item) => ({
     title: item.properties.title,
@@ -6,7 +11,7 @@ const transformHeroes = (content) => {
     background: item.properties.background,
     image: item.properties.image.desktop,
     link: item.properties.link,
-    className: item.properties.className ? item.properties.className : '',
+    className: item.properties.className ? item.properties.className : ''
   }));
 };
 
@@ -21,14 +26,17 @@ const transformBanners = (content) => {
     buttonText: 'Shop now',
     image: item.properties.image,
     class: item.properties.className ? item.properties.className : '',
-    link: item.properties.link,
+    link: item.properties.link
   }));
 };
 
 // UseContent<any, any>
 export const contentGetters: any = {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  getContent: (content, type: string, criteria?: Record<string, any>) => {
+  getContent: (
+    content: BannersHeroesContentParams,
+    type: string
+  ): BannersHeroesContentResponse => {
     if (
       type?.toLowerCase() === 'hero_images' ||
       type?.toLowerCase() === 'banners'
@@ -39,7 +47,7 @@ export const contentGetters: any = {
     }
 
     return content;
-  },
+  }
 };
 
 export default contentGetters;

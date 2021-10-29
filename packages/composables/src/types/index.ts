@@ -5,7 +5,8 @@ import {
 } from '@vue-storefront/core';
 
 import { ProductCategory } from '@vue-storefront/kibocommerce-api';
-import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
+import { wishlistGetters } from '..';
+import { UseCheckoutErrors } from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 export interface UseCheckout<CHECKOUT> {
@@ -36,8 +37,9 @@ export type CartItem = Record<string, unknown>;
 export type Coupon = Record<string, unknown>;
 
 export type Order = Record<string, unknown>;
+wishlistGetters;
 
-export type OrderItem = Record<string, unknown>;
+// export type OrderItem = Record<string, unknown>;
 
 export type Product = Record<string, any>;
 
@@ -47,7 +49,7 @@ export type Shipping = Record<string, unknown>;
 
 export type ShippingMethod = Record<string, unknown>;
 
-export type WishlistProduct = Record<string, any>;
+// export type WishlistProduct = Record<string, any>;
 
 export type Wishlist = Record<string, any>;
 
@@ -72,12 +74,12 @@ export interface FacetResultsData {
   perPageOptions: number[];
   itemsPerPage: number;
 }
-export type SearchData = FacetSearchResult<FacetResultsData>
+export type SearchData = FacetSearchResult<FacetResultsData>;
 
 export type SearchSuggestions = {
-  products: Product[],
-  categories: Category[]
-}
+  products: Product[];
+  categories: Category[];
+};
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getAddresses: (
     shipping: USER_SHIPPING,
@@ -105,7 +107,7 @@ export interface UseContent<CONTENT> {
   load: (identifier: string) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<any>
+  error: ComputedProperty<any>;
 }
 
 export type TODO = any;
@@ -129,3 +131,217 @@ export type UseUserUpdateParams = TODO;
 export type UseUserRegisterParams = TODO;
 
 export type useUserOrderSearchParams = TODO;
+
+export type RootCategoryParams = {
+  categoryId: number;
+  categoryCode?: string;
+  isDisplayed: boolean;
+  content: {
+    name: string;
+    slug?: string;
+    description?: string;
+  };
+  childrenCategories?: [
+    {
+      categoryId: number;
+      categoryCode?: string;
+      isDisplayed: boolean;
+      content: {
+        name: string;
+        slug?: string;
+        description?: string;
+      };
+    }
+  ];
+  parentCategory?: {
+    categoryId: number;
+    categoryCode?: string;
+    isDisplayed: boolean;
+    content: {
+      name: string;
+      slug?: string;
+      description?: string;
+    };
+    childrenCategories?: [
+      {
+        categoryId: number;
+        categoryCode?: string;
+        isDisplayed: boolean;
+        content: {
+          name: string;
+          slug?: string;
+          description?: string;
+        };
+      }
+    ];
+  };
+};
+
+export type BannerContentParams = {
+  properties: {
+    tags: string[];
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    background: string;
+    image: {
+      mobile: string;
+      desktop: string;
+    };
+    link: string;
+    slot: string;
+    description: string;
+    class: string;
+  };
+};
+
+export type HeroesContentParams = {
+  properties: {
+    tags: string[];
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    background: string;
+    image: {
+      mobile: string;
+      desktop: string;
+    };
+    link: string;
+  };
+};
+
+export type BannersHeroesContentParams =
+  | BannerContentParams[]
+  | HeroesContentParams[];
+export type BannersHeroesContentResponse = BannersHeroesContentParams;
+
+export type WishlistProductParams = {
+  productCode: string;
+  sku: null;
+  variationProductCode: string;
+  imageUrl: string;
+  name: string;
+  price: {
+    price: 15;
+    salePrice: null;
+  };
+  options: [
+    {
+      attributeFQN: string;
+      name: string;
+      value: string;
+    }
+  ];
+};
+
+export type WishlistItemAttributesResponse = { Size?: string; Color?: string };
+
+export type OrderItemParams = {
+  product: {
+    productCode: string;
+    name: string;
+  };
+  quantity: number;
+  total: number;
+};
+
+export type OrderTotalParams = {
+  pageCount: number;
+  items: [
+    {
+      submittedDate: number;
+      id: string;
+      orderNumber: number;
+      status: string;
+      total: number;
+      items: OrderItemParams[];
+    }
+  ];
+};
+
+export type ProductFiltersParams = {
+  master?: boolean;
+};
+
+export type ProductAttributesParams = {
+  color?: string;
+  size?: string;
+};
+
+export type AddressCriteriaParams = {
+  id?: string;
+  isDefault?: boolean;
+};
+
+export type UpdateAddressParams = {
+  address: {
+    id?: number;
+    address1: string;
+    address2: string;
+    cityOrTown: string;
+    stateOrProvince: string;
+    postalOrZipCode: string;
+    countryCode: string;
+    addressType: string;
+    isDefault: boolean;
+  };
+};
+
+export type DeleteAddressParams = {
+  address: {
+    id: number;
+  };
+};
+
+export type DefaultAddressParams = {
+  address: {
+    id: number;
+  };
+};
+
+export type RelatedProductSearchParams = {
+  id?: string;
+  attributes?: {
+    size?: string;
+    color?: string;
+  };
+  catId?: string[];
+  limit?: number;
+};
+
+export type RelatedProductCopyConfigurationOptionValue = {
+  value?: string;
+  attributeValueId: number;
+  isEnabled?: boolean;
+  isSelected?: boolean;
+};
+
+export type RelatedProductCopyOption = {
+  attributeFQN?: string;
+  values?: RelatedProductCopyConfigurationOptionValue[];
+  isProductImageGroupSelector?: boolean;
+};
+
+export type CopyPropsTargetParams =
+  | RelatedProductCopyOption
+  | RelatedProductCopyConfigurationOptionValue;
+
+export type RelatedProductCopyExistingOptionValue = {
+  value?: string;
+  isSelected?: boolean;
+  deltaPrice?: number | null;
+  stringValue?: string;
+};
+
+export type RelatedProductCopyConfiguration = {
+  attributeFQN?: string;
+  attributeDetail?: { name?: string };
+  isProductImageGroupSelector?: boolean;
+  isRequired?: boolean;
+  isMultiValue?: boolean;
+  values?: RelatedProductCopyExistingOptionValue[];
+};
+
+export type CopyPropsSourceParams =
+  | RelatedProductCopyConfiguration
+  | RelatedProductCopyExistingOptionValue;

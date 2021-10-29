@@ -1,4 +1,4 @@
-import { Wishlist, WishlistProduct } from '../../src/types';
+import { Wishlist, WishlistProductParams } from '../../src/types';
 import {
   getWishlistItems,
   getWishlistItemName,
@@ -51,9 +51,9 @@ const wishlist: Wishlist = {
   name: '1105-abc'
 };
 
-const product:WishlistProduct = {
+const product: WishlistProductParams = {
   imageUrl:
-      '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
+    '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
   name: 'Motion Shell Pants',
   options: [
     {
@@ -78,30 +78,31 @@ const product:WishlistProduct = {
 
 describe('[KIBO-getters] wishlist helpers', () => {
   it('returns default values', () => {
-    expect(getWishlistItems(wishlist)).toEqual([{
-      imageUrl:
+    expect(getWishlistItems(wishlist)).toEqual([
+      {
+        imageUrl:
           '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
-      name: 'Motion Shell Pants',
-      options: [
-        {
-          attributeFQN: 'Tenant~color',
-          name: 'Color',
-          value: 'Blue'
+        name: 'Motion Shell Pants',
+        options: [
+          {
+            attributeFQN: 'Tenant~color',
+            name: 'Color',
+            value: 'Blue'
+          },
+          {
+            attributeFQN: 'Tenant~size',
+            name: 'Size',
+            value: 'L'
+          }
+        ],
+        price: {
+          price: 125,
+          salePrice: null
         },
-        {
-          attributeFQN: 'Tenant~size',
-          name: 'Size',
-          value: 'L'
-        }
-      ],
-      price: {
-        price: 125,
-        salePrice: null
-      },
-      productCode: 'MS-PANT-004',
-      sku: null,
-      variationProductCode: 'MS-PANT-004-1'
-    }
+        productCode: 'MS-PANT-004',
+        sku: null,
+        variationProductCode: 'MS-PANT-004-1'
+      }
     ]);
   });
 
@@ -110,7 +111,9 @@ describe('[KIBO-getters] wishlist helpers', () => {
   });
 
   it('returns Wishlist Item image', () => {
-    expect(getWishlistItemImage(product)).toBe('//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0');
+    expect(getWishlistItemImage(product)).toBe(
+      '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0'
+    );
   });
 
   it('returns Wishlist Item price', () => {
