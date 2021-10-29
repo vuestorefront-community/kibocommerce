@@ -2,7 +2,8 @@
 import { Context } from '@vue-storefront/core';
 import { MutationUpdateCustomerAccountContactArgs } from '@vue-storefront/kibocommerce-api';
 import { removeTypename } from '../helpers';
-
+// ##AddedNewType## import { UpdateAddressParams, DeleteAddressParams,  DefaultAddressParams } from '../types';
+import { DeleteAddressParams, DefaultAddressParams } from '../types';
 export interface UserAddressContext extends Context {
   user: any;
 }
@@ -81,9 +82,9 @@ export const addAddress = async (
 
 export const deleteAddress = async (
   context: UserAddressContext,
-  params: any,
+  params: DeleteAddressParams,
   typeName: string
-): Promise<any> => {
+) => {
   const user = context.user.value;
 
   await context.$kibo.api.deleteUserAddress({
@@ -135,7 +136,7 @@ export const updateAddress = async (
 
 export const setDefaultAddress = async (
   context: UserAddressContext,
-  params: any,
+  params: DefaultAddressParams,
   typeName: string
 ): Promise<any> => {
   const user = context.user.value;

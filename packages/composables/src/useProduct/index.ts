@@ -13,7 +13,13 @@ import {
   ProductSearchResult
 } from '@vue-storefront/kibocommerce-api';
 
-const copyProps = (source: any, target: any): void => {
+// ##AddedNewType## import { CopyPropsSourceParams, CopyPropsTargetParams, RelatedProductSearchParams} from '../types';
+import { CopyPropsSourceParams, CopyPropsTargetParams } from '../types';
+
+const copyProps = (
+  source: CopyPropsSourceParams,
+  target: CopyPropsTargetParams
+): void => {
   for (const p in source) {
     if (
       Object.prototype.hasOwnProperty.call(source, p) &&
@@ -38,6 +44,8 @@ function mergeProducts(
     );
     // if we found it
     if (!existingOpt) return;
+
+    console.log('existingOpt', existingOpt, 'opt', opt);
     // copy over any properties from the full product option that don't exist on the configured
     copyProps(existingOpt, opt);
     // loop through the values in the configured option
@@ -114,7 +122,7 @@ const params: UseProductFactoryParams<
             product,
             attributes: (params as any).attributes
           })
-        ).data?.configureProduct || {};
+        ).data?.configureProduct || ({} as any);
       return mergeProducts(product, configuredProduct);
     }
 

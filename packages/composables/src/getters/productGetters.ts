@@ -7,10 +7,8 @@ import {
 } from '@vue-storefront/core';
 
 import type { Product } from '@vue-storefront/kibocommerce-api';
-
 import { buildBreadcrumbs } from '../helpers/buildBreadcrumbs';
-
-type ProductFilters = any
+import {ProductFiltersParams, ProductAttributesParams } from '../types';
 
 // TODO: Add interfaces for some of the methods in core
 // Product
@@ -42,8 +40,7 @@ export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] 
 export const getProductCoverImage = (product: Product): string => product?.content?.productImages?.[0]?.imageUrl || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: Product[], filters: ProductFilters | any = {}): Product[] => {
-
+export const getProductFiltered = (products: Product[], filters: ProductFiltersParams): Product[] => {
   if (!products) return [];
   return products;
 };
@@ -55,7 +52,7 @@ export const getProductAttributes = (products: Product[] | Product): Record<stri
     const productList = (isSingleProduct ? [products] : products) as Product[];
 
     if (!products || productList.length === 0) {
-      return {} as any;
+      return {};
     }
 
     const formatAttributes = (product: Product): AgnosticAttribute[] => {
@@ -104,7 +101,7 @@ export const getProductAttributes = (products: Product[] | Product): Record<stri
     return list.reduce(reduceByAttributeName, {});
   } catch (ex) {
     console.log(ex);
-    return {} as any;
+    return {};
   }
 };
 
@@ -115,7 +112,7 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
     const productList = (isSingleProduct ? [products] : products) as Product[];
 
     if (!products || productList.length === 0) {
-      return {} as any;
+      return {};
     }
 
     const formatAttributes = (product: Product): AgnosticAttribute[] => {
@@ -168,11 +165,11 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
     return list;
   } catch (ex) {
     console.log(ex);
-    return {} as any;
+    return {};
   }
 };
 
-export const getProductDescription = (product: Product): any => product?.content?.productFullDescription || '';
+export const getProductDescription = (product: Product): string => product?.content?.productFullDescription || '';
 
 export const getProductCategoryIds = (product: Product): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
 
@@ -201,7 +198,7 @@ export const getIsPurchasable = (product: Product): boolean => {
   return product?.purchasableState?.isPurchasable || false;
 };
 
-export const getProductConfiguration = (product: Product): any => {
+export const getProductConfiguration = (product: Product): ProductAttributesParams => {
   const ret = {};
   product?.options.forEach(o => {
     ret[o.attributeDetail?.name.toLowerCase()] = o.values?.filter(v => v.isSelected)?.[0]?.value;
@@ -214,7 +211,7 @@ export const getProductInventory = (product: Product): number => {
   return 100;
 };
 
-export const productGetters: ProductGetters<Product, ProductFilters> = {
+export const productGetters: ProductGetters<Product, ProductFiltersParams> = {
   getName: getProductName,
   getSlug: getProductSlug,
   getPrice: getProductPrice,

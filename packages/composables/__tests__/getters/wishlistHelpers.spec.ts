@@ -1,4 +1,4 @@
-import { Wishlist, WishlistProduct } from '../../src/types';
+import { Wishlist, WishlistProductParams } from '../../src/types';
 import {
   getItems,
   getItemName,
@@ -51,7 +51,7 @@ const wishlist: Wishlist = {
   name: '1105-abc'
 };
 
-const product:WishlistProduct = {
+const product: WishlistProductParams = {
   items: {
     imageUrl:
       '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
@@ -113,7 +113,9 @@ describe('[KIBO-getters] wishlist helpers', () => {
   });
 
   it('returns Wishlist Item image', () => {
-    expect(getItemImage(product.items)).toBe('//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0');
+    expect(getItemImage(product.items)).toBe(
+      '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0'
+    );
   });
 
   it('returns Wishlist Item price', () => {
@@ -134,8 +136,8 @@ describe('[KIBO-getters] wishlist helpers', () => {
       color: 'Blue'
     };
     expect(
-      getItemAttributes(product.items, filterByAttributeName))
-      .toStrictEqual(attributes);
+      getItemAttributes(product.items, filterByAttributeName)
+    ).toStrictEqual(attributes);
   });
 
   it('returns Wishlist Item Sku', () => {

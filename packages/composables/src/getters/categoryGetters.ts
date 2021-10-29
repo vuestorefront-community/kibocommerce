@@ -1,11 +1,11 @@
 /* eslint-disable @typescript-eslint/explicit-module-boundary-types */
 import { CategoryGetters, AgnosticCategoryTree } from '@vue-storefront/core';
 import type { ProductCategory } from '@vue-storefront/kibocommerce-api';
+import { RootCategoryParams } from '../types';
 
-export const getCategoryTree = (category: any): AgnosticCategoryTree => {
-  const getRoot = (category: any): ProductCategory =>
-    category.parentCategory ? getRoot(category.parentCategory) : category;
-  const itemToTree = (rootCategory: any): AgnosticCategoryTree => {
+export const getCategoryTree = (category: ProductCategory) : AgnosticCategoryTree => {
+  const getRoot = (category: ProductCategory): ProductCategory => (category.parentCategory ? getRoot(category.parentCategory) : category);
+  const itemToTree = (rootCategory: RootCategoryParams): AgnosticCategoryTree => {
     return {
       id: rootCategory.categoryCode,
       label: rootCategory.content?.name,
