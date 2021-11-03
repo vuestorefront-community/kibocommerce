@@ -9,13 +9,9 @@ describe('[kibo-api-client] registerUser', () => {
         firstName: 'Kevin',
         lastName: 'Watts',
         emailAddress: 'kevin.watts@kibocommerce.com',
-        isAnonymous: false,
-        isLocked: false,
         isActive: true,
         acceptsMarketing: true,
-        hasExternalPassword: false,
         id: 0,
-        taxExempt: false
       },
       password: 'xxxxx',
       isImport: false

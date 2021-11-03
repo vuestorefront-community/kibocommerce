@@ -63,7 +63,7 @@ export const getCartItemSku = (item: CartItem): string =>
   item?.product?.sku || item?.product?.upc || item?.product?.productCode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getTotals(cart: Cart): AgnosticTotals {
+export const getTotals = (cart: Cart): AgnosticTotals => {
   return {
     total: cart.total,
     subtotal: cart.subtotal,
@@ -72,7 +72,7 @@ function getTotals(cart: Cart): AgnosticTotals {
         ? cart.discountedSubtotal
         : cart.subtotal,
   };
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getCartShippingPrice = (cart: Cart): number => cart?.shippingTotal;

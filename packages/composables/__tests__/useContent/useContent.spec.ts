@@ -1,5 +1,5 @@
 import { CustomQuery } from '@vue-storefront/core';
-import useContent from '../../src/useContent';
+import { useContent } from '../../src/useContent';
 
 const heroesResponse = {
   data: {

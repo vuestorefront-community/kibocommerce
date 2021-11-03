@@ -1,15 +1,18 @@
 import { facetGetters } from './../../src/getters/facetGetters';
 // import { getProductFiltered } from './../../src/getters/productGetters';
-import categoryGetters from './../../src/getters/categoryGetters';
+import { categoryGetters } from './../../src/getters/categoryGetters';
 
 jest.mock('./../../src/getters/productGetters', () => ({
   getProductFiltered: jest.fn()
 }));
 
-jest.mock('./../../src/getters/categoryGetters', () => ({
-  getTree: jest.fn(),
-  getCategoryTree: jest.fn()
-}));
+jest.spyOn(categoryGetters, 'getTree').mockReturnValue({
+  id: '1',
+  label: 'abc',
+  slug: 'abc',
+  items: [],
+  isCurrent: true,
+});
 
 describe('[kibo-getters] facet getters', () => {
   it('returns sorting options', () => {
@@ -185,9 +188,9 @@ describe('[kibo-getters] facet getters', () => {
 
     expect(breadcrumbs).toEqual([
       { link: '/', text: 'Home' },
-      { link: 'c/cat-1/cat1code', text: 'cat1' },
-      { link: 'c/cat-2/cat2code', text: 'cat2' },
-      { link: 'c/cat-3/cat3code', text: 'cat3' }
+      { link: '/c/cat-1/cat1code', text: 'cat1' },
+      { link: '/c/cat-2/cat2code', text: 'cat2' },
+      { link: '/c/cat-3/cat3code', text: 'cat3' }
     ]);
   });
 

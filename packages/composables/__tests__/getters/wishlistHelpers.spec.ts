@@ -1,15 +1,15 @@
 import { Wishlist, WishlistProduct } from '../../src/types';
 import {
-  getWishlistItems,
-  getWishlistItemName,
-  getWishlistItemImage,
-  getWishlistItemPrice,
-  getWishlistItemQty,
-  getWishlistItemAttributes,
-  getWishlistItemSku,
-  getWishlistTotals,
-  getWishlistShippingPrice,
-  getWishlistTotalItems,
+  getItems,
+  getItemName,
+  getItemImage,
+  getItemPrice,
+  getItemQty,
+  getItemAttributes,
+  getItemSku,
+  getTotals,
+  getShippingPrice,
+  getTotalItems,
   getFormattedPrice
 } from '../../src/getters/wishlistGetters';
 
@@ -52,76 +52,79 @@ const wishlist: Wishlist = {
 };
 
 const product:WishlistProduct = {
-  imageUrl:
+  items: {
+    imageUrl:
       '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
-  name: 'Motion Shell Pants',
-  options: [
-    {
-      attributeFQN: 'Tenant~color',
-      name: 'color',
-      value: 'Blue'
+    name: 'Motion Shell Pants',
+    options: [
+      {
+        attributeFQN: 'Tenant~color',
+        name: 'color',
+        value: 'Blue'
+      },
+      {
+        attributeFQN: 'Tenant~size',
+        name: 'size',
+        value: 'L'
+      }
+    ],
+    price: {
+      price: 125,
+      salePrice: 200
     },
-    {
-      attributeFQN: 'Tenant~size',
-      name: 'size',
-      value: 'L'
-    }
-  ],
-  price: {
-    price: 125,
-    salePrice: 200
-  },
-  productCode: 'MS-PANT-004',
-  sku: 'sku',
-  variationProductCode: 'MS-PANT-004-1'
+    productCode: 'MS-PANT-004',
+    sku: 'sku',
+    variationProductCode: 'MS-PANT-004-1'
+  }
 };
 
 describe('[KIBO-getters] wishlist helpers', () => {
   it('returns default values', () => {
-    expect(getWishlistItems(wishlist)).toEqual([{
-      imageUrl:
+    expect(getItems(wishlist)).toEqual([
+      {
+        imageUrl:
           '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
-      name: 'Motion Shell Pants',
-      options: [
-        {
-          attributeFQN: 'Tenant~color',
-          name: 'Color',
-          value: 'Blue'
+        name: 'Motion Shell Pants',
+        options: [
+          {
+            attributeFQN: 'Tenant~color',
+            name: 'Color',
+            value: 'Blue'
+          },
+          {
+            attributeFQN: 'Tenant~size',
+            name: 'Size',
+            value: 'L'
+          }
+        ],
+        price: {
+          price: 125,
+          salePrice: null
         },
-        {
-          attributeFQN: 'Tenant~size',
-          name: 'Size',
-          value: 'L'
-        }
-      ],
-      price: {
-        price: 125,
-        salePrice: null
-      },
-      productCode: 'MS-PANT-004',
-      sku: null,
-      variationProductCode: 'MS-PANT-004-1'
-    }
+        productCode: 'MS-PANT-004',
+        sku: null,
+        variationProductCode: 'MS-PANT-004-1'
+      }
     ]);
   });
 
   it('returns Wishlist Item name', () => {
-    expect(getWishlistItemName(product)).toBe('Motion Shell Pants');
+    expect(getItemName(product.items)).toBe('Motion Shell Pants');
   });
 
   it('returns Wishlist Item image', () => {
-    expect(getWishlistItemImage(product)).toBe('//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0');
+    expect(getItemImage(product.items)).toBe('//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0');
   });
 
   it('returns Wishlist Item price', () => {
-    expect(getWishlistItemPrice(product)).toStrictEqual({
+    expect(getItemPrice(product.items)).toStrictEqual({
       regular: 125,
       special: 200
     });
   });
 
   it('returns Wishlist Item quantity', () => {
-    expect(getWishlistItemQty(product)).toBe(1);
+    expect(getItemQty(product.items)).toBe(1);
   });
 
   it('returns Wishlist Item Attributes', () => {
@@ -131,30 +134,30 @@ describe('[KIBO-getters] wishlist helpers', () => {
       color: 'Blue'
     };
     expect(
-      getWishlistItemAttributes(product, filterByAttributeName)
-    ).toStrictEqual(attributes);
+      getItemAttributes(product.items, filterByAttributeName))
+      .toStrictEqual(attributes);
   });
 
   it('returns Wishlist Item Sku', () => {
-    expect(getWishlistItemSku(product)).toBe('sku');
+    expect(getItemSku(product.items)).toBe('sku');
   });
 
   it('returns Wishlist totals', () => {
-    expect(getWishlistTotals(wishlist)).toEqual({
+    expect(getTotals(wishlist)).toEqual({
       total: 125,
       subtotal: 125
     });
   });
 
   it('returns Wishlist shipping price', () => {
-    expect(getWishlistShippingPrice(wishlist)).toEqual(0);
+    expect(getShippingPrice(wishlist)).toEqual(0);
   });
 
   it('returns Wishlist total items', () => {
-    expect(getWishlistTotalItems(wishlist)).toEqual(1);
+    expect(getTotalItems(wishlist)).toEqual(1);
   });
 
   it('returns formatted price', () => {
-    expect(getFormattedPrice(100)).toEqual('100');
+    expect(getFormattedPrice(100)).toEqual('');
   });
 });

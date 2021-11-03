@@ -1,4 +1,4 @@
-import useUserOrder from '../../src/useUserOrder';
+import { useUserOrder } from '../../src/useUserOrder';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const searchOrdersResponse = {
