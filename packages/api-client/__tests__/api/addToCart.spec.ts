@@ -14,8 +14,6 @@ describe('[kibo-api-client] addToCart', () => {
     const expectedVariables = {
       productToAdd: {
         product: {
-          isTaxable: true,
-          isRecurring: false,
           productCode: 'UPC-123',
           isPackagedStandAlone: true,
           variationProductCode: undefined,
@@ -23,7 +21,6 @@ describe('[kibo-api-client] addToCart', () => {
         },
         quantity: 1,
         fulfillmentMethod: 'Ship',
-        isAssemblyRequired: true
       }
     };
     const context = {

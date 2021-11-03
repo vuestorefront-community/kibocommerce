@@ -1,4 +1,4 @@
-import useFacet from '../../src/useFacet';
+import { useFacet } from '../../src/useFacet';
 // jest.mock('./../../src/helpers/internals', () => ({
 //   enhanceProduct: jest.fn((productResponse) => ({ ...productResponse, _variants: [] })),
 //   getFiltersFromProductsAttributes: jest.fn()
@@ -15,7 +15,7 @@ const context = {
     api: {
       searchProducts: jest.fn(() => ({
         data: {
-          productSearchResult: {
+          products: {
             items: []
           }
         }

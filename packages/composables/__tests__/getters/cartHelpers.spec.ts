@@ -4,7 +4,7 @@ import {
   CrDiscount
 } from './../../../api-client/src/types/GraphQL';
 import {
-  getCartTotals,
+  getTotals,
   getCartShippingPrice,
   getCartItems,
   getCartItemName,
@@ -32,11 +32,11 @@ const item: CartItem = {
     },
     options: [
       {
-        name: 'optionName1',
+        name: 'optionname1',
         value: 'optionValue1'
       },
       {
-        name: 'optionName2',
+        name: 'optionname2',
         value: 'optionValue2'
       },
       {
@@ -108,8 +108,8 @@ describe('[KIBO-getters] cart helpers', () => {
   it('returns cart Item Attributes', () => {
     const filterByAttributeName = ['optionname1', 'optionname2'];
     const attributes = {
-      optionName1: 'optionValue1',
-      optionName2: 'optionValue2'
+      optionname1: 'optionValue1',
+      optionname2: 'optionValue2'
     };
     expect(getCartItemAttributes(item, filterByAttributeName)).toStrictEqual(
       attributes
@@ -123,7 +123,7 @@ describe('[KIBO-getters] cart helpers', () => {
   });
 
   it('returns cart totals', () => {
-    expect(getCartTotals(cart)).toEqual({
+    expect(getTotals(cart)).toEqual({
       total: 100,
       subtotal: 100
     });

@@ -1,6 +1,6 @@
 import { Cart } from './../../src/types/index';
 import { CrProduct } from './../../../api-client/src/types/GraphQL';
-import useCart, { getCart } from './../../src/useCart';
+import { useCart, getCart } from './../../src/useCart';
 
 jest.mock('@vue-storefront/core', () => ({
   useCartFactory: (params) => () => params
@@ -148,8 +148,7 @@ describe('[Kibo-composables] useCart', () => {
     });
     expect(context.$kibo.api.removeCoupon).toBeCalled();
     expect(context.$kibo.api.removeCoupon).toBeCalledWith({
-      cartId: '1234',
-      couponCode: 'test-coupon'
+      cartId: '1234'
     });
   });
 

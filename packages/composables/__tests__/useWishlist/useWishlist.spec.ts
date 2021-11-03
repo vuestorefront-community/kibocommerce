@@ -1,4 +1,4 @@
-import useWishlist, {getWishLists} from '../../src/useWishlist';
+import { useWishlist, getWishLists } from '../../src/useWishlist';
 import { Wishlist, WishlistProduct } from './../../src/types/index';
 
 jest.mock('@vue-storefront/core', () => ({

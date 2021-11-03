@@ -12,6 +12,7 @@ describe('[kibo-api-client] searchOrders', () => {
       pageSize: 5
     };
     const expectedVariables = {
+      filter: 'status ne Abandoned',
       startIndex: 0,
       pageSize: 5
     };
@@ -47,7 +48,7 @@ describe('[kibo-api-client] searchOrders', () => {
     const expectedVariables = {
       startIndex: 0,
       pageSize: 1,
-      filter: 'orderId eq 123'
+      filter: 'orderId eq 123 and status ne Abandoned'
     };
 
     const context = {

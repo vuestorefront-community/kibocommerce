@@ -57,23 +57,23 @@ export const getTotals = (wishlist: Wishlist): AgnosticTotals => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getShippingPrice(wishlist: Wishlist): number {
+export const getShippingPrice = (wishlist: Wishlist): number => {
   return 0;
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getTotalItems = (wishlist: Wishlist): number =>
   wishlist?.items?.length;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getFormattedPrice(price: number): string {
+export const getFormattedPrice = (price: number): string => {
   return '';
-}
+};
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-function getItemQty(item: WishlistItem): number {
+export const getItemQty = (item: WishlistItem): number => {
   return 1;
-}
+};
 
 export const wishlistGetters: WishlistGetters<Wishlist, WishlistItem> = {
   getItems,

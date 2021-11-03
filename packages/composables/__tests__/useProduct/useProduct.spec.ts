@@ -1,4 +1,4 @@
-import useProduct from '../../src/useProduct';
+import { useProduct } from '../../src/useProduct';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const product = (name, slug, productCode) => ({

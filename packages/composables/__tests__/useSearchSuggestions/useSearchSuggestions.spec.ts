@@ -1,4 +1,4 @@
-import useSearchSuggestions from '../../src/useSearchSuggestions';
+import { useSearchSuggestions } from '../../src/useSearchSuggestions';
 
 const product = {
   productCode: 'MS-CAM-001',
