@@ -37,8 +37,8 @@
         <nuxt-link :to="localePath('/c/women')" class="smartphone-only">See all</nuxt-link>
       </div>
     </LazyHydrate>
-
     <LazyHydrate when-visible>
+      <SfLoader :class="{ loading }" :loading="loading">
         <SfCarousel class="carousel" :settings="{ peek: 16, breakpoints: { 1023: { peek: 0, perView: 2 } } }">
           <template #prev="{go}">
             <SfArrow
@@ -54,21 +54,39 @@
               @click="go('next')"
             />
           </template>
-          <SfCarouselItem class="carousel__item" v-for="(product, i) in products" :key="i">
+          <SfCarouselItem class="carousel__item" v-for="(product, i) in (products.items)" :key="i">
             <SfProductCard
-              :title="product.title"
-              :image="product.image"
-              :regular-price="product.price.regular"
-              :max-rating="product.rating.max"
-              :score-rating="product.rating.score"
-              :show-add-to-cart-button="true"
-              :is-on-wishlist="product.isInWishlist"
-              link="/"
-              class="carousel__item__product"
-              @click:wishlist="toggleWishlist(i)"
-            />
+              :title="productGetters.getName(product)"
+              :image="productGetters.getCoverImage(product)"
+              :regular-price="$n(productGetters.getPrice(product).regular, 'currency')"
+              :max-rating="5"
+              :score-rating="productGetters.getAverageRating(product)"
+              :isOnWishlist="isInWishlist({ product })"
+              :link="
+              localePath(
+                `/p/${productGetters.getId(product)}/${productGetters.getSlug(
+                  product
+                )}`
+              )
+              "
+              class="products__product-card"
+              @click:wishlist="
+              !isInWishlist({ product })
+                ? addItemToWishlist({ product })
+                : removeItemFromWishlist({ product })
+              "
+            >
+              <template #wishlist-icon>
+                <span
+                  v-if="
+                    !isAuthenticated || !product.purchasableState.isPurchasable
+                  "
+                ></span>
+              </template>
+            </SfProductCard>
           </SfCarouselItem>
         </SfCarousel>
+      </SfLoader>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -102,9 +120,10 @@ import {
   SfBannerGrid,
   SfHeading,
   SfArrow,
-  SfButton
+  SfButton,
+  SfLoader
 } from '@storefront-ui/vue';
-import { useContent, contentGetters } from '@vue-storefront/kibocommerce';
+import { useUser, useContent, contentGetters, useProduct, productGetters, useWishlist } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import { computed} from '@vue/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
@@ -127,15 +146,30 @@ export default {
     SfArrow,
     SfButton,
     MobileStoreBanner,
-    LazyHydrate
+    LazyHydrate,
+    SfLoader
   },
   setup() {
     const { search: loadBanners, content: contentBanners} = useContent('Banners');
     const { search: loadHeros, content: contentHeroes} = useContent('Heros');
+    const { isAuthenticated } = useUser();
+    const {
+      products,
+      search,
+      loading
+    } = useProduct();
+    const {
+      addItem: addItemToWishlist,
+      isInWishlist,
+      removeItem: removeItemFromWishlist
+    } = useWishlist();
 
     onSSR(async () => {
-      await loadHeros({ documentType: 'hero_images@mozu', slug: 'home'});
-      await loadBanners({ documentType: 'banners@mozu', slug: 'home'});
+      await Promise.all([
+        loadHeros({ documentType: 'hero_images@mozu', slug: 'home'}),
+        loadBanners({ documentType: 'banners@mozu', slug: 'home'}),
+        search({pageSize: 8}),
+      ]);
     });
     const heroes = computed(() => getContent(contentHeroes.value, 'hero_images'));
     const banners = computed(() => getContent(contentBanners.value, 'banners'));
@@ -149,67 +183,16 @@ export default {
     }
 
     return {
+      isAuthenticated,
       toggleWishlist,
       heroes: heroes,
       banners: banners,
-      products: [
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: true
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productC.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productC.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productA.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        },
-        {
-          title: 'Cream Beach Bag',
-          image: '/homepage/productB.webp',
-          price: { regular: '50.00 $' },
-          rating: { max: 5, score: 4 },
-          isInWishlist: false
-        }
-      ]
+      productGetters,
+      products,
+      addItemToWishlist,
+      isInWishlist,
+      removeItemFromWishlist,
+      loading
     };
   }
 };
@@ -326,6 +309,44 @@ export default {
     --arrow-icon-transform: rotate(180deg);
      -webkit-transform-origin: center;
      transform-origin: center;
+  }
+}
+
+.products {
+  box-sizing: border-box;
+  flex: 1;
+  margin: 0;
+  &__grid {
+    justify-content: center;
+    @include for-desktop {
+      justify-content: flex-start;
+    }
+  }
+  &__grid,
+  &__list {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  &__product-card {
+    --product-card-title-margin: var(--spacer-base) 0 0 0;
+    --product-card-title-font-weight: var(--font-weight--medium);
+    --product-card-title-margin: var(--spacer-xs) 0 0 0;
+    flex: 1 1 50%;
+    ::v-deep .sf-image {
+      object-fit: contain;
+      height: 200px;
+    }
+    @include for-mobile {
+      ::v-deep .sf-image {
+        object-fit: contain;
+        height: 170px;
+      }
+    }
+    @include for-desktop {
+      --product-card-title-font-weight: var(--font-weight--normal);
+      --product-card-add-button-bottom: var(--spacer-base);
+      --product-card-title-margin: var(--spacer-sm) 0 0 0;
+    }
   }
 }
 
