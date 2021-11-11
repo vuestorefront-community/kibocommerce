@@ -13,7 +13,7 @@ function buildAddToCartVariables({ product, quantity = 1 }: {
         productCode: product.productCode,
         isPackagedStandAlone: product.isPackagedStandAlone || true,
         variationProductCode: product.variationProductCode,
-        options: product.options?.map(po => ({
+        options: product?.options?.filter(option => (option.values.find(v => v.isSelected)))?.map(po => ({
           attributeFQN: po.attributeFQN,
           name: po.attributeDetail.name,
           value: po.values.find(v => v.isSelected).value
