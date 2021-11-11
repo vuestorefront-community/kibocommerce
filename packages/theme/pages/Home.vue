@@ -86,7 +86,7 @@
             </SfProductCard>
           </SfCarouselItem>
         </SfCarousel>
-      </SfLoader>  
+      </SfLoader>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -159,7 +159,6 @@ export default {
       loading
     } = useProduct();
     const {
-      load: loadWishlist,
       addItem: addItemToWishlist,
       isInWishlist,
       removeItem: removeItemFromWishlist
