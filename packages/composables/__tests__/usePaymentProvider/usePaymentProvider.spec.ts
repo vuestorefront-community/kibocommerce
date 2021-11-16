@@ -23,7 +23,7 @@ const availablePaymentMock = [
 
 const dataMock = {
   createOrderPaymentAction: {
-    id: '1260863c58de0500014293520000432b'
+    id: '1260863c58de0500014293520000432a'
   }
 };
 
