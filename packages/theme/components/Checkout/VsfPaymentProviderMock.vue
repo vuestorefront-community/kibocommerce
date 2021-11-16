@@ -67,12 +67,12 @@ export default {
     const paymentMethods = computed(() => {
       return Array.isArray(state.value)
         ? state.value.map((p) => {
-            return {
-              id: p.id,
-              name: p.name,
-              description: p.description
-            };
-          })
+          return {
+            id: p.id,
+            name: p.name,
+            description: p.description
+          };
+        })
         : [];
     });
 

@@ -146,7 +146,7 @@ import {
   SfLink
 } from '@storefront-ui/vue';
 import { ref, computed } from '@vue/composition-api';
-import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters, usePaymentProvider  } from '@vue-storefront/kibocommerce';
+import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters, usePaymentProvider } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
 import VsfPaymentProviderMock from '@/components/Checkout/VsfPaymentProviderMock';
