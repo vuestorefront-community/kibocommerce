@@ -119,32 +119,32 @@ export default {
     };
   },
   methods: {
-    getCCType: function (ccardNumber) {
+    getCCType(ccardNumber) {
       const ccardType = creditCardType(`${ccardNumber}`);
       if (ccardType.length) {
         this.formData.cardType = ccardType[0].type.toUpperCase();
       }
     },
 
-    validateNumber: function (event) {
-      let keyCode = event.keyCode;
+    validateNumber(event) {
+      const keyCode = event.keyCode;
       if (keyCode < 48 || keyCode > 57) {
         event.preventDefault();
       }
     },
 
-    validateCreditCard: function (value) {
+    validateCreditCard(value) {
       // Accept only digits, dashes or spaces
       if (/[^0-9-\s]+/.test(value)) return false;
 
       // The Luhn Algorithm. It's so pretty.
-      let nCheck = 0,
-        bEven = false;
+      let nCheck = 0;
+      let bEven = false;
       value = value.replace(/\D/g, '');
 
-      for (var n = value.length - 1; n >= 0; n--) {
-        var cDigit = value.charAt(n),
-          nDigit = parseInt(cDigit, 10);
+      for (let n = value.length - 1; n >= 0; n--) {
+        const cDigit = value.charAt(n);
+        let nDigit = parseInt(cDigit, 10);
 
         if (bEven && (nDigit *= 2) > 9) nDigit -= 9;
 
@@ -152,7 +152,7 @@ export default {
         bEven = !bEven;
       }
 
-      if (nCheck % 10 == 0) {
+      if (nCheck % 10 === 0) {
         this.getCCType(this.formData.cardNumber);
         return true;
       } else {
@@ -161,10 +161,10 @@ export default {
       }
     },
 
-    validateCardExpiry: function () {
+    validateCardExpiry() {
       // logic to validate the cc
-      let currentDate = new Date();
-      let someDay = new Date();
+      const currentDate = new Date();
+      const someDay = new Date();
 
       someDay.setFullYear(
         this.formData.expireYear,
@@ -179,7 +179,7 @@ export default {
         return false;
       }
     },
-    handleFormSubmit: function (event) {
+    handleFormSubmit(event) {
       event.preventDefault();
       this.formData.errors = [];
 

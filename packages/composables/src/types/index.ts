@@ -58,7 +58,7 @@ export interface UsePaymentProviderErrors {
   save: Error;
 }
 
-export interface UsePaymentProvider<STATE, PAYMENT_METHOD, API> {
+export interface UsePaymentProvider<STATE, PAYMENT_METHOD> {
   error: ComputedProperty<UsePaymentProviderErrors>;
   loading: ComputedProperty<boolean>;
   state: ComputedProperty<STATE>;
@@ -70,6 +70,33 @@ export interface UsePaymentProvider<STATE, PAYMENT_METHOD, API> {
   load(params: { customQuery?: any }): Promise<void>;
 
   save(params: { paymentMethod: PAYMENT_METHOD, customQuery?: any }): Promise<void>;
+}
+
+export type TokenizedCCData = {
+  balance: number,
+  id: string,
+  isSuccessful: boolean,
+  numberPart: string
+}
+export type PaymentMethodResponse = {
+  id: string,
+  name: string,
+  description: string
+}
+export type CreditCardFormData = {
+  cardNumber: string,
+  cardType: string,
+  cardholderName: string,
+  cvv: string,
+  expireMonth?: string,
+  expireYear?: string,
+  currentYear?: Date,
+  errors?: [],
+  success?: boolean
+}
+export type PaymentConfig = {
+  hostUrl: string,
+  tokenizationUrl: string
 }
 
 export type ProductsResponse = {
