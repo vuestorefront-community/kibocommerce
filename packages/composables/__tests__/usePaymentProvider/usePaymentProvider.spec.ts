@@ -10,12 +10,12 @@ jest.mock('../../src/useCart', () => ({
 
 const availablePaymentMock = [
   {
-    id: 'mocked-id-1',
+    id: 'checkByMail',
     name: 'Check by Mail',
     description: 'Check by mail description'
   },
   {
-    id: 'mocked-id-2',
+    id: 'creditCard',
     name: 'Credit Card',
     description: 'Credit Card Description'
   }
