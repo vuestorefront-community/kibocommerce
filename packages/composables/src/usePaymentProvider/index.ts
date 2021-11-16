@@ -120,4 +120,4 @@ const factoryParams: UsePaymentProviderParams<any, any> = {
   }
 };
 
-export const usePaymentProvider = usePaymentProviderFactory<any, any, any>(factoryParams);
+export const usePaymentProvider = usePaymentProviderFactory<any, any>(factoryParams);
