@@ -1,7 +1,7 @@
 import { getAvailablePaymentMethods } from '../../src/usePaymentProvider';
 
 jest.mock('@vue-storefront/core', () => ({
-  usePaymentProviderFactory: (params) => () => params
+  usePaymentProviderFactory: (params: any) => () => params
 }));
 
 jest.mock('../../src/useCart', () => ({
