@@ -5,7 +5,7 @@ import {
 } from '@vue-storefront/core';
 
 import { ProductCategory } from '@vue-storefront/kibocommerce-api';
-import {UseCheckoutErrors} from '../factories/useCheckoutFactory';
+import { UseCheckoutErrors } from '../factories/useCheckoutFactory';
 
 export { UseCategory, UseProduct } from '@vue-storefront/core';
 export interface UseCheckout<CHECKOUT> {
@@ -52,6 +52,52 @@ export type WishlistProduct = Record<string, any>;
 export type Wishlist = Record<string, any>;
 
 export type Facet = Record<string, any>;
+
+export interface UsePaymentProviderErrors {
+  load: Error;
+  save: Error;
+}
+
+export interface UsePaymentProvider<STATE, PAYMENT_METHOD> {
+  error: ComputedProperty<UsePaymentProviderErrors>;
+  loading: ComputedProperty<boolean>;
+  state: ComputedProperty<STATE>;
+
+  setState(state: STATE): void;
+
+  load(): Promise<void>;
+
+  load(params: { customQuery?: any }): Promise<void>;
+
+  save(params: { paymentMethod: PAYMENT_METHOD, customQuery?: any }): Promise<void>;
+}
+
+export type TokenizedCCData = {
+  balance: number,
+  id: string,
+  isSuccessful: boolean,
+  numberPart: string
+}
+export type PaymentMethodResponse = {
+  id: string,
+  name: string,
+  description: string
+}
+export type CreditCardFormData = {
+  cardNumber: string,
+  cardType: string,
+  cardholderName: string,
+  cvv: string,
+  expireMonth?: string,
+  expireYear?: string,
+  currentYear?: Date,
+  errors?: [],
+  success?: boolean
+}
+export type PaymentConfig = {
+  hostUrl: string,
+  tokenizationUrl: string
+}
 
 export type ProductsResponse = {
   data: Product[];

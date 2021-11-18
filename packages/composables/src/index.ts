@@ -6,6 +6,7 @@ export { useCategory } from './useCategory';
 export { useContent } from './useContent';
 export { useFacet } from './useFacet';
 export { useMakeOrder } from './useMakeOrder';
+export { usePaymentProvider } from './usePaymentProvider';
 export { useProduct } from './useProduct';
 export { useReview } from './useReview';
 export { useShipping } from './useShipping';
