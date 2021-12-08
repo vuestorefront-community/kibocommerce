@@ -1,6 +1,6 @@
 import { UserOrderGetters } from '@vue-storefront/core';
 import { Order, CrOrderItem } from '@vue-storefront/kibocommerce-api';
-// ##AddedNewType## import { OrderItemParams, OrderTotalParams } from '../types';
+import { OrderTotalParams } from '../types';
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getDate = (order: Order): string =>
   order?.submittedDate
@@ -37,9 +37,8 @@ export const getItemPrice = (item: CrOrderItem): number => item?.total || 0;
 export const getFormattedPrice = (price: number): string =>
   price ? String(price) : '0';
 
-// eslint-disable-next-line
-function getOrdersTotal(orders: any): number {
-  return 1;
+function getOrdersTotal(order: OrderTotalParams): number {
+  return order.total;
 }
 
 export const orderGetters: UserOrderGetters<Order, CrOrderItem> = {
