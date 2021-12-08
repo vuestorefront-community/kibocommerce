@@ -26,7 +26,6 @@
           </div>
           <div class="collected-product-list">
             <transition-group name="fade" tag="div">
-              Amol {{ products }}
               <SfCollectedProduct
                 v-for="product in products"
                 :key="wishlistGetters.getItemSku(product)"

@@ -4,23 +4,22 @@ import {
   AgnosticPrice,
   AgnosticTotals
 } from '@vue-storefront/core';
-import type { Wishlist, WishlistItem } from '@vue-storefront/kibocommerce-api';
+import type { Wishlist, WishlistItem, CrProductInput} from '@vue-storefront/kibocommerce-api';
 
-// ##AddedNewType## import { WishlistProductParams, WishlistItemAttributesResponse } from '../types';
-import { WishlistItemAttributesResponse } from '../types';
+import {WishlistItemAttributesResponse } from '../types';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItems = (wishlist: Wishlist): any[] =>
   wishlist?.items.map((item) => item.product);
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemName = (product: any): string => product?.name;
+export const getItemName = (product: CrProductInput): string => product?.name;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemImage = (product: any): string => product?.imageUrl;
+export const getItemImage = (product: CrProductInput): string => product?.imageUrl;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemPrice = (product: any): AgnosticPrice => {
+export const getItemPrice = (product: CrProductInput): AgnosticPrice => {
   const { price, salePrice } = product.price;
   return {
     regular: price as number,
@@ -30,7 +29,7 @@ export const getItemPrice = (product: any): AgnosticPrice => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getItemAttributes = (
-  product: any,
+  product: CrProductInput,
   filterByAttributeName?: string[]
 ):WishlistItemAttributesResponse => {
 
@@ -48,7 +47,7 @@ export const getItemAttributes = (
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getItemSku = (product: any): string =>product?.sku || product?.variationProductCode || product?.productCode;
+export const getItemSku = (product: CrProductInput): string =>product?.sku || product?.variationProductCode || product?.productCode;
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getTotals = (wishlist: Wishlist): AgnosticTotals => {

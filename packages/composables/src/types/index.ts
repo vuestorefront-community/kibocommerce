@@ -265,7 +265,7 @@ export type WishlistProductParams = {
   imageUrl: string;
   name: string;
   price: {
-    price: 15;
+    price: number;
     salePrice: null;
   };
   options: [
@@ -275,6 +275,31 @@ export type WishlistProductParams = {
       value: string;
     }
   ];
+};
+
+export type WishlistItemProductResponse = {
+  id: string;
+  quantity: number;
+  total: number;
+  subtotal: number;
+  product: {
+    productCode: string;
+    sku: null;
+    variationProductCode: string;
+    imageUrl: string;
+    name: string;
+    price: {
+      price: number;
+      salePrice: null;
+    };
+    options: [
+      {
+        attributeFQN: string;
+        name: string;
+        value: string;
+      }
+    ];
+  };
 };
 
 export type WishlistItemAttributesResponse = { Size?: string; Color?: string };
@@ -289,17 +314,10 @@ export type OrderItemParams = {
 };
 
 export type OrderTotalParams = {
-  pageCount: number;
-  items: [
-    {
-      submittedDate: number;
-      id: string;
-      orderNumber: number;
-      status: string;
-      total: number;
-      items: OrderItemParams[];
-    }
-  ];
+  offset: number;
+  count: number;
+  total: number;
+  results: Order[];
 };
 
 export type ProductFiltersParams = {
@@ -319,13 +337,34 @@ export type AddressCriteriaParams = {
 export type UpdateAddressParams = {
   address: {
     id?: number;
-    address1: string;
-    address2: string;
-    cityOrTown: string;
-    stateOrProvince: string;
-    postalOrZipCode: string;
-    countryCode: string;
-    addressType: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    streetName: string;
+    apartment: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    isDefault: boolean;
+  };
+};
+
+export type AddAddressParams = {
+  accountId: number;
+  address: {
+    id?: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    streetName: string;
+    apartment: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
     isDefault: boolean;
   };
 };
