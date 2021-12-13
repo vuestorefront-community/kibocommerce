@@ -1,4 +1,4 @@
-import { Wishlist, WishlistProductParams } from '../../src/types';
+import { Wishlist, MockWishlistProductParams } from '../../src/types';
 import {
   getItems,
   getItemName,
@@ -51,7 +51,7 @@ const wishlist: Wishlist = {
   name: '1105-abc'
 };
 
-const product: WishlistProductParams = {
+const product: MockWishlistProductParams = {
   items: {
     imageUrl:
       '//d1slj7rdbjyb5l.cloudfront.net/17194-21127/cms/21127/files/025d0466-6542-4c69-b625-55b421d9f4e0',
@@ -74,7 +74,8 @@ const product: WishlistProductParams = {
     },
     productCode: 'MS-PANT-004',
     sku: 'sku',
-    variationProductCode: 'MS-PANT-004-1'
+    variationProductCode: 'MS-PANT-004-1',
+    quantity: 1
   }
 };
 

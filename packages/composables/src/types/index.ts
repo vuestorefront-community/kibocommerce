@@ -258,23 +258,39 @@ export type BannersHeroesContentParams =
   | HeroesContentParams[];
 export type BannersHeroesContentResponse = BannersHeroesContentParams;
 
+export type WishlistProductOptions = {
+  attributeFQN: string;
+  name: string;
+  value: string;
+};
+
 export type WishlistProductParams = {
   productCode: string;
-  sku: null;
+  sku: string | null;
   variationProductCode: string;
   imageUrl: string;
   name: string;
   price: {
     price: number;
-    salePrice: null;
+    salePrice: number | null;
   };
-  options: [
-    {
-      attributeFQN: string;
-      name: string;
-      value: string;
-    }
-  ];
+  options: WishlistProductOptions[];
+};
+
+export type MockWishlistProductParams = {
+  items: {
+    imageUrl: string;
+    name: string;
+    options: WishlistProductOptions[];
+    price: {
+      price: number;
+      salePrice: number | null;
+    };
+    productCode: string;
+    sku: string | null;
+    variationProductCode: string;
+    quantity: number;
+  };
 };
 
 export type WishlistItemProductResponse = {
