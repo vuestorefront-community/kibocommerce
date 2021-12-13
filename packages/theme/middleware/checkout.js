@@ -20,22 +20,6 @@ export default async ({ app, $vsf }) => {
   });
   const cartOrderId = checkoutResponse.data.order.id;
 
-  const orderFulfillmentResponse = await $vsf.$kibo.api.getShippingAddress(
-    {
-      orderId: cartOrderId
-    },
-    null
-  );
-  const { orderFulfillmentInfo } = orderFulfillmentResponse.data;
-
-  const billingInfoResponse = await $vsf.$kibo.api.getBillingInfo(
-    {
-      orderId: cartOrderId
-    },
-    null
-  );
-  const { orderBillingInfo } = billingInfoResponse.data;
-
   switch (currentPath) {
     case 'shipping':
       if (!isActiveCart) {
@@ -43,11 +27,25 @@ export default async ({ app, $vsf }) => {
       }
       break;
     case 'billing':
+      const orderFulfillmentResponse = await $vsf.$kibo.api.getShippingAddress(
+        {
+          orderId: cartOrderId
+        },
+        null
+      );
+      const { orderFulfillmentInfo } = orderFulfillmentResponse.data;
       if (!canEnterPayment(orderFulfillmentInfo)) {
         app.context.redirect('/checkout/shipping');
       }
       break;
     case 'payment':
+      const billingInfoResponse = await $vsf.$kibo.api.getBillingInfo(
+        {
+          orderId: cartOrderId
+        },
+        null
+      );
+      const { orderBillingInfo } = billingInfoResponse.data;
       if (!canEnterReview(orderBillingInfo)) {
         app.context.redirect('/checkout/billing');
       }
