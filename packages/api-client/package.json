@@ -18,7 +18,7 @@
     "generate-types": "graphql-codegen --config codegen.yml"
   },
   "dependencies": {
-    "@vue-storefront/core": "~2.4.1",
+    "@vue-storefront/core": "~2.5.2",
     "@kibocommerce/graphql-client": "^1.0.2",
     "graphql-tag": "^2.12.4"
   },

@@ -84,7 +84,7 @@ import {
   SfCollectedProduct,
   SfImage
 } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { useWishlist, useUser, wishlistGetters } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import { useUiState } from '~/composables';

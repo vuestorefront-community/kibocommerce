@@ -1,4 +1,4 @@
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import { sharedRef, useVSFContext, Logger } from '@vue-storefront/core';
 
 export const usePaymentMock = (): any => {

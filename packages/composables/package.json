@@ -16,18 +16,19 @@
     "update:update": "ncu -u"
   },
   "dependencies": {
-    "@vue-storefront/core": "~2.4.1",
+    "@vue-storefront/core": "~2.5.0",
     "@vue-storefront/kibocommerce-api": "^1.0.0-beta.3",
     "vue": "^2.6.12",
-    "@vue/composition-api": "1.0.0-beta.21"
+    "@vue/composition-api": "^1.3.3",
+    "vue-demi": "^0.12.1",
+    "cookie-universal": "^2.1.5"
   },
   "devDependencies": {
-    "rollup-plugin-typescript2": "^0.30.0",
-    "@rollup/plugin-node-resolve": "^13.0.0"
-  },
-  "peerDependencies": {
-    "@vue/composition-api": "1.0.0-beta.21",
-    "vue": "^2.0.0 || >=3.0.0-rc.0"
+    "@types/js-cookie": "^3.0.0",
+    "@vue/test-utils": "^1.2.2",
+    "jsdom": "^18.0.1",
+    "jsdom-global": "^3.0.2",
+    "vue-template-compiler": "^2.6.12"
   },
   "files": [
     "lib/**/*",

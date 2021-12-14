@@ -402,7 +402,7 @@ import {
   SfColor,
   SfProperty
 } from '@storefront-ui/vue';
-import { ref, computed, onMounted, onUpdated } from '@vue/composition-api';
+import { ref, computed, onMounted, onUpdated } from '@nuxtjs/composition-api';
 import {
   useCart,
   useWishlist,
