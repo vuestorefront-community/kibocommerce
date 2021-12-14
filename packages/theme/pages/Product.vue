@@ -129,41 +129,6 @@
                 </template>
               </SfProperty>
             </SfTab>
-            <!-- <SfTab title="Read reviews" data-cy="product-tab_reviews">
-              <SfReview
-                v-for="review in reviews"
-                :key="reviewGetters.getReviewId(review)"
-                :author="reviewGetters.getReviewAuthor(review)"
-                :date="reviewGetters.getReviewDate(review)"
-                :message="reviewGetters.getReviewMessage(review)"
-                :max-rating="5"
-                :rating="reviewGetters.getReviewRating(review)"
-                :char-limit="250"
-                read-more-text="Read more"
-                hide-full-text="Read less"
-                class="product__review"
-              />
-            </SfTab>
-            <SfTab
-              title="Additional Information"
-              data-cy="product-tab_additional"
-              class="product__additional-info"
-            >
-              <div class="product__additional-info">
-                <p class="product__additional-info__title">{{ $t('Brand') }}</p>
-                <p>{{ brand }}</p>
-                <p class="product__additional-info__title">
-                  {{ $t('Instruction1') }}
-                </p>
-                <p class="product__additional-info__paragraph">
-                  {{ $t('Instruction2') }}
-                </p>
-                <p class="product__additional-info__paragraph">
-                  {{ $t('Instruction3') }}
-                </p>
-                <p>{{ careInstructions }}</p>
-              </div>
-            </SfTab> -->
           </SfTabs>
         </LazyHydrate>
       </div>
@@ -263,7 +228,7 @@ export default {
     const product = computed(() => products.value);
 
     const currentWishlistIcon = computed(() => {
-      return isInWishlist({product: product.value})
+      return isInWishlist({ product: product.value })
         ? props.isOnWishlistIcon
         : props.wishlistIcon;
     });
