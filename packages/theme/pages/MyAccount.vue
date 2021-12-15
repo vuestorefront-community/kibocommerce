@@ -24,10 +24,6 @@
           <BillingDetails />
         </SfContentPage>
 
-        <SfContentPage title="Loyalty card">
-          <LoyaltyCard />
-        </SfContentPage>
-
         <SfContentPage title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
@@ -38,9 +34,6 @@
           <OrderHistory />
         </SfContentPage>
 
-        <SfContentPage title="My reviews">
-          <MyReviews />
-        </SfContentPage>
       </SfContentCategory>
 
       <SfContentPage title="Log out" />
@@ -54,10 +47,8 @@ import { useUser } from '@vue-storefront/kibocommerce';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
-import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
-import MyReviews from './MyAccount/MyReviews';
 
 export default {
   name: 'MyAccount',
@@ -67,10 +58,8 @@ export default {
     MyProfile,
     ShippingDetails,
     BillingDetails,
-    LoyaltyCard,
     MyNewsletter,
-    OrderHistory,
-    MyReviews
+    OrderHistory
   },
   middleware: [
     'is-authenticated'
