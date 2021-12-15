@@ -206,10 +206,9 @@ import {
   SfButton,
   SfColor
 } from '@storefront-ui/vue';
-
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRoute, useRouter} from '@nuxtjs/composition-api';
 import {
   useProduct,
   useWishlist,
@@ -222,7 +221,6 @@ import {
 import { onSSR } from '@vue-storefront/core';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
-
 export default {
   name: 'Product',
   transition: 'fade',
@@ -239,9 +237,11 @@ export default {
       default: 'heart_fill'
     }
   },
-  setup(props, context) {
+  setup(props) {
+    const route = useRoute();
+    const router = useRouter();
     const qty = ref(1);
-    const { id } = context.root.$route.params;
+    const id = route.value?.params?.id;
     const { isAuthenticated } = useUser();
     const {
       load: loadWishlist,
@@ -300,7 +300,7 @@ export default {
     onSSR(async () => {
       await Promise.all([
         loadWishlist(),
-        search({ id, attributes: context.root.$route.query }),
+        search({ id, attributes: route.value.query }),
         searchRelatedProducts({
           catId: [categories.value[0]],
           limit: 8,
@@ -311,8 +311,8 @@ export default {
     });
 
     const updateFilter = (filter) => {
-      context.root.$router.push({
-        path: context.root.$route.path,
+      router.push({
+        path: route.value.path,
         query: {
           ...configuration.value,
           ...filter

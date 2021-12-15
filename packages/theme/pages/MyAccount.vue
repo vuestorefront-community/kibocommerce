@@ -24,10 +24,6 @@
           <BillingDetails />
         </SfContentPage>
 
-        <SfContentPage title="Loyalty card">
-          <LoyaltyCard />
-        </SfContentPage>
-
         <SfContentPage title="My newsletter">
           <MyNewsletter />
         </SfContentPage>
@@ -38,9 +34,6 @@
           <OrderHistory />
         </SfContentPage>
 
-        <SfContentPage title="My reviews">
-          <MyReviews />
-        </SfContentPage>
       </SfContentCategory>
 
       <SfContentPage title="Log out" />
@@ -49,15 +42,13 @@
 </template>
 <script>
 import { SfBreadcrumbs, SfContentPages } from '@storefront-ui/vue';
-import { computed } from '@vue/composition-api';
+import { computed, useRoute, useRouter } from '@nuxtjs/composition-api';
 import { useUser } from '@vue-storefront/kibocommerce';
 import MyProfile from './MyAccount/MyProfile';
 import ShippingDetails from './MyAccount/ShippingDetails';
 import BillingDetails from './MyAccount/BillingDetails';
-import LoyaltyCard from './MyAccount/LoyaltyCard';
 import MyNewsletter from './MyAccount/MyNewsletter';
 import OrderHistory from './MyAccount/OrderHistory';
-import MyReviews from './MyAccount/MyReviews';
 
 export default {
   name: 'MyAccount',
@@ -67,19 +58,18 @@ export default {
     MyProfile,
     ShippingDetails,
     BillingDetails,
-    LoyaltyCard,
     MyNewsletter,
-    OrderHistory,
-    MyReviews
+    OrderHistory
   },
   middleware: [
     'is-authenticated'
   ],
-  setup(props, context) {
-    const { $router, $route } = context.root;
+  setup() {
+    const route = useRoute();
+    const router = useRouter();
     const { logout } = useUser();
     const activePage = computed(() => {
-      const { pageName } = $route.params;
+      const { pageName } = route.value.params;
 
       if (pageName) {
         return (pageName.charAt(0).toUpperCase() + pageName.slice(1)).replace('-', ' ');
@@ -91,11 +81,11 @@ export default {
     const changeActivePage = async (title) => {
       if (title === 'Log out') {
         await logout();
-        $router.go();
+        router.go();
         return;
       }
 
-      $router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
+      router.push(`/my-account/${(title || '').toLowerCase().replace(' ', '-')}`);
     };
 
     return { changeActivePage, activePage };

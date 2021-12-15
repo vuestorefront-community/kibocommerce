@@ -4,7 +4,7 @@ import {
   useWishlistFactory,
   UseWishlistFactoryParams,
 } from '@vue-storefront/core';
-import { ref, Ref } from '@vue/composition-api';
+import { ref, Ref } from '@nuxtjs/composition-api';
 import { Wishlist, WishlistProduct, Product } from '../types';
 import { useUser } from '../useUser';
 export const wishlist: Ref<Wishlist> = ref(null);
