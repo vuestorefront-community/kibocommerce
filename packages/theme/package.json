@@ -1,6 +1,6 @@
 {
   "name": "@vue-storefront/kibocommerce-theme",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0-beta.4",
   "private": false,
   "scripts": {
     "dev": "nuxt",
@@ -30,7 +30,7 @@
     "cookie-universal-nuxt": "^2.1.5",
     "core-js": "^3.16.1",
     "nuxt": "^2.15.7",
-    "@vue-storefront/kibocommerce": "^1.0.0-beta.0",
+    "@vue-storefront/kibocommerce": "^1.0.0-beta.4",
     "credit-card-type": "^9.1.0",
     "awesome-phonenumber": "^2.51.2",
     "convict": "^6.1.0",
