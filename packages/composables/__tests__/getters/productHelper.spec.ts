@@ -19,10 +19,7 @@ const product = {
     productName: 'product name',
     seoFriendlyUrl: 'slug',
     productFullDescription: 'Product description',
-    productImages: [
-      { imageUrl: 'img1.jpg' },
-      { imageUrl: 'img2.jpg' }
-    ]
+    productImages: [{ imageUrl: 'img1.jpg' }, { imageUrl: 'img2.jpg' }]
   },
   price: {
     price: 10,
@@ -31,9 +28,9 @@ const product = {
   properties: [
     {
       attributeFQN: 'Tenant~color',
-      attributeDetail: {name: 'Color'},
+      attributeDetail: { name: 'Color' },
       isHidden: false,
-      values: [{ value: 'Blue', stringValue: 'Blue'}]
+      values: [{ value: 'Blue', stringValue: 'Blue' }]
     }
   ],
   categories: [
@@ -50,7 +47,7 @@ describe('[kibo-getters] product getters', () => {
     expect(getProductName(null)).toBe('');
     expect(getProductSlug(null)).toBe('');
     expect(getProductGallery(null)).toEqual([]);
-    expect(getProductFiltered(null)).toEqual([]);
+    expect(getProductFiltered(null, null)).toEqual([]);
   });
 
   it('returns name', () => {
@@ -81,16 +78,18 @@ describe('[kibo-getters] product getters', () => {
   });
 
   it('returns cover image', () => {
-    expect(getProductCoverImage({ content: { productImages: [] } } as any)).toEqual('');
+    expect(
+      getProductCoverImage({ content: { productImages: [] } } as any)
+    ).toEqual('');
     expect(getProductCoverImage(product)).toEqual('img1.jpg');
   });
 
   it('returns product attributes', () => {
-    expect(getProductAttributes([product])).toEqual({Color: ['Blue']});
+    expect(getProductAttributes([product])).toEqual({ Color: ['Blue'] });
   });
 
   it('returns attributes of single product', () => {
-    expect(getProductAttributes(product)).toEqual({Color: ['Blue']});
+    expect(getProductAttributes(product)).toEqual({ Color: ['Blue'] });
   });
 
   it('returns product description', () => {
@@ -98,10 +97,7 @@ describe('[kibo-getters] product getters', () => {
   });
 
   it('returns product categories', () => {
-    expect(getProductCategoryIds(product)).toEqual([
-      'cat1',
-      'cat2'
-    ]);
+    expect(getProductCategoryIds(product)).toEqual(['cat1', 'cat2']);
   });
 
   it('returns product ID', () => {

@@ -22,20 +22,20 @@ const params: UseUserBillingFactoryParams<any, any> = {
     return await addAddress(context, params, typeName);
   },
 
-  deleteAddress: async (context: UserAddressContext, params?) => {
+  deleteAddress: async (context: UserAddressContext, params?: any) => {
     return await deleteAddress(context, params, typeName);
   },
 
-  updateAddress: async (context: UserAddressContext, params?) => {
+  updateAddress: async (context: UserAddressContext, params?: any) => {
     return await updateAddress(context, params, typeName);
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  load: async (context: UserAddressContext, params?) => {
+  load: async (context: UserAddressContext, params?: any) => {
     return await loadUserAddresses(context, typeName);
   },
 
-  setDefaultAddress: async (context: UserAddressContext, params?) => {
+  setDefaultAddress: async (context: UserAddressContext, params?: any) => {
     return await setDefaultAddress(context, params, typeName);
   }
 };

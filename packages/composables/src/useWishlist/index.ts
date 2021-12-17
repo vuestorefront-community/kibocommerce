@@ -2,10 +2,11 @@
 import {
   Context,
   useWishlistFactory,
-  UseWishlistFactoryParams,
+  UseWishlistFactoryParams
 } from '@vue-storefront/core';
+
 import { ref, Ref } from '@nuxtjs/composition-api';
-import { Wishlist, WishlistProduct, Product } from '../types';
+import { Wishlist, WishlistProductParams, Product } from '../types';
 import { useUser } from '../useUser';
 export const wishlist: Ref<Wishlist> = ref(null);
 
@@ -14,10 +15,14 @@ export const getWishLists = async (context: Context): Promise<Wishlist> => {
   return wishListResponse.data.wishlists;
 };
 
-const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
+const params: UseWishlistFactoryParams<
+  Wishlist,
+  WishlistProductParams,
+  Product
+> = {
   provide() {
     return {
-      user: useUser(),
+      user: useUser()
     };
   },
 
@@ -35,8 +40,8 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
       const params = {
         wishlistInput: {
           customerAccountId: user.id,
-          name: wishlistName,
-        },
+          name: wishlistName
+        }
       };
       const createWishListResponse = await context.$kibo.api.createWishList(
         params
@@ -54,10 +59,10 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
           options: product.options?.map((po) => ({
             attributeFQN: po.attributeFQN,
             name: po.attributeDetail.name,
-            value: po.values.find((v) => v.isSelected).value,
-          })),
-        },
-      },
+            value: po.values.find((v) => v.isSelected).value
+          }))
+        }
+      }
     };
     await context.$kibo.api.createWishListItem(params);
     const response = await getWishLists(context);
@@ -76,7 +81,7 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
     });
     const params = {
       wishlistId: currentWishlist?.id,
-      wishlistItemId: removedItem?.id,
+      wishlistItemId: removedItem?.id
     };
     await context.$kibo.api.deleteWishListItem(params);
     const response = await getWishLists(context);
@@ -104,11 +109,11 @@ const params: UseWishlistFactoryParams<Wishlist, WishlistProduct, Product> = {
       return items;
     }
     return false;
-  },
+  }
 };
 
 export const useWishlist = useWishlistFactory<
   Wishlist,
-  WishlistProduct,
+  WishlistProductParams,
   Product
 >(params);

@@ -2,7 +2,7 @@ import {
   Context,
   CustomQuery,
   useCartFactory,
-  UseCartFactoryParams,
+  UseCartFactoryParams
 } from '@vue-storefront/core';
 
 import { Cart, CartItem, CrProduct } from '@vue-storefront/kibocommerce-api';
@@ -57,7 +57,7 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, any> = {
   ) => {
     await context.$kibo.api.removeCoupon({
       cartId: currentCart.id,
-      couponCode: couponCode,
+      couponCode: couponCode
     });
     return { updatedCart: await getCart(context, customQuery) };
   },
@@ -69,7 +69,7 @@ const params: UseCartFactoryParams<Cart, CartItem, CrProduct, any> = {
         (i) => i.product.productCode === product.productCode
       ) !== undefined
     );
-  },
+  }
 };
 
 export const useCart = useCartFactory<Cart, CartItem, CrProduct, any>(params);

@@ -167,7 +167,7 @@
               :regularPrice="`$${productGetters.getPrice(product).regular}`"
               :special-price="
                 productGetters.getPrice(product).special &&
-                productGetters.getPrice(product).special
+                  productGetters.getPrice(product).special
               "
               :score-rating="productGetters.getAverageRating(product)"
               :show-add-to-cart-button="product.purchasableState.isPurchasable"
@@ -190,7 +190,11 @@
               @click:add-to-cart="addItemToCart({ product, quantity: 1 })"
             >
               <template #wishlist-icon>
-                <span v-if="!isAuthenticated || !product.purchasableState.isPurchasable"></span>
+                <span
+                  v-if="
+                    !isAuthenticated || !product.purchasableState.isPurchasable
+                  "
+                ></span>
               </template>
             </SfProductCard>
           </transition-group>
@@ -212,7 +216,7 @@
               :regularPrice="`$${productGetters.getPrice(product).regular}`"
               :special-price="
                 productGetters.getPrice(product).special &&
-                $n(productGetters.getPrice(product).special, 'currency')
+                  $n(productGetters.getPrice(product).special, 'currency')
               "
               :max-rating="5"
               :score-rating="3"
@@ -240,7 +244,11 @@
                 />
               </template>
               <template #wishlist-icon>
-                <span v-if="!isAuthenticated || !product.purchasableState.isPurchasable"></span>
+                <span
+                  v-if="
+                    !isAuthenticated || !product.purchasableState.isPurchasable
+                  "
+                ></span>
               </template>
               <template #add-to-cart>
                 <span v-if="!product.purchasableState.isPurchasable"></span>
@@ -443,7 +451,10 @@ export default {
     const sortBy = computed(() => facetGetters.getSortOptions(result.value));
     const facets = computed(() => {
       if (!loading.value) {
-        return facetGetters.getGrouped(result.value, ['tenant~color', 'tenant~size']);
+        return facetGetters.getGrouped(result.value, [
+          'tenant~color',
+          'tenant~size'
+        ]);
       }
     });
     const pagination = computed(() => facetGetters.getPagination(result.value));
