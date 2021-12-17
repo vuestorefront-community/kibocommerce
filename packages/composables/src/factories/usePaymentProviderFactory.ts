@@ -1,4 +1,4 @@
-import { Ref, computed } from '@vue/composition-api';
+import { Ref, computed } from '@nuxtjs/composition-api';
 import {
   configureFactoryParams,
   Context,

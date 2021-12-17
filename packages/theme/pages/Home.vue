@@ -146,7 +146,8 @@ import {
   useWishlist
 } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
-import { computed } from '@vue/composition-api';
+
+import { computed} from '@nuxtjs/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
