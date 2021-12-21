@@ -1,34 +1,38 @@
 <template>
   <div id="home">
     <LazyHydrate when-idle>
-      <SfHero class="hero">
-        <SfHeroItem
-          v-for="(hero, i) in heroes"
-          :key="i"
-          :title="hero.title"
-          :subtitle="hero.subtitle"
-          :button-text="hero.buttonText"
-          :background="hero.background"
-          :image="hero.image"
-          :class="hero.className"
-        />
-      </SfHero>
+      <div v-if="heroes.length > 0">
+        <SfHero class="hero">
+          <SfHeroItem
+            v-for="(hero, i) in heroes"
+            :key="i"
+            :title="hero.title"
+            :subtitle="hero.subtitle"
+            :button-text="hero.buttonText"
+            :background="hero.background"
+            :image="hero.image"
+            :class="hero.className"
+          />
+        </SfHero>
+      </div>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
-      <SfBannerGrid :banner-grid="1" class="banner-grid">
-        <template v-for="item in banners" v-slot:[item.slot]>
-          <SfBanner
-            :key="item.slot"
-            :title="item.title"
-            :subtitle="item.subtitle"
-            :description="item.description"
-            :button-text="item.buttonText"
-            :image="item.image"
-            :class="item.class"
-          />
-        </template>
-      </SfBannerGrid>
+      <div v-if="banners.length > 0">
+        <SfBannerGrid :banner-grid="1" class="banner-grid">
+          <template v-for="item in banners" v-slot:[item.slot]>
+            <SfBanner
+              :key="item.slot"
+              :title="item.title"
+              :subtitle="item.subtitle"
+              :description="item.description"
+              :button-text="item.buttonText"
+              :image="item.image"
+              :class="item.class"
+            />
+          </template>
+        </SfBannerGrid>
+      </div>
     </LazyHydrate>
 
     <LazyHydrate when-visible>
@@ -147,7 +151,7 @@ import {
 } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 
-import { computed} from '@nuxtjs/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import MobileStoreBanner from '~/components/MobileStoreBanner.vue';
 import LazyHydrate from 'vue-lazy-hydration';
