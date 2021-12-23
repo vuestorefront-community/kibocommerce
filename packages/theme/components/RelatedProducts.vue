@@ -96,7 +96,6 @@ export default {
 }
 
 .carousel {
-  margin: 0 calc(var(--spacer-sm) * -1) 0 0;
   @include for-desktop {
     margin: 0;
   }

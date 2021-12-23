@@ -1,5 +1,5 @@
 import { useWishlist, getWishLists } from '../../src/useWishlist';
-import { Wishlist, WishlistProduct } from './../../src/types/index';
+import { Wishlist, MockWishlistProductParams } from './../../src/types/index';
 
 jest.mock('@vue-storefront/core', () => ({
   useWishlistFactory: (params) => () => params
@@ -115,7 +115,7 @@ describe('[Kibo-composables] useWishlist', () => {
   });
 
   it('add item to wishlist', async () => {
-    const product = {} as WishlistProduct;
+    const product = {} as MockWishlistProductParams;
     const { addItem } = useWishlist() as any;
     const response = await addItem(context, {
       currentWishlist: {} as Wishlist,
@@ -144,7 +144,8 @@ describe('[Kibo-composables] useWishlist', () => {
     const mockProduct = {
       productCode: 'ABC',
       isPackagedStandAlone: false
-    } as WishlistProduct;
+    };
+
     const mockCurrentWishList = {
       items: [
         {
@@ -152,8 +153,7 @@ describe('[Kibo-composables] useWishlist', () => {
           quantity: 1,
           product: {
             productCode: 'ABC',
-            imageUrl:
-              'image-url',
+            imageUrl: 'image-url',
             name: 'some-name',
             price: { price: 475, salePrice: null }
           },
@@ -169,5 +169,4 @@ describe('[Kibo-composables] useWishlist', () => {
     });
     expect(response).toBe(true);
   });
-
 });

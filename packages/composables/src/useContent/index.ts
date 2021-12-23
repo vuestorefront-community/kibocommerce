@@ -16,10 +16,9 @@ const params: UseContentFactoryParams<any, any> = {
     };
 
     const response = await context.$kibo.api.getCMSContent(searchParams);
-    const items = response.data.documentListDocuments.items;
-
-    return items;
-  },
+    const items = response?.data?.documentListDocuments?.items;
+    return items || [];
+  }
 };
 
 export const useContent = useContentFactory<any, any>(params);

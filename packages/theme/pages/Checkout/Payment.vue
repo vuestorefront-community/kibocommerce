@@ -145,7 +145,7 @@ import {
   SfAccordion,
   SfLink
 } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed, useRouter } from '@nuxtjs/composition-api';
 import { useMakeOrder, useCart, useBilling, useShipping, useShippingProvider, cartGetters, usePaymentProvider } from '@vue-storefront/kibocommerce';
 import { onSSR } from '@vue-storefront/core';
 import getShippingMethodPrice from '@/helpers/Checkout/getShippingMethodPrice';
@@ -168,7 +168,8 @@ export default {
     SfLink,
     VsfPaymentProviderMock
   },
-  setup(_, context) {
+  setup() {
+    const router = useRouter();
     const { save: savePaymentProvider } = usePaymentProvider();
     const { mockPay: pay } = usePaymentMock();
     const { cart, removeItem, load, setCart } = useCart();
@@ -219,7 +220,7 @@ export default {
             },
           });
           await make();
-          context.root.$router.push(
+          router.push(
             `/checkout/thank-you?order=${order.value.id}`
           );
           setCart(null);
@@ -230,7 +231,7 @@ export default {
       if (selectedPaymentMethodRef.value === 'checkByMail') {
         await pay({ billingDetails });
         await make();
-        context.root.$router.push(
+        router.push(
           `/checkout/thank-you?order=${order.value.id}`
         );
         setCart(null);

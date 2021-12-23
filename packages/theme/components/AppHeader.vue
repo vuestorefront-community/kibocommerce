@@ -126,7 +126,7 @@ import {
   useSearchSuggestions,
   wishlistGetters
 } from '@vue-storefront/kibocommerce';
-import { computed, ref, onBeforeUnmount, watch } from '@vue/composition-api';
+import { computed, ref, onBeforeUnmount, watch } from '@nuxtjs/composition-api';
 import { onSSR } from '@vue-storefront/core';
 import { useUiHelpers } from '~/composables';
 import LocaleSelector from './LocaleSelector';

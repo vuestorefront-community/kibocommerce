@@ -147,7 +147,7 @@ import {
   watch,
   computed,
   defineComponent
-} from '@vue/composition-api';
+} from '@nuxtjs/composition-api';
 import { productGetters } from '@vue-storefront/kibocommerce';
 import { useUiHelpers } from '~/composables';
 

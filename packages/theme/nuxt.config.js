@@ -37,8 +37,10 @@ export default {
   // Modules for dev and build (recommended): https://go.nuxtjs.dev/config-modules
   buildModules: [
     // to core
+    '@nuxtjs/composition-api/module',
     '@nuxt/typescript-build',
     '@nuxtjs/style-resources',
+    ['@vue-storefront/kibocommerce/nuxt', {}],
     ['@vue-storefront/nuxt', {
       // @core-development-only-start
       coreDevelopment: true,
@@ -62,19 +64,18 @@ export default {
           composables: '@vue-storefront/kibocommerce'
         }
       }
-    }],
+    }]
     // @core-development-only-end
     /* project-only-start
     ['@vue-storefront/nuxt-theme'],
     project-only-end */
-    ['@vue-storefront/kibocommerce/nuxt', {}]
   ],
   // Modules: https://go.nuxtjs.dev/config-modules
   modules: [
-    'nuxt-i18n',
-    'cookie-universal-nuxt',
     'vue-scrollto/nuxt',
-    '@vue-storefront/middleware/nuxt'
+    '@vue-storefront/middleware/nuxt',
+    'cookie-universal-nuxt',
+    'nuxt-i18n'
   ],
   i18n: {
     currency: 'USD',
@@ -120,9 +121,8 @@ export default {
         }
       }
     },
-    detectBrowserLanguage: {
-      cookieKey: VSF_LOCALE_COOKIE
-    }
+    detectBrowserLanguage: false
+
   },
   styleResources: {
     scss: [require.resolve('@storefront-ui/shared/styles/_helpers.scss', { paths: [process.cwd()] })]
@@ -154,7 +154,7 @@ export default {
     }
   },
   router: {
-      extendRoutes(routes, resolve) {
+    extendRoutes(routes, resolve) {
       routes.push({
         name: 'product_search',
         path: '/p/:id',
