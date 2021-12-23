@@ -3,7 +3,11 @@
     <SfHeader
       class="sf-header--has-mobile-search"
       :class="{ 'header-on-top': isSearchOpen }"
+<<<<<<< HEAD
       :isNavVisible="isMobileMenuOpen"
+=======
+      :isNavVisible = "isMobileMenuOpen"
+>>>>>>> e907193d4ab3ab21a9b66f6d43985730de205b49
     >
       <!-- TODO: add mobile view buttons after SFUI team PR -->
       <template #logo>
@@ -81,10 +85,7 @@
             <SfButton
               v-else
               class="sf-search-bar__button sf-button--pure"
-              @click="
-                isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)
-              "
-            >
+              @click="isSearchOpen ? (isSearchOpen = false) : (isSearchOpen = true)">
               <span class="sf-search-bar__icon">
                 <SfIcon color="var(--c-text)" size="20px" icon="search" />
               </span>
