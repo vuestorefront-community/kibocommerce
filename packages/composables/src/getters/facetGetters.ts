@@ -6,9 +6,9 @@ import {
   AgnosticPagination,
   AgnosticSort,
   AgnosticBreadcrumb,
-  AgnosticFacet,
+  AgnosticFacet
 } from '@vue-storefront/core';
-import { SearchData } from '../types';
+import { SearchData, Product } from '../types';
 
 import { categoryGetters } from './categoryGetters';
 import { buildBreadcrumbs } from '../helpers/buildBreadcrumbs';
@@ -20,7 +20,7 @@ const normalizeFacet = (facet) => {
     value: facet.filterValue,
     attrName: facet.label,
     selected: facet.isApplied,
-    count: facet.count,
+    count: facet.count
   };
 };
 const normalizeFacetGroup = (facets = []) => {
@@ -29,7 +29,7 @@ const normalizeFacetGroup = (facets = []) => {
       id: facetGroup.label,
       label: facetGroup.label,
       options: facetGroup.values.map(normalizeFacet),
-      count: null,
+      count: null
     };
   });
 };
@@ -65,13 +65,13 @@ const getSortOptions = (searchData: SearchData): AgnosticSort => {
       type: 'sort',
       value: 'Price: High to Low',
       id: 'price desc',
-      count: null,
+      count: null
     },
     { type: 'sort', value: 'Latest', id: 'createDate desc', count: null },
-    { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null },
+    { type: 'sort', value: 'Oldest', id: 'createDate asc', count: null }
   ].map((option) => ({
     ...option,
-    selected: option.id === searchData.input?.sort,
+    selected: option.id === searchData.input?.sort
   }));
 
   const selected = options.find((option) => option.selected)?.id || '';
@@ -86,7 +86,7 @@ const getCategoryTree = (searchData: SearchData): AgnosticCategoryTree => {
   return categoryGetters.getTree(searchData.data.categories[0]);
 };
 
-const getProducts = (searchData: SearchData): any => {
+const getProducts = (searchData: SearchData): Product[] => {
   return searchData.data?.products;
 };
 
@@ -97,7 +97,7 @@ const getPagination = (searchData: SearchData): AgnosticPagination => {
       totalPages: 1,
       totalItems: 0,
       itemsPerPage: 10,
-      pageOptions: [],
+      pageOptions: []
     };
   }
 
@@ -107,11 +107,11 @@ const getPagination = (searchData: SearchData): AgnosticPagination => {
       Math.ceil(searchData.data?.total / searchData.data?.itemsPerPage) || 1,
     totalItems: searchData.data?.total || 0,
     itemsPerPage: searchData.input?.itemsPerPage || 10,
-    pageOptions: searchData.data?.perPageOptions,
+    pageOptions: searchData.data?.perPageOptions
   };
 };
 
-const getBreadcrumbs = (searchData: any): AgnosticBreadcrumb[] => {
+const getBreadcrumbs = (searchData: SearchData): AgnosticBreadcrumb[] => {
   if (!searchData.data) {
     return [];
   }
@@ -119,8 +119,8 @@ const getBreadcrumbs = (searchData: any): AgnosticBreadcrumb[] => {
     { text: 'Home', link: '/' },
     ...buildBreadcrumbs(searchData.data.categories[0]).map((b) => ({
       ...b,
-      link: `/c/${b.link}`,
-    })),
+      link: `/c/${b.link}`
+    }))
   ];
   return bcs;
 };
@@ -132,5 +132,5 @@ export const facetGetters: FacetsGetters<any, any> = {
   getProducts,
   getCategoryTree,
   getBreadcrumbs,
-  getPagination,
+  getPagination
 };

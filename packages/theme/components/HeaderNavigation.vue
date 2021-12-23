@@ -33,7 +33,7 @@
 import { SfMenuItem, SfModal } from '@storefront-ui/vue';
 import { useUiState, useUiHelpers} from '~/composables';
 import {categoryGetters, useCategory} from '@vue-storefront/kibocommerce';
-import { computed } from '@vue/composition-api';
+import { computed } from '@nuxtjs/composition-api';
 
 export default {
   name: 'HeaderNavigationBar',

@@ -1,4 +1,8 @@
-import { useBillingFactory, UseBillingParams, Context } from '@vue-storefront/core';
+import {
+  useBillingFactory,
+  UseBillingParams,
+  Context
+} from '@vue-storefront/core';
 import { Address } from '../types';
 import { useCart } from '../useCart';
 import { useCheckout } from '../useCheckout';
@@ -15,7 +19,10 @@ const params: UseBillingParams<Address, any> = {
       await context.checkout.load();
     }
     const orderId = context.checkout?.checkout?.value?.id;
-    const billingInfoResponse = await context.$kibo.api.getBillingInfo({ orderId }, customQuery);
+    const billingInfoResponse = await context.$kibo.api.getBillingInfo(
+      { orderId },
+      customQuery
+    );
     return billingInfoResponse.data?.orderBillingInfo?.billingContact;
   },
   save: async (context: Context, { billingDetails, customQuery }) => {
@@ -32,8 +39,12 @@ const params: UseBillingParams<Address, any> = {
         isSameBillingShippingAddress: (sameAsShipping || false) as boolean
       }
     };
-    const billingInfoResponse = await context.$kibo.api.setBillingInfo(setBillingParams, customQuery);
-    const billingInfo = billingInfoResponse.data?.updateOrderBillingInfo?.billingContact;
+    const billingInfoResponse = await context.$kibo.api.setBillingInfo(
+      setBillingParams,
+      customQuery
+    );
+    const billingInfo =
+      billingInfoResponse.data?.updateOrderBillingInfo?.billingContact;
     return billingInfo;
   }
 };

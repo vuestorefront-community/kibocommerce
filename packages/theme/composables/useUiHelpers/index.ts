@@ -1,4 +1,4 @@
-import { getCurrentInstance } from '@vue/composition-api';
+import { useRoute, useRouter } from '@nuxtjs/composition-api';
 
 const nonFilters = ['page', 'sort', 'phrase', 'itemsPerPage'];
 
@@ -14,11 +14,6 @@ interface uiHelpersReturnType {
   getSearchTermFromUrl: any;
 }
 
-const getInstance = () => {
-  const vm = getCurrentInstance();
-  return vm.$root as any;
-};
-
 const reduceFilters = (query) => (prev, curr) => {
   const makeArray = Array.isArray(query[curr]) || nonFilters.includes(curr);
 
@@ -28,8 +23,7 @@ const reduceFilters = (query) => (prev, curr) => {
   };
 };
 
-const getFiltersDataFromUrl = (context, onlyFilters) => {
-  const { query } = context.$router.history.current;
+const getFiltersDataFromUrl = (query, onlyFilters) => {
   return Object.keys(query)
     .filter((f) =>
       onlyFilters ? !nonFilters.includes(f) : nonFilters.includes(f)
@@ -38,16 +32,16 @@ const getFiltersDataFromUrl = (context, onlyFilters) => {
 };
 
 const useUiHelpers = (): uiHelpersReturnType => {
-  const instance = getInstance();
-
+  const route = useRoute();
+  const router = useRouter();
+  const { query, params }: { query:any, params: any} = route.value;
   const getFacetsFromURL = () => {
     // eslint-disable-next-line
-    const { query, params } = instance.$router.history.current;
     const categoryCode = Object.keys(params).reduce(
       (prev, curr) => params[curr] || prev,
       params.slug_1
     );
-    const filters = getFiltersDataFromUrl(instance, true);
+    const filters = getFiltersDataFromUrl(query, true);
 
     return {
       categoryCode,
@@ -65,32 +59,31 @@ const useUiHelpers = (): uiHelpersReturnType => {
   };
 
   const changeSorting = (sort: string) => {
-    const { query } = instance.$router.history.current;
-    instance.$router.push({ query: { ...query, sort } });
+    router.push({ query: { ...query, sort } });
   };
 
   const changeFilters = (filters: any) => {
-    instance.$router.push({
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrl(query, false),
         ...filters,
       },
     });
   };
 
   const changeItemsPerPage = (itemsPerPage: number) => {
-    instance.$router.push({
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrl(query, false),
         itemsPerPage,
       },
     });
   };
 
   const setTermForUrl = (term: string) => {
-    instance.$router.push({
+    router.push({
       query: {
-        ...getFiltersDataFromUrl(instance, false),
+        ...getFiltersDataFromUrl(query, false),
         phrase: term || undefined,
       },
     });

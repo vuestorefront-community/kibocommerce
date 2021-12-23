@@ -42,7 +42,7 @@
 
 <script>
 import { SfHeading, SfButton, SfRadio } from '@storefront-ui/vue';
-import { ref, computed } from '@vue/composition-api';
+import { ref, computed } from '@nuxtjs/composition-api';
 import { usePaymentProvider } from '@vue-storefront/kibocommerce';
 import CreditCardForm from '../CreditCardForm.vue';
 import { onSSR } from '@vue-storefront/core';

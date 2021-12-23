@@ -37,8 +37,6 @@ export type Coupon = Record<string, unknown>;
 
 export type Order = Record<string, unknown>;
 
-export type OrderItem = Record<string, unknown>;
-
 export type Product = Record<string, any>;
 
 export type Review = Record<string, unknown>;
@@ -46,8 +44,6 @@ export type Review = Record<string, unknown>;
 export type Shipping = Record<string, unknown>;
 
 export type ShippingMethod = Record<string, unknown>;
-
-export type WishlistProduct = Record<string, any>;
 
 export type Wishlist = Record<string, any>;
 
@@ -69,35 +65,38 @@ export interface UsePaymentProvider<STATE, PAYMENT_METHOD> {
 
   load(params: { customQuery?: any }): Promise<void>;
 
-  save(params: { paymentMethod: PAYMENT_METHOD, customQuery?: any }): Promise<void>;
+  save(params: {
+    paymentMethod: PAYMENT_METHOD;
+    customQuery?: any;
+  }): Promise<void>;
 }
 
 export type TokenizedCCData = {
-  balance: number,
-  id: string,
-  isSuccessful: boolean,
-  numberPart: string
-}
+  balance: number;
+  id: string;
+  isSuccessful: boolean;
+  numberPart: string;
+};
 export type PaymentMethodResponse = {
-  id: string,
-  name: string,
-  description: string
-}
+  id: string;
+  name: string;
+  description: string;
+};
 export type CreditCardFormData = {
-  cardNumber: string,
-  cardType: string,
-  cardholderName: string,
-  cvv: string,
-  expireMonth?: string,
-  expireYear?: string,
-  currentYear?: Date,
-  errors?: [],
-  success?: boolean
-}
+  cardNumber: string;
+  cardType: string;
+  cardholderName: string;
+  cvv: string;
+  expireMonth?: string;
+  expireYear?: string;
+  currentYear?: Date;
+  errors?: [];
+  success?: boolean;
+};
 export type PaymentConfig = {
-  hostUrl: string,
-  tokenizationUrl: string
-}
+  hostUrl: string;
+  tokenizationUrl: string;
+};
 
 export type ProductsResponse = {
   data: Product[];
@@ -118,12 +117,12 @@ export interface FacetResultsData {
   perPageOptions: number[];
   itemsPerPage: number;
 }
-export type SearchData = FacetSearchResult<FacetResultsData>
+export type SearchData = FacetSearchResult<FacetResultsData>;
 
 export type SearchSuggestions = {
-  products: Product[],
-  categories: Category[]
-}
+  products: Product[];
+  categories: Category[];
+};
 export interface UserShippingGetters<USER_SHIPPING, USER_SHIPPING_ITEM> {
   getAddresses: (
     shipping: USER_SHIPPING,
@@ -151,7 +150,7 @@ export interface UseContent<CONTENT> {
   load: (identifier: string) => Promise<void>;
   content: ComputedProperty<CONTENT>;
   loading: ComputedProperty<boolean>;
-  error: ComputedProperty<any>
+  error: ComputedProperty<any>;
 }
 
 export type TODO = any;
@@ -175,3 +174,272 @@ export type UseUserUpdateParams = TODO;
 export type UseUserRegisterParams = TODO;
 
 export type useUserOrderSearchParams = TODO;
+
+export type RootCategoryParams = {
+  categoryId: number;
+  categoryCode?: string;
+  isDisplayed: boolean;
+  content: {
+    name: string;
+    slug?: string;
+    description?: string;
+  };
+  childrenCategories?: [
+    {
+      categoryId: number;
+      categoryCode?: string;
+      isDisplayed: boolean;
+      content: {
+        name: string;
+        slug?: string;
+        description?: string;
+      };
+    }
+  ];
+  parentCategory?: {
+    categoryId: number;
+    categoryCode?: string;
+    isDisplayed: boolean;
+    content: {
+      name: string;
+      slug?: string;
+      description?: string;
+    };
+    childrenCategories?: [
+      {
+        categoryId: number;
+        categoryCode?: string;
+        isDisplayed: boolean;
+        content: {
+          name: string;
+          slug?: string;
+          description?: string;
+        };
+      }
+    ];
+  };
+};
+
+export type BannerContentParams = {
+  properties: {
+    tags: string[];
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    background: string;
+    image: {
+      mobile: string;
+      desktop: string;
+    };
+    link: string;
+    slot: string;
+    description: string;
+    class: string;
+  };
+};
+
+export type HeroesContentParams = {
+  properties: {
+    tags: string[];
+    title: string;
+    subtitle: string;
+    buttonText: string;
+    background: string;
+    image: {
+      mobile: string;
+      desktop: string;
+    };
+    link: string;
+  };
+};
+
+export type BannersHeroesContentParams =
+  | BannerContentParams[]
+  | HeroesContentParams[];
+export type BannersHeroesContentResponse = BannersHeroesContentParams;
+
+export type WishlistProductOptions = {
+  attributeFQN: string;
+  name: string;
+  value: string;
+};
+
+export type WishlistProductParams = {
+  productCode: string;
+  sku: string | null;
+  variationProductCode: string;
+  imageUrl: string;
+  name: string;
+  price: {
+    price: number;
+    salePrice: number | null;
+  };
+  options: WishlistProductOptions[];
+};
+
+export type MockWishlistProductParams = {
+  items: {
+    imageUrl: string;
+    name: string;
+    options: WishlistProductOptions[];
+    price: {
+      price: number;
+      salePrice: number | null;
+    };
+    productCode: string;
+    sku: string | null;
+    variationProductCode: string;
+    quantity: number;
+  };
+};
+
+export type WishlistItemProductResponse = {
+  id: string;
+  quantity: number;
+  total: number;
+  subtotal: number;
+  product: {
+    productCode: string;
+    sku: null;
+    variationProductCode: string;
+    imageUrl: string;
+    name: string;
+    price: {
+      price: number;
+      salePrice: null;
+    };
+    options: [
+      {
+        attributeFQN: string;
+        name: string;
+        value: string;
+      }
+    ];
+  };
+};
+
+export type WishlistItemAttributesResponse = { Size?: string; Color?: string };
+
+export type OrderItemParams = {
+  product: {
+    productCode: string;
+    name: string;
+  };
+  quantity: number;
+  total: number;
+};
+
+export type OrderTotalParams = {
+  offset: number;
+  count: number;
+  total: number;
+  results: Order[];
+};
+
+export type ProductFiltersParams = {
+  master?: boolean;
+};
+
+export type ProductAttributesParams = {
+  color?: string;
+  size?: string;
+};
+
+export type AddressCriteriaParams = {
+  id?: string;
+  isDefault?: boolean;
+};
+
+export type UpdateAddressParams = {
+  address: {
+    id?: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    streetName: string;
+    apartment: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    isDefault: boolean;
+  };
+};
+
+export type AddAddressParams = {
+  accountId: number;
+  address: {
+    id?: number;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone: string;
+    streetName: string;
+    apartment: string;
+    city: string;
+    state: string;
+    postalCode: string;
+    country: string;
+    isDefault: boolean;
+  };
+};
+
+export type DeleteAddressParams = {
+  address: {
+    id: number;
+  };
+};
+
+export type DefaultAddressParams = {
+  address: {
+    id: number;
+  };
+};
+
+export type RelatedProductSearchParams = {
+  id?: string;
+  attributes?: {
+    size?: string;
+    color?: string;
+  };
+  catId?: string[];
+  limit?: number;
+};
+
+export type RelatedProductCopyConfigurationOptionValue = {
+  value?: string;
+  attributeValueId: number;
+  isEnabled?: boolean;
+  isSelected?: boolean;
+};
+
+export type RelatedProductCopyOption = {
+  attributeFQN?: string;
+  values?: RelatedProductCopyConfigurationOptionValue[];
+  isProductImageGroupSelector?: boolean;
+};
+
+export type CopyPropsTargetParams =
+  | RelatedProductCopyOption
+  | RelatedProductCopyConfigurationOptionValue;
+
+export type RelatedProductCopyExistingOptionValue = {
+  value?: string;
+  isSelected?: boolean;
+  deltaPrice?: number | null;
+  stringValue?: string;
+};
+
+export type RelatedProductCopyConfiguration = {
+  attributeFQN?: string;
+  attributeDetail?: { name?: string };
+  isProductImageGroupSelector?: boolean;
+  isRequired?: boolean;
+  isMultiValue?: boolean;
+  values?: RelatedProductCopyExistingOptionValue[];
+};
+
+export type CopyPropsSourceParams =
+  | RelatedProductCopyConfiguration
+  | RelatedProductCopyExistingOptionValue;

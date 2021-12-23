@@ -171,7 +171,7 @@ import {
 } from '@storefront-ui/vue';
 import { required, min, oneOf } from 'vee-validate/dist/rules';
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
-import { reactive, computed, watch } from '@vue/composition-api';
+import { reactive, computed, watch } from '@nuxtjs/composition-api';
 import { useVSFContext } from '@vue-storefront/core';
 import { userShippingGetters } from '@vue-storefront/kibocommerce';
 
