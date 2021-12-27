@@ -1,7 +1,8 @@
-const canEnterPayment = (cart) =>
-  cart && cart.shippingInfo && cart.shippingAddress;
+const canEnterPayment = (orderFulfillment) =>
+  orderFulfillment && orderFulfillment.fulfillmentContact;
 
-const canEnterReview = (cart) => cart && Boolean(cart.billingAddress);
+const canEnterReview = (orderBillingInfo) =>
+  orderBillingInfo && Boolean(orderBillingInfo.billingContact);
 
 export default async ({ app, $vsf }) => {
   const currentPath = app.context.route.fullPath.split('/checkout/')[1];
@@ -9,23 +10,44 @@ export default async ({ app, $vsf }) => {
   if (!currentPath) return;
 
   const { data } = await $vsf.$kibo.api.getCart();
+  const currentCart = data?.currentCart;
+  const isActiveCart = currentCart?.items?.length > 0;
 
-  const { activeCart } = data?.currentCart;
+  const cartId = currentCart.id;
+
+  const checkoutResponse = await $vsf.$kibo.api.getOrCreateCheckoutFromCart({
+    cartId
+  });
+  const cartOrderId = checkoutResponse.data.order.id;
 
   switch (currentPath) {
     case 'shipping':
-      if (!activeCart) {
+      if (!isActiveCart) {
         app.context.redirect('/');
       }
       break;
     case 'billing':
-      if (!canEnterPayment(activeCart)) {
-        app.context.redirect('/');
+      const orderFulfillmentResponse = await $vsf.$kibo.api.getShippingAddress(
+        {
+          orderId: cartOrderId
+        },
+        null
+      );
+      const { orderFulfillmentInfo } = orderFulfillmentResponse.data;
+      if (!canEnterPayment(orderFulfillmentInfo)) {
+        app.context.redirect('/checkout/shipping');
       }
       break;
     case 'payment':
-      if (!canEnterReview(activeCart)) {
-        app.context.redirect('/');
+      const billingInfoResponse = await $vsf.$kibo.api.getBillingInfo(
+        {
+          orderId: cartOrderId
+        },
+        null
+      );
+      const { orderBillingInfo } = billingInfoResponse.data;
+      if (!canEnterReview(orderBillingInfo)) {
+        app.context.redirect('/checkout/billing');
       }
       break;
   }

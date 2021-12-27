@@ -8,7 +8,7 @@ describe('[kibo-api-client] addToCart', () => {
 
   it('adds item to cart', async () => {
     const params = {
-      product: { productCode: 'UPC-123'},
+      product: { productCode: 'UPC-123' },
       quantity: 1
     };
     const expectedVariables = {
@@ -20,7 +20,7 @@ describe('[kibo-api-client] addToCart', () => {
           options: undefined
         },
         quantity: 1,
-        fulfillmentMethod: 'Ship',
+        fulfillmentMethod: 'Ship'
       }
     };
     const context = {
@@ -44,5 +44,4 @@ describe('[kibo-api-client] addToCart', () => {
 
     expect(data).toStrictEqual('add to cart response');
   });
-
 });
