@@ -19,7 +19,7 @@
   },
   "dependencies": {
     "@vue-storefront/core": "~2.5.2",
-    "@kibocommerce/graphql-client": "^1.0.2",
+    "@kibocommerce/graphql-client": "^1.0.3-beta.7",
     "graphql-tag": "^2.12.4"
   },
   "devDependencies": {
