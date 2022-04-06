@@ -87,7 +87,11 @@ const context = {
       }),
       logInUser: jest.fn(() => {
         return {
-          customerAccount: currentUser
+          data: {
+            account: {
+              customerAccount: currentUser
+            }
+          }
         };
       }),
       changePassword: jest.fn(() => {

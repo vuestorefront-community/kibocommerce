@@ -64,12 +64,12 @@ export const params: UseUserFactoryParams<User, any, any> = {
     context.cart.setCart(cartResponse.data?.currentCart);
 
     // LogIn user
-    const { customerAccount } = await context.$kibo.api.logInUser({
+    const loginResponse = await context.$kibo.api.logInUser({
       username: email,
       password
     });
 
-    return customerAccount;
+    return loginResponse?.data?.account?.customerAccount;
   },
   logIn: async (context: Context, { username, password }) => {
     const loginResponse = await context.$kibo.api.logInUser({
