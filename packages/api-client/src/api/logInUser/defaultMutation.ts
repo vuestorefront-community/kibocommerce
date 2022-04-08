@@ -1,20 +1,24 @@
 import gql from 'graphql-tag';
 
-const mutation = gql`
-mutation login($loginInput:CustomerUserAuthInfoInput!) {
-    account:createCustomerAuthTicket(customerUserAuthInfoInput:$loginInput) {
-      accessToken
-      userId
-      refreshToken
-      refreshTokenExpiration
+const loginMutation = gql`
+  mutation login($loginInput: CustomerUserAuthInfoInput!) {
+    account: createCustomerAuthTicket(customerUserAuthInfoInput: $loginInput) {
       customerAccount {
         id
+        userId
         firstName
         lastName
         emailAddress
         userName
+        isAnonymous
       }
+      accessToken
+      accessTokenExpiration
+      refreshToken
+      refreshTokenExpiration
+      userId
+      jwtAccessToken
     }
   }
 `;
-export default mutation;
+export default loginMutation;

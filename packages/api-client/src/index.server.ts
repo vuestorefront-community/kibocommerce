@@ -1,5 +1,7 @@
-import { CreateApolloClient } from '@kibocommerce/graphql-client';
-import { UserAuthTicket } from '@kibocommerce/graphql-client/dist/lib/AuthClient';
+import {
+  CreateApolloClient,
+  UserAuthTicket
+} from '@kibocommerce/graphql-client';
 import { apiClientFactory, ApiClientExtension } from '@vue-storefront/core';
 
 import getProduct from './api/getProduct';
@@ -70,19 +72,27 @@ const ticketExtension: ApiClientExtension = {
   name: 'ticketExtension',
   hooks: (req, res) => {
     const rawTicket = req.cookies[AUTH_COOKIE_NAME];
-    let currentTicket = rawTicket !== undefined ? tryParse(Buffer.from(rawTicket, 'base64').toString('ascii')) : undefined;
+    let currentTicket =
+      rawTicket !== undefined
+        ? tryParse(Buffer.from(rawTicket, 'base64').toString('ascii'))
+        : undefined;
 
     return {
       beforeCreate: ({ configuration }) => ({
         ...configuration,
         clientAuthHooks: {
           onTicketChange: (authTicket: UserAuthTicket) => {
-            if (!currentTicket || currentTicket.accessToken !== authTicket.accessToken) {
+            if (
+              !currentTicket ||
+              currentTicket.accessToken !== authTicket.accessToken
+            ) {
               currentTicket = authTicket;
               res.cookie(
                 AUTH_COOKIE_NAME,
                 Buffer.from(JSON.stringify(currentTicket)).toString('base64'),
-                currentTicket?.accessTokenExpiration ? { expires: new Date(currentTicket.accessTokenExpiration) } : {}
+                currentTicket?.accessTokenExpiration
+                  ? { expires: new Date(currentTicket.accessTokenExpiration) }
+                  : {}
               );
             }
           },
@@ -92,11 +102,7 @@ const ticketExtension: ApiClientExtension = {
           },
 
           onTicketRemove: () => {
-            res.cookie(
-              AUTH_COOKIE_NAME,
-              'expire',
-              { expires: new Date(0) }
-            );
+            res.cookie(AUTH_COOKIE_NAME, 'expire', { expires: new Date(0) });
             currentTicket = undefined;
           }
         }
@@ -152,11 +158,7 @@ const { createApiClient } = apiClientFactory<any, any>({
     resetPassword,
     updatePassword
   },
-  extensions: [
-    ticketExtension
-  ]
+  extensions: [ticketExtension]
 });
 
-export {
-  createApiClient
-};
+export { createApiClient };

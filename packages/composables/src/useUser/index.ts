@@ -1,7 +1,7 @@
 import {
   Context,
   useUserFactory,
-  UseUserFactoryParams,
+  UseUserFactoryParams
 } from '@vue-storefront/core';
 import { MutationUpdateCustomerAccountArgs } from '@vue-storefront/kibocommerce-api';
 
@@ -11,7 +11,7 @@ import { useCart } from '../useCart';
 export const params: UseUserFactoryParams<User, any, any> = {
   provide() {
     return {
-      cart: useCart(),
+      cart: useCart()
     };
   },
   load: async (context: Context) => {
@@ -40,8 +40,8 @@ export const params: UseUserFactoryParams<User, any, any> = {
         isActive: true,
         acceptsMarketing: false,
         hasExternalPassword: false,
-        id: currentUser.id,
-      },
+        id: currentUser.id
+      }
     };
     const response = await context.$kibo.api.updateCustomerPersonalData(
       userDetails
@@ -57,28 +57,31 @@ export const params: UseUserFactoryParams<User, any, any> = {
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const registerResponse = await context.$kibo.api.registerUser({
       account,
-      password,
+      password
     });
 
     const cartResponse = await context.$kibo.api.getCart();
     context.cart.setCart(cartResponse.data?.currentCart);
 
     // LogIn user
-    const { customerAccount } = await context.$kibo.api.logInUser({
+    const loginResponse = await context.$kibo.api.logInUser({
       username: email,
-      password,
+      password
     });
 
-    return customerAccount;
+    return loginResponse?.data?.account?.customerAccount;
   },
   logIn: async (context: Context, { username, password }) => {
-    const { customerAccount } = await context.$kibo.api.logInUser({
+    const loginResponse = await context.$kibo.api.logInUser({
       username,
-      password,
+      password
     });
-    const cartResponse = await context.$kibo.api.getCart();
-    context.cart.setCart(cartResponse.data?.currentCart);
-    return customerAccount;
+    if (loginResponse?.data?.account?.customerAccount) {
+      const cartResponse = await context.$kibo.api.getCart();
+      context.cart.setCart(cartResponse.data?.currentCart);
+      params.load(context);
+    }
+    return loginResponse?.data?.account?.customerAccount;
   },
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -92,16 +95,16 @@ export const params: UseUserFactoryParams<User, any, any> = {
       userId: currentUser.userId,
       passwordInfoInput: {
         oldPassword: currentPassword,
-        newPassword: newPassword,
-      },
+        newPassword: newPassword
+      }
     });
     if (response.data.user) {
       return await params.logIn(context, {
         username: currentUser.emailAddress,
-        password: newPassword,
+        password: newPassword
       });
     }
-  },
+  }
 };
 
 export const useUser = useUserFactory<User, any, any>(params);
