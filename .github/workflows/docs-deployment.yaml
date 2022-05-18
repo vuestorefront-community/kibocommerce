@@ -22,16 +22,15 @@ jobs:
       - name: Build and publish docker image
         uses: elgohr/Publish-Docker-Github-Action@master
         with:
-          name: docs-storefrontcloud-io/kibocommerce:${{ steps.get_version.outputs.VERSION }}
+          name: docs-storefrontcloud-io/v2-kibocommerce:${{ steps.get_version.outputs.VERSION }}
           registry: registry.storefrontcloud.io
           username: ${{ secrets.DOCS_CLOUD_USERNAME }}
           password: ${{ secrets.DOCS_CLOUD_PASSWORD }}
-          workdir: docs
-          dockerfile: ../.vuestorefrontcloud/docker/docs/Dockerfile
+          workdir: .
+          dockerfile: ./.vuestorefrontcloud/docker/docs/Dockerfile
           buildoptions: "--compress"
 
   deploy:
-    if: contains(github.event.pull_request.labels.*.name, 'release') && contains('bloodf|alefbarbeli|domideimel|LiorLindvor|filrak|filipsobol|andrzejewsky|', github.actor)
     runs-on: ubuntu-latest
     needs: build
     steps:
@@ -47,7 +46,7 @@ jobs:
         id: deployment
         with:
           token: "${{ github.token }}"
-          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v2
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/kibocommerce
           environment: production
           initial_status: in_progress
       - name: Deploy on docs.europe-west1.gcp.storefrontcloud.io/kibocommerce
@@ -63,7 +62,7 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v2
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/kibocommerce
           state: "success"
           description: Congratulations! The deploy is done.
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
@@ -72,7 +71,7 @@ jobs:
         uses: chrnorm/deployment-status@releases/v1
         with:
           token: "${{ github.token }}"
-          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/v2
+          target_url: https://docs.europe-west1.gcp.storefrontcloud.io/kibocommerce
           description: Unfortunately, the instance hasn't been updated.
           state: "failure"
           deployment_id: ${{ steps.deployment.outputs.deployment_id }}
