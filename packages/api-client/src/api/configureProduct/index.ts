@@ -1,11 +1,17 @@
 import { Context } from '@vue-storefront/core';
 import defaultMutation from './defaultMutation';
-import { ConfigureProductResponse, InternalConfigureProductParams } from '../../types/Api';
+import {
+  ConfigureProductResponse,
+  InternalConfigureProductParams
+} from '../../types/Api';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export default async function configureProduct(context: Context, params: InternalConfigureProductParams): Promise<ConfigureProductResponse> {
-  const attributes = Object.keys(params.attributes).map(a => ({
-    attributeFQN: `tenant~${a}`,
+export default async function configureProduct(
+  context: Context,
+  params: InternalConfigureProductParams
+): Promise<ConfigureProductResponse> {
+  const attributes = Object.keys(params.attributes).map((a) => ({
+    attributeFQN: a,
     value: params.attributes[a]
   }));
   const product = params.product;

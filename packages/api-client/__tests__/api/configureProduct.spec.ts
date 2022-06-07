@@ -33,7 +33,10 @@ describe('[kibo-api-client] configureProduct', () => {
 
     const product = { productCode: 'ACC1' } as any;
 
-    const productResponse = await configureProduct(context, { product, attributes: { color: 'Green' } });
+    const productResponse = await configureProduct(context, {
+      product,
+      attributes: { 'tenant~color': 'Green' }
+    });
 
     expect(productResponse.data).toEqual('config response');
   });

@@ -44,7 +44,7 @@
             :regular="$n(productGetters.getPrice(product).regular, 'currency')"
             :special="
               productGetters.getPrice(product).special &&
-                $n(productGetters.getPrice(product).special, 'currency')
+              $n(productGetters.getPrice(product).special, 'currency')
             "
           />
           <div>
@@ -95,7 +95,7 @@
               :key="i"
               :color="color"
               class="product__color"
-              @click="updateFilter({ color })"
+              @click="updateFilter({ [options.attributeFQN]: color })"
             />
           </div>
           <SfAddToCart
@@ -208,7 +208,7 @@ import {
 } from '@storefront-ui/vue';
 import InstagramFeed from '~/components/InstagramFeed.vue';
 import RelatedProducts from '~/components/RelatedProducts.vue';
-import { ref, computed, useRoute, useRouter} from '@nuxtjs/composition-api';
+import { ref, computed, useRoute, useRouter } from '@nuxtjs/composition-api';
 import {
   useProduct,
   useWishlist,
@@ -256,9 +256,8 @@ export default {
       loading: relatedLoading
     } = useProduct('relatedProducts');
     const { addItem, loading } = useCart();
-    const { reviews: productReviews, search: searchReviews } = useReview(
-      'productReviews'
-    );
+    const { reviews: productReviews, search: searchReviews } =
+      useReview('productReviews');
 
     const product = computed(() => products.value);
 

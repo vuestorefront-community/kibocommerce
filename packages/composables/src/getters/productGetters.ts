@@ -8,16 +8,18 @@ import {
 
 import type { Product } from '@vue-storefront/kibocommerce-api';
 import { buildBreadcrumbs } from '../helpers/buildBreadcrumbs';
-import {ProductFiltersParams, ProductAttributesParams } from '../types';
+import { ProductFiltersParams, ProductAttributesParams } from '../types';
 
 // TODO: Add interfaces for some of the methods in core
 // Product
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductName = (product: Product): string => product?.content?.productName || '';
+export const getProductName = (product: Product): string =>
+  product?.content?.productName || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductSlug = (product: Product): string => product?.content?.seoFriendlyUrl || '';
+export const getProductSlug = (product: Product): string =>
+  product?.content?.seoFriendlyUrl || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductPrice = (product: Product): AgnosticPrice => {
@@ -28,25 +30,35 @@ export const getProductPrice = (product: Product): AgnosticPrice => {
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductGallery = (product: Product): AgnosticMediaGalleryItem[] => {
-  return product?.content?.productImages.map(pi => ({
-    small: pi.imageUrl,
-    normal: pi.imageUrl,
-    big: pi.imageUrl
-  })) || [];
+export const getProductGallery = (
+  product: Product
+): AgnosticMediaGalleryItem[] => {
+  return (
+    product?.content?.productImages.map((pi) => ({
+      small: pi.imageUrl,
+      normal: pi.imageUrl,
+      big: pi.imageUrl
+    })) || []
+  );
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductCoverImage = (product: Product): string => product?.content?.productImages?.[0]?.imageUrl || '';
+export const getProductCoverImage = (product: Product): string =>
+  product?.content?.productImages?.[0]?.imageUrl || '';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductFiltered = (products: Product[], filters: ProductFiltersParams): Product[] => {
+export const getProductFiltered = (
+  products: Product[],
+  filters: ProductFiltersParams
+): Product[] => {
   if (!products) return [];
   return products;
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductAttributes = (products: Product[] | Product): Record<string, AgnosticAttribute | string> => {
+export const getProductAttributes = (
+  products: Product[] | Product
+): Record<string, AgnosticAttribute | string> => {
   try {
     const isSingleProduct = !Array.isArray(products);
     const productList = (isSingleProduct ? [products] : products) as Product[];
@@ -57,22 +69,28 @@ export const getProductAttributes = (products: Product[] | Product): Record<stri
 
     const formatAttributes = (product: Product): AgnosticAttribute[] => {
       const attributes = [];
-      product.properties.filter(p => p.isHidden !== true).forEach(p => {
-        attributes.push(...p.values.map(val => {
-          if (val.value !== null)
-            return {
-              name: p.attributeDetail?.name,
-              value: (val.value.toString() as string),
-              label: val.stringValue ?? (val.value.toString() as string)
-            };
-        }));
-      });
+      product.properties
+        .filter((p) => p.isHidden !== true)
+        .forEach((p) => {
+          attributes.push(
+            ...p.values.map((val) => {
+              if (val.value !== null)
+                return {
+                  name: p.attributeDetail?.name,
+                  value: val.value.toString() as string,
+                  label: val.stringValue ?? (val.value.toString() as string)
+                };
+            })
+          );
+        });
       return attributes;
     };
 
     const reduceToUniques = (prev, curr) => {
       try {
-        const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
+        const isAttributeExist = prev.some(
+          (el) => el.name === curr.name && el.value === curr.value
+        );
         if (!isAttributeExist) {
           prev.push(curr);
         }
@@ -85,13 +103,11 @@ export const getProductAttributes = (products: Product[] | Product): Record<stri
 
     const reduceByAttributeName = (prev, curr) => ({
       ...prev,
-      [curr.name]: [
-        ...(prev[curr.name] || []),
-        curr.value
-      ]
+      [curr.name]: [...(prev[curr.name] || []), curr.value]
     });
 
-    const list = productList.map(formatAttributes)
+    const list = productList
+      .map(formatAttributes)
       .reduce((prev, curr) => {
         prev.push(...curr);
         return prev;
@@ -106,7 +122,10 @@ export const getProductAttributes = (products: Product[] | Product): Record<stri
 };
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
-export const getProductOptions = (products: Product[] | Product, filterByAttributeName?: string[]): Record<string, AgnosticAttribute | string> => {
+export const getProductOptions = (
+  products: Product[] | Product,
+  filterByAttributeName?: string[]
+): Record<string, AgnosticAttribute | string> => {
   try {
     const isSingleProduct = !Array.isArray(products);
     const productList = (isSingleProduct ? [products] : products) as Product[];
@@ -118,25 +137,34 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
     const formatAttributes = (product: Product): AgnosticAttribute[] => {
       const attributes = [];
       const options = filterByAttributeName
-        ? product.options?.filter(p => filterByAttributeName.includes(p.attributeDetail?.name.toLowerCase()))
+        ? product.options?.filter((p) =>
+            filterByAttributeName.includes(
+              p.attributeDetail?.name.toLowerCase()
+            )
+          )
         : product.options;
 
-      options.forEach(p => {
-        attributes.push(...p.values.map(val => {
-          if (val.value !== null)
-            return {
-              name: p.attributeDetail?.name,
-              value: (val.value.toString() as string),
-              label: val.value ?? (val.value.toString() as string)
-            };
-        }));
+      options.forEach((p) => {
+        attributes.push(
+          ...p.values.map((val) => {
+            if (val.value !== null)
+              return {
+                name: p.attributeDetail?.name,
+                value: val.value.toString() as string,
+                label: val.value ?? (val.value.toString() as string),
+                attributeFQN: p.attributeFQN
+              };
+          })
+        );
       });
       return attributes;
     };
 
     const reduceToUniques = (prev, curr) => {
       try {
-        const isAttributeExist = prev.some(el => el.name === curr.name && el.value === curr.value);
+        const isAttributeExist = prev.some(
+          (el) => el.name === curr.name && el.value === curr.value
+        );
         if (!isAttributeExist) {
           prev.push(curr);
         }
@@ -152,10 +180,12 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
       [curr.name.toLowerCase()]: [
         ...(prev[curr.name.toLowerCase()] || []),
         curr.value
-      ]
+      ],
+      attributeFQN: curr.attributeFQN
     });
 
-    const list = productList.map(formatAttributes)
+    const list = productList
+      .map(formatAttributes)
       .reduce((prev, curr) => {
         prev.push(...curr);
         return prev;
@@ -169,11 +199,14 @@ export const getProductOptions = (products: Product[] | Product, filterByAttribu
   }
 };
 
-export const getProductDescription = (product: Product): string => product?.content?.productFullDescription || '';
+export const getProductDescription = (product: Product): string =>
+  product?.content?.productFullDescription || '';
 
-export const getProductCategoryIds = (product: Product): string[] => product?.categories?.map(c => c.categoryId.toString()) || [];
+export const getProductCategoryIds = (product: Product): string[] =>
+  product?.categories?.map((c) => c.categoryId.toString()) || [];
 
-export const getProductId = (product: Product): string => product?.variationProductCode || product?.productCode || '';
+export const getProductId = (product: Product): string =>
+  product?.variationProductCode || product?.productCode || '';
 
 export const getFormattedPrice = (price: number): string => String(price);
 
@@ -183,13 +216,18 @@ export const getProductTotalReviews = (product: Product): number => 0;
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const getProductAverageRating = (product: Product): number => 0;
 
-export const getProductBreadcrumbs = (product: Product): AgnosticBreadcrumb[] => {
+export const getProductBreadcrumbs = (
+  product: Product
+): AgnosticBreadcrumb[] => {
   if (!product) {
     return [];
   }
   const bcs = [
-    { text: 'Home', link: '/'},
-    ...buildBreadcrumbs(product.categories[0]).map(b => ({...b, link: `/c/${b.link}` }))
+    { text: 'Home', link: '/' },
+    ...buildBreadcrumbs(product.categories[0]).map((b) => ({
+      ...b,
+      link: `/c/${b.link}`
+    }))
   ];
   return bcs;
 };
@@ -198,16 +236,21 @@ export const getIsPurchasable = (product: Product): boolean => {
   return product?.purchasableState?.isPurchasable || false;
 };
 
-export const getProductConfiguration = (product: Product): ProductAttributesParams => {
+export const getProductConfiguration = (
+  product: Product
+): ProductAttributesParams => {
   const ret = {};
-  product?.options.forEach(o => {
-    ret[o.attributeDetail?.name.toLowerCase()] = o.values?.filter(v => v.isSelected)?.[0]?.value;
+  product?.options.forEach((o) => {
+    ret[o.attributeDetail?.name.toLowerCase()] = o.values?.filter(
+      (v) => v.isSelected
+    )?.[0]?.value;
   });
   return ret;
 };
 
 export const getProductInventory = (product: Product): number => {
-  if (product?.inventoryInfo?.manageStock) return product.inventoryInfo.onlineStockAvailable;
+  if (product?.inventoryInfo?.manageStock)
+    return product.inventoryInfo.onlineStockAvailable;
   return 100;
 };
 
